@@ -1,7 +1,52 @@
 ---
-
+import { Image } from "astro:assets";
+import logoBlack from "/src/assets/logo-black.png";
+import logoWhite from "/src/assets/logo-white.png";
 ---
 
-<nav class="fixed top-0 left-0 right-0 z-50 w-full">
-    <div class="w-full h-16 md:h-20 bg-red-500"></div>
+<nav class="fixed top-0 left-0 right-0 z-50 w-full px-2 py-0 flex items-center">
+    <a href="/" class="flex items-center relative">
+        <Image
+            src={logoBlack}
+            alt="KDMS"
+            class="logo-black h-60 w-auto transition-opacity duration-300"
+        />
+        <Image
+            src={logoWhite}
+            alt="KDMS"
+            class="logo-white h-60 w-auto transition-opacity duration-300 opacity-0 absolute left-0 top-0"
+        />
+    </a>
+
+    <div
+        class="nav-links flex items-center gap-20 absolute left-1/2 -translate-x-1/2"
+    >
+        <a
+            href="/404"
+            class="nav-link text-black text-lg font-medium transition-colors duration-300 no-underline relative group"
+        >
+            Notre Savoir Faire
+            <span
+                class="absolute bottom-0 left-0 w-0 h-0.5 bg-current transition-all duration-300 group-hover:w-full"
+            ></span>
+        </a>
+        <a
+            href="/404"
+            class="nav-link text-black text-lg font-medium transition-colors duration-300 no-underline relative group"
+        >
+            Nos Réalisations
+            <span
+                class="absolute bottom-0 left-0 w-0 h-0.5 bg-current transition-all duration-300 group-hover:w-full"
+            ></span>
+        </a>
+        <a
+            href="/404"
+            class="nav-link text-black text-lg font-medium transition-colors duration-300 no-underline relative group"
+        >
+            Contact
+            <span
+                class="absolute bottom-0 left-0 w-0 h-0.5 bg-current transition-all duration-300 group-hover:w-full"
+            ></span>
+        </a>
+    </div>
 </nav>

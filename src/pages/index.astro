@@ -7,9 +7,9 @@ import Navbar from "../components/Navbar.astro";
 	<Navbar />
 
 	<div class="scroll-container h-[300vh]">
-		<div class="fixed inset-0 flex items-center justify-center bg-white">
+		<div class="fixed inset-0 flex items-start justify-center bg-white">
 			<div
-				class="black-square w-[20vw] h-[20vw] md:w-[10vw] md:h-[10vw] bg-black"
+				class="black-square w-[20vw] h-[20vw] md:w-[10vw] md:h-[10vw] bg-black mt-[calc(66.67vh-10vw)] md:mt-[calc(66.67vh-5vw)]"
 			>
 			</div>
 		</div>
@@ -28,6 +28,9 @@ import Navbar from "../components/Navbar.astro";
 
 	const square = document.querySelector(".black-square");
 	const container = document.querySelector(".scroll-container");
+	const logoBlack = document.querySelector(".logo-black");
+	const logoWhite = document.querySelector(".logo-white");
+	const navLinks = document.querySelectorAll(".nav-link");
 
 	if (square && container) {
 		const viewportSize = Math.max(window.innerWidth, window.innerHeight);
@@ -45,6 +48,23 @@ import Navbar from "../components/Navbar.astro";
 				start: "top top",
 				end: "bottom bottom",
 				scrub: 1.5,
+				onUpdate: (self) => {
+					if (self.progress > 0.8) {
+						logoBlack?.classList.add("opacity-0");
+						logoWhite?.classList.remove("opacity-0");
+						navLinks.forEach((link) => {
+							link.classList.remove("text-black");
+							link.classList.add("text-white");
+						});
+					} else {
+						logoBlack?.classList.remove("opacity-0");
+						logoWhite?.classList.add("opacity-0");
+						navLinks.forEach((link) => {
+							link.classList.remove("text-white");
+							link.classList.add("text-black");
+						});
+					}
+				},
 			},
 		});
 	}
