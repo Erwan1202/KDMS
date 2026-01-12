@@ -1,60 +1,74 @@
 ---
 const expertiseItems = [
     {
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        title: "Notre histoire",
+        text: "Depuis 1997 nous sommes bien plus qu'un fournisseur pour les professionnels de l'industrie, de l'événementiel et du spectacle vivant. Nous sommes le partenaire de tous vos projets de conditionnement.",
     },
     {
-        text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        title: "2 poles de production",
+        text: "Situées à Tigery (91) sud IDF, et à Viana Do Castelo au Portugal, nous vous offrons une solide présence logistique et commerciale sur toute l'Europe.",
     },
     {
-        text: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+        title: "Gestion des processus de bout en bout",
+        text: "Au carrefour de l'artisanat et de l'industrie nous avons adapté nos gestes et outils de production pour défendre notre compétitivité, en supervisant notre chaîne de production de bout en bout.",
     },
     {
-        text: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        title: "Une société a taille humaine",
+        text: "Tous nos collaborateurs sont sensibles aux valeurs que nous défendons : le conseil, la proximité, la flexibilité, et enfin l'engagement de service.",
     },
 ];
 ---
 
 <div
-    class="expertise-section w-full min-h-screen flex flex-col justify-center pb-12 px-8 md:px-20 pt-32"
+    id="expertise-wrapper"
+    class="expertise-section w-full min-h-screen flex flex-col justify-center pb-12 px-0 pt-32"
 >
-    <div class="w-full text-center my-24 -translate-x-4">
-        <h2 class="expertise-title text-4xl md:text-6xl font-bold mb-4">
+    <div class="expertise-content w-full max-w-5xl mx-auto text-center mb-12 px-8">
+        <h2 class="expertise-title text-4xl md:text-6xl font-bold mb-4 mt-8">
             20 ans d'expertise
         </h2>
     </div>
 
-    <div class="w-full overflow-hidden">
+    <div class="expertise-content w-full overflow-hidden">
         <div
-            class="flex gap-4 overflow-x-auto pb-4 mask-fade-right scrollbar-hide items-center"
+            class="flex gap-5 overflow-x-auto pb-4 pl-8 md:pl-20 pr-8 scrollbar-hide items-center"
         >
             {
                 expertiseItems.map((item) => (
                     <div
-                        class="expertise-image bg-gray-800 w-[100px] min-w-[100px] h-[50vh] rounded-lg border border-white/20 flex-shrink-0 transition-all duration-500 hover:w-[70vh]"
+                        class="expertise-image bg-gray-800 w-[160px] min-w-[160px] h-[55vh] rounded-lg border border-white/20 flex-shrink-0 transition-all duration-500 hover:w-[60vh] cursor-pointer"
+                        data-title={item.title}
                         data-text={item.text}
                     />
                 ))
             }
 
             <div
-                class="pl-[100px] flex-shrink-0 flex flex-col items-center gap-8 min-w-[400px]"
+                class="pl-8 flex-shrink-0 flex flex-col items-center justify-center gap-4 min-w-[320px]"
             >
+                <h4
+                    id="expertise-title"
+                    class="text-xl md:text-2xl font-bold text-white text-center transition-opacity duration-300"
+                >
+                     La mobilité de votre expertise est notre métier 
+
+                </h4>
+
                 <p
                     id="expertise-text"
                     class="text-lg md:text-xl text-white/80 max-w-sm text-center transition-opacity duration-300"
                 >
-                    Découvrez notre savoir-faire.
+                     C’est avec cette dynamique que nous souhaitons continuer à développer nos activités, en restant flexible et pouvoir rapidement nous réinventer. 
                 </p>
                 <a
                     href="/404"
-                    class="group relative inline-flex items-center justify-center px-12 py-6 overflow-hidden rounded-full bg-[#525946] border-2 border-[#6b755a] shadow-[0_6px_20px_rgba(82,89,70,0.5)] transition-all duration-300 hover:scale-105 hover:shadow-[0_8px_30px_rgba(82,89,70,0.7)] whitespace-nowrap no-underline"
+                    class="group relative inline-flex items-center justify-center px-10 py-5 overflow-hidden rounded-full bg-[#525946] border-2 border-[#6b755a] shadow-[0_6px_20px_rgba(82,89,70,0.5)] transition-all duration-300 hover:scale-105 hover:shadow-[0_8px_30px_rgba(82,89,70,0.7)] whitespace-nowrap no-underline"
                 >
                     <span
                         class="absolute inset-0 w-full h-full bg-gradient-to-br from-white/20 to-transparent opacity-50"
                     ></span>
                     <span
-                        class="relative text-white font-bold text-2xl tracking-wider"
+                        class="relative text-white font-bold text-xl tracking-wider"
                         >Découvrir</span
                     >
                 </a>
@@ -65,15 +79,20 @@ const expertiseItems = [
 
 <script>
     const expertiseImages = document.querySelectorAll(".expertise-image");
+    const expertiseTitle = document.getElementById("expertise-title");
     const expertiseText = document.getElementById("expertise-text");
 
     expertiseImages.forEach((img) => {
         img.addEventListener("mouseenter", () => {
+            const title = img.getAttribute("data-title");
             const text = img.getAttribute("data-text");
-            if (expertiseText && text) {
+            if (expertiseTitle && expertiseText && title && text) {
+                expertiseTitle.style.opacity = "0";
                 expertiseText.style.opacity = "0";
                 setTimeout(() => {
+                    expertiseTitle.innerText = title;
                     expertiseText.innerText = text;
+                    expertiseTitle.style.opacity = "1";
                     expertiseText.style.opacity = "1";
                 }, 150);
             }
