@@ -36,7 +36,7 @@ const expertiseItems = [
             {
                 expertiseItems.map((item) => (
                     <div
-                        class="expertise-image bg-gray-800 w-[160px] min-w-[160px] h-[55vh] rounded-lg border border-white/20 flex-shrink-0 transition-all duration-500 hover:w-[60vh] cursor-pointer"
+                        class="expertise-image bg-gray-800 w-[160px] min-w-[160px] h-[55vh] rounded-lg border border-white/20 flex-shrink-0 transition-all duration-500 hover:w-[60vh] hover:shadow-[inset_0_0_20px_rgba(255,255,255,0.1),0_0_15px_5px_rgba(255,255,255,0.25)] cursor-pointer"
                         data-title={item.title}
                         data-text={item.text}
                     />
@@ -44,21 +44,20 @@ const expertiseItems = [
             }
 
             <div
-                class="pl-8 flex-shrink-0 flex flex-col items-center justify-center gap-4 min-w-[320px]"
+                class="pl-8 flex-shrink-0 flex flex-col items-center justify-center gap-2 min-w-[320px] max-w-[350px]"
             >
                 <h4
                     id="expertise-title"
-                    class="text-xl md:text-2xl font-bold text-white text-center transition-opacity duration-300"
+                    class="text-xl md:text-2xl font-bold text-white text-justify transition-opacity duration-300 min-h-[3.5rem] flex items-center justify-center"
                 >
-                     La mobilité de votre expertise est notre métier 
-
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 </h4>
 
                 <p
                     id="expertise-text"
-                    class="text-lg md:text-xl text-white/80 max-w-sm text-center transition-opacity duration-300"
+                    class="text-base md:text-lg text-white/80 text-justify transition-opacity duration-300 min-h-[7rem] flex items-center justify-center"
                 >
-                     C’est avec cette dynamique que nous souhaitons continuer à développer nos activités, en restant flexible et pouvoir rapidement nous réinventer. 
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui voluptatem quae eveniet adipisci dolore ratione quam magni veniam odio enim quos neque iure eius quod, sit dicta voluptatum. Consequuntur, amet.
                 </p>
                 <a
                     href="/404"
@@ -82,19 +81,105 @@ const expertiseItems = [
     const expertiseTitle = document.getElementById("expertise-title");
     const expertiseText = document.getElementById("expertise-text");
 
-    expertiseImages.forEach((img) => {
+    const defaultTitle = "Lorem ipsum dolor sit amet consectetur adipisicing elit.";
+    const defaultText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui voluptatem quae eveniet adipisci dolore ratione quam magni veniam odio enim quos neque iure eius quod, sit dicta voluptatum. Consequuntur, amet.";
+    const conclusionTitle = "Lorem ipsum dolor sit amet consectetur adipisicing elit.";
+    const conclusionText = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui voluptatem quae eveniet adipisci dolore ratione quam magni veniam odio enim quos neque iure eius quod, sit dicta voluptatum. Consequuntur, amet.";
+
+    let currentIndex = -1;
+    let autoRotateInterval: ReturnType<typeof setInterval> | null = null;
+    let isHovering = false;
+
+    function expandImage(index: number) {
+        expertiseImages.forEach((img, i) => {
+            const element = img as HTMLElement;
+            if (i === index) {
+                element.style.width = "60vh";
+                element.style.boxShadow = "inset 0 0 20px rgba(255,255,255,0.1), 0 0 15px 5px rgba(255,255,255,0.25)";
+            } else {
+                element.style.width = "160px";
+                element.style.boxShadow = "none";
+            }
+        });
+    }
+
+    function collapseAllImages() {
+        expertiseImages.forEach((img) => {
+            const element = img as HTMLElement;
+            element.style.width = "160px";
+            element.style.boxShadow = "none";
+        });
+    }
+
+    function updateText(title: string, text: string) {
+        if (expertiseTitle && expertiseText) {
+            expertiseTitle.style.opacity = "0";
+            expertiseText.style.opacity = "0";
+            setTimeout(() => {
+                expertiseTitle.innerText = title;
+                expertiseText.innerText = text;
+                expertiseTitle.style.opacity = "1";
+                expertiseText.style.opacity = "1";
+            }, 150);
+        }
+    }
+
+    function autoRotate() {
+        if (isHovering) return;
+
+        currentIndex++;
+        
+        if (currentIndex < expertiseImages.length) {
+            const img = expertiseImages[currentIndex];
+            const title = img.getAttribute("data-title") || "";
+            const text = img.getAttribute("data-text") || "";
+            expandImage(currentIndex);
+            updateText(title, text);
+        } else if (currentIndex === expertiseImages.length) {
+            collapseAllImages();
+            updateText(conclusionTitle, conclusionText);
+        } else {
+            currentIndex = -1;
+            collapseAllImages();
+            updateText(defaultTitle, defaultText);
+        }
+    }
+
+    function startAutoRotate() {
+        if (autoRotateInterval) clearInterval(autoRotateInterval);
+        autoRotateInterval = setInterval(autoRotate, 7500);
+    }
+
+    collapseAllImages();
+    startAutoRotate();
+
+    expertiseImages.forEach((img, index) => {
         img.addEventListener("mouseenter", () => {
+            isHovering = true;
             const title = img.getAttribute("data-title");
             const text = img.getAttribute("data-text");
-            if (expertiseTitle && expertiseText && title && text) {
-                expertiseTitle.style.opacity = "0";
-                expertiseText.style.opacity = "0";
-                setTimeout(() => {
-                    expertiseTitle.innerText = title;
-                    expertiseText.innerText = text;
-                    expertiseTitle.style.opacity = "1";
-                    expertiseText.style.opacity = "1";
-                }, 150);
+            
+            expandImage(index);
+            
+            if (title && text) {
+                updateText(title, text);
+            }
+        });
+
+        img.addEventListener("mouseleave", () => {
+            isHovering = false;
+            if (currentIndex >= 0 && currentIndex < expertiseImages.length) {
+                const currentImg = expertiseImages[currentIndex];
+                const title = currentImg.getAttribute("data-title") || "";
+                const text = currentImg.getAttribute("data-text") || "";
+                expandImage(currentIndex);
+                updateText(title, text);
+            } else if (currentIndex === expertiseImages.length) {
+                collapseAllImages();
+                updateText(conclusionTitle, conclusionText);
+            } else {
+                collapseAllImages();
+                updateText(defaultTitle, defaultText);
             }
         });
     });
