@@ -1,16 +1,48 @@
 ---
-
+import Layout from "../layouts/Layout.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="KDMS">
+	<div class="scroll-container h-[300vh]">
+		<div class="fixed inset-0 flex items-center justify-center bg-white">
+			<div
+				class="black-square w-[20vw] h-[20vw] md:w-[10vw] md:h-[10vw] bg-black"
+			>
+			</div>
+		</div>
+	</div>
+</Layout>
+
+<style>
+	@import "tailwindcss";
+</style>
+
+<script>
+	import { gsap } from "gsap";
+	import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+	gsap.registerPlugin(ScrollTrigger);
+
+	const square = document.querySelector(".black-square");
+	const container = document.querySelector(".scroll-container");
+
+	if (square && container) {
+		const viewportSize = Math.max(window.innerWidth, window.innerHeight);
+		const squareSize =
+			window.innerWidth >= 768
+				? window.innerWidth * 0.1
+				: window.innerWidth * 0.2;
+		const targetScale = (viewportSize / squareSize) * 1.5;
+
+		gsap.to(square, {
+			scale: targetScale,
+			ease: "power2.inOut",
+			scrollTrigger: {
+				trigger: container,
+				start: "top top",
+				end: "bottom bottom",
+				scrub: 1.5,
+			},
+		});
+	}
+</script>
