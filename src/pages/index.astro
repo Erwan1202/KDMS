@@ -6,21 +6,84 @@ import Navbar from "../components/Navbar.astro";
 <Layout title="KDMS">
 	<Navbar />
 
-	<div class="scroll-container h-[300vh]">
-		<div
-			class="fixed inset-0 flex flex-col items-center justify-center bg-white"
+	<div class="main-wrapper">
+		<section
+			id="hero-section"
+			class="h-screen w-full bg-white relative overflow-hidden flex flex-col items-center justify-center"
 		>
-			<div class="hero-text text-center mb-4">
+			<div class="hero-text text-center mb-4 z-10 relative">
 				<h1 class="text-6xl md:text-8xl font-bold text-black">KDMS</h1>
 				<p class="text-2xl md:text-3xl text-black mt-2">
 					Le flight case 100% custom
 				</p>
 			</div>
 			<div
-				class="black-square w-[75vw] h-[30vw] md:w-[50vw] md:h-[20vw] bg-black mt-4"
+				class="black-square w-[75vw] h-[30vw] md:w-[50vw] md:h-[20vw] bg-black mt-4 z-10"
 			>
 			</div>
-		</div>
+		</section>
+
+		<section
+			id="content-section"
+			class="bg-black text-white min-h-screen relative z-20"
+		>
+			<div
+				class="expertise-section w-full min-h-screen flex flex-col justify-center pb-12 px-8 md:px-20 pt-32"
+			>
+				<div class="w-full text-center mb-12">
+					<h2 class="text-4xl md:text-6xl font-bold mb-4">
+						20 ans d'expertise
+					</h2>
+				</div>
+
+				<div class="w-full overflow-hidden">
+					<div
+						class="flex gap-4 overflow-x-auto pb-4 mask-fade-right scrollbar-hide items-center"
+					>
+						<div
+							class="bg-gray-800 w-[80px] min-w-[80px] h-[50vh] rounded-lg border border-white/20 flex-shrink-0 transition-all duration-500 hover:w-[70vh]"
+						>
+						</div>
+						<div
+							class="bg-gray-800 w-[80px] min-w-[80px] h-[50vh] rounded-lg border border-white/20 flex-shrink-0 transition-all duration-500 hover:w-[70vh]"
+						>
+						</div>
+						<div
+							class="bg-gray-800 w-[80px] min-w-[80px] h-[50vh] rounded-lg border border-white/20 flex-shrink-0 transition-all duration-500 hover:w-[70vh]"
+						>
+						</div>
+						<div
+							class="bg-gray-800 w-[80px] min-w-[80px] h-[50vh] rounded-lg border border-white/20 flex-shrink-0 transition-all duration-500 hover:w-[70vh]"
+						>
+						</div>
+
+						<div
+							class="pl-[100px] flex-shrink-0 flex flex-col items-center gap-8"
+						>
+							<p
+								class="text-lg md:text-xl text-white/80 max-w-sm text-center"
+							>
+								Lorem ipsum dolor sit amet, consectetur
+								adipiscing elit. Sed do eiusmod tempor
+								incididunt ut labore.
+							</p>
+							<a
+								href="#"
+								class="group relative inline-flex items-center justify-center px-12 py-6 overflow-hidden rounded-full bg-[#525946] border-2 border-[#6b755a] shadow-[0_6px_20px_rgba(82,89,70,0.5)] transition-all duration-300 hover:scale-105 hover:shadow-[0_8px_30px_rgba(82,89,70,0.7)] whitespace-nowrap"
+							>
+								<span
+									class="absolute inset-0 w-full h-full bg-gradient-to-br from-white/20 to-transparent opacity-50"
+								></span>
+								<span
+									class="relative text-white font-bold text-2xl tracking-wider"
+									>Découvrir</span
+								>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 	</div>
 </Layout>
 
@@ -34,28 +97,21 @@ import Navbar from "../components/Navbar.astro";
 
 	gsap.registerPlugin(ScrollTrigger);
 
+	const heroSection = document.querySelector("#hero-section");
 	const square = document.querySelector(".black-square");
-	const container = document.querySelector(".scroll-container");
 	const logoBlack = document.querySelector(".logo-black");
 	const logoWhite = document.querySelector(".logo-white");
 	const navLinks = document.querySelectorAll(".nav-link");
+	const heroText = document.querySelector(".hero-text");
 
-	if (square && container) {
-		const viewportSize = Math.max(window.innerWidth, window.innerHeight);
-		const squareSize =
-			window.innerWidth >= 768
-				? window.innerWidth * 0.1
-				: window.innerWidth * 0.2;
-		const targetScale = (viewportSize / squareSize) * 1.5;
-
-		gsap.to(square, {
-			scale: targetScale,
-			ease: "power2.inOut",
+	if (heroSection && square) {
+		const timeline = gsap.timeline({
 			scrollTrigger: {
-				trigger: container,
+				trigger: heroSection,
 				start: "top top",
-				end: "bottom bottom",
-				scrub: 1.5,
+				end: "+=150%",
+				pin: true,
+				scrub: 1,
 				onUpdate: (self) => {
 					if (self.progress > 0.8) {
 						logoBlack?.classList.add("opacity-0");
@@ -76,19 +132,32 @@ import Navbar from "../components/Navbar.astro";
 			},
 		});
 
-		const heroText = document.querySelector(".hero-text");
-		if (heroText) {
-			gsap.to(heroText, {
+		timeline.to(
+			heroText,
+			{
 				y: -200,
 				opacity: 0,
 				ease: "power2.in",
-				scrollTrigger: {
-					trigger: container,
-					start: "top top",
-					end: "20% top",
-					scrub: 1,
-				},
-			});
-		}
+				duration: 0.5,
+			},
+			0,
+		);
+
+		const viewportSize = Math.max(window.innerWidth, window.innerHeight);
+		const squareSize =
+			window.innerWidth >= 768
+				? window.innerWidth * 0.1
+				: window.innerWidth * 0.2;
+		const targetScale = (viewportSize / squareSize) * 2.5;
+
+		timeline.to(
+			square,
+			{
+				scale: targetScale,
+				ease: "power2.inOut",
+				duration: 1,
+			},
+			0,
+		);
 	}
 </script>
