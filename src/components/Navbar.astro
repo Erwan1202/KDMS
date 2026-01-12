@@ -4,7 +4,9 @@ import logoBlack from "/src/assets/logo-black.png";
 import logoWhite from "/src/assets/logo-white.png";
 ---
 
-<nav class="fixed top-0 left-0 right-0 z-50 w-full px-2 py-0 flex items-center">
+<nav
+    class="fixed -top-8 left-0 right-0 z-50 w-full px-2 py-0 flex items-center"
+>
     <a href="/" class="flex items-center relative">
         <Image
             src={logoBlack}
@@ -19,7 +21,7 @@ import logoWhite from "/src/assets/logo-white.png";
     </a>
 
     <div
-        class="nav-links flex items-center gap-20 absolute left-1/2 -translate-x-1/2"
+        class="nav-links flex items-center gap-20 fixed top-16 left-1/2 -translate-x-1/2"
     >
         <a
             href="/404"
