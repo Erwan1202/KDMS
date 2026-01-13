@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/Navbar.astro";
 import ExpertiseSection from "../components/ExpertiseSection.astro";
+import RealisationsSection from "../components/RealisationsSection.astro";
 ---
 
 <Layout title="KDMS">
@@ -12,7 +13,9 @@ import ExpertiseSection from "../components/ExpertiseSection.astro";
 			id="hero-section"
 			class="h-screen w-full bg-white relative overflow-hidden flex flex-col items-center justify-center"
 		>
-			<div class="hero-text text-center mb-4 z-10 relative w-full max-w-5xl mx-auto px-8">
+			<div
+				class="hero-text text-center mb-4 z-10 relative w-full max-w-5xl mx-auto px-8"
+			>
 				<h1 class="text-6xl md:text-8xl font-bold text-black">KDMS</h1>
 				<p class="text-2xl md:text-3xl text-black mt-2">
 					Le flight case 100% custom
@@ -29,6 +32,7 @@ import ExpertiseSection from "../components/ExpertiseSection.astro";
 			class="bg-black text-white min-h-screen relative z-20 -mt-1"
 		>
 			<ExpertiseSection />
+			<RealisationsSection />
 		</section>
 	</div>
 </Layout>
@@ -105,5 +109,24 @@ import ExpertiseSection from "../components/ExpertiseSection.astro";
 			},
 			0,
 		);
+	}
+
+	const navbarBg = document.querySelector(".navbar-bg") as HTMLElement;
+	const contentSection = document.getElementById("content-section");
+
+	if (navbarBg && contentSection) {
+		navbarBg.style.willChange = "background-color";
+
+		ScrollTrigger.create({
+			trigger: contentSection,
+			start: "top 90%",
+			end: "top top",
+			onEnter: () => {
+				navbarBg.style.backgroundColor = "rgb(0, 0, 0)";
+			},
+			onLeaveBack: () => {
+				navbarBg.style.backgroundColor = "transparent";
+			},
+		});
 	}
 </script>
