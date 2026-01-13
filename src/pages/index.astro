@@ -8,21 +8,21 @@ import RealisationsSection from "../components/RealisationsSection.astro";
 <Layout title="KDMS">
 	<Navbar />
 
-	<div class="main-wrapper bg-black">
+	<div class="main-wrapper bg-black w-full overflow-x-hidden">
 		<section
 			id="hero-section"
-			class="h-screen w-full bg-white relative overflow-hidden flex flex-col items-center justify-center"
+			class="min-h-[115vh] md:min-h-screen w-full min-w-full bg-white relative overflow-hidden flex flex-col items-center justify-center"
 		>
 			<div
 				class="hero-text text-center mb-4 z-10 relative w-full max-w-5xl mx-auto px-8"
 			>
 				<h1
-					class="text-7xl md:text-9xl font-bold text-black tracking-tight"
+					class="text-6xl sm:text-7xl md:text-9xl font-bold text-black tracking-tight"
 				>
 					KDMS
 				</h1>
 				<p
-					class="text-xl md:text-2xl text-black mt-4 uppercase tracking-[0.2em] font-medium"
+					class="text-base sm:text-xl md:text-2xl text-black mt-4 uppercase tracking-[0.2em] font-medium px-4"
 				>
 					Le flight case 100% custom
 				</p>
@@ -33,7 +33,7 @@ import RealisationsSection from "../components/RealisationsSection.astro";
 			</div>
 
 			<div
-				class="scroll-indicator absolute bottom-8 z-10 animate-bounce flex flex-col items-center gap-3"
+				class="scroll-indicator absolute bottom-[20vh] md:bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce flex flex-col items-center gap-3"
 			>
 				<span
 					class="text-black text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold opacity-80"
