@@ -56,15 +56,14 @@ const realisations = [
 
 <section class="realisations-section w-full min-h-screen py-20 px-0">
     <div class="w-full max-w-5xl mx-auto text-center mb-12 px-8">
-        <h2 class="text-4xl md:text-6xl font-bold mb-4 mt-8">
+        <h2 class="text-5xl md:text-7xl font-bold mb-4 mt-8 tracking-tight">
             Nos réalisations
         </h2>
-        <p class="text-lg md:text-xl text-white/70">
+        <p class="text-xl md:text-2xl text-white/70 font-light">
             Découvrez la diversité de nos projets pour différents secteurs
         </p>
     </div>
 
-    <!-- Cards -->
     <div class="flex flex-col gap-0">
         {
             realisations.map((item) => (
@@ -91,7 +90,7 @@ const realisations = [
                         <div
                             class={`w-full md:w-1/2 text-reveal ${item.imagePosition === "right" ? "text-left" : "text-right md:text-left"}`}
                         >
-                            <h3 class="text-5xl md:text-7xl font-bold mb-6 text-[#d4d4d4] tracking-tight">
+                            <h3 class="text-4xl md:text-5xl font-bold mb-6 text-[#d4d4d4] tracking-tight">
                                 {item.title}
                             </h3>
                             <p class="text-lg md:text-xl text-white/70 leading-relaxed font-light">
@@ -104,7 +103,6 @@ const realisations = [
         }
     </div>
 
-    <!-- CTA Button -->
     <div class="flex justify-center mt-16">
         <a
             href="/404"
@@ -126,7 +124,6 @@ const realisations = [
         mask-size: 200% 100%;
         mask-position: 100% 0;
         mask-repeat: no-repeat;
-        /* Fallback for cross-browser, though most modern support mask-image without prefix or with -webkit */
         -webkit-mask-image: linear-gradient(
             to right,
             black 50%,
@@ -135,7 +132,7 @@ const realisations = [
         -webkit-mask-size: 200% 100%;
         -webkit-mask-position: 100% 0;
         -webkit-mask-repeat: no-repeat;
-        opacity: 0; /* Initially hidden to prevent flash */
+        opacity: 0;
     }
 </style>
 
@@ -151,12 +148,11 @@ const realisations = [
     cards.forEach((card) => {
         const textContent = card.querySelector(".text-reveal");
 
-        // Animate text gradient reveal independently
         if (textContent) {
             gsap.to(textContent, {
                 scrollTrigger: {
                     trigger: textContent,
-                    start: "top 60%", // Wait until text is near center screen
+                    start: "top 60%",
                     toggleActions: "play none none reverse",
                 },
                 opacity: 1,
