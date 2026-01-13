@@ -1,26 +1,35 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/Navbar.astro";
+import ExpertiseSection from "../components/ExpertiseSection.astro";
 ---
 
 <Layout title="KDMS">
 	<Navbar />
 
-	<div class="scroll-container h-[300vh]">
-		<div
-			class="fixed inset-0 flex flex-col items-center justify-center bg-white"
+	<div class="main-wrapper bg-black">
+		<section
+			id="hero-section"
+			class="h-screen w-full bg-white relative overflow-hidden flex flex-col items-center justify-center"
 		>
-			<div class="hero-text text-center mb-4">
+			<div class="hero-text text-center mb-4 z-10 relative w-full max-w-5xl mx-auto px-8">
 				<h1 class="text-6xl md:text-8xl font-bold text-black">KDMS</h1>
 				<p class="text-2xl md:text-3xl text-black mt-2">
 					Le flight case 100% custom
 				</p>
 			</div>
 			<div
-				class="black-square w-[75vw] h-[30vw] md:w-[50vw] md:h-[20vw] bg-black mt-4"
+				class="black-square w-[75vw] h-[30vw] md:w-[50vw] md:h-[20vw] bg-black mt-4 z-10"
 			>
 			</div>
-		</div>
+		</section>
+
+		<section
+			id="content-section"
+			class="bg-black text-white min-h-screen relative z-20 -mt-1"
+		>
+			<ExpertiseSection />
+		</section>
 	</div>
 </Layout>
 
@@ -34,28 +43,21 @@ import Navbar from "../components/Navbar.astro";
 
 	gsap.registerPlugin(ScrollTrigger);
 
+	const heroSection = document.querySelector("#hero-section");
 	const square = document.querySelector(".black-square");
-	const container = document.querySelector(".scroll-container");
 	const logoBlack = document.querySelector(".logo-black");
 	const logoWhite = document.querySelector(".logo-white");
 	const navLinks = document.querySelectorAll(".nav-link");
+	const heroText = document.querySelector(".hero-text");
 
-	if (square && container) {
-		const viewportSize = Math.max(window.innerWidth, window.innerHeight);
-		const squareSize =
-			window.innerWidth >= 768
-				? window.innerWidth * 0.1
-				: window.innerWidth * 0.2;
-		const targetScale = (viewportSize / squareSize) * 1.5;
-
-		gsap.to(square, {
-			scale: targetScale,
-			ease: "power2.inOut",
+	if (heroSection && square) {
+		const timeline = gsap.timeline({
 			scrollTrigger: {
-				trigger: container,
+				trigger: heroSection,
 				start: "top top",
-				end: "bottom bottom",
-				scrub: 1.5,
+				end: "+=150%",
+				pin: true,
+				scrub: 1,
 				onUpdate: (self) => {
 					if (self.progress > 0.8) {
 						logoBlack?.classList.add("opacity-0");
@@ -76,19 +78,32 @@ import Navbar from "../components/Navbar.astro";
 			},
 		});
 
-		const heroText = document.querySelector(".hero-text");
-		if (heroText) {
-			gsap.to(heroText, {
+		timeline.to(
+			heroText,
+			{
 				y: -200,
 				opacity: 0,
 				ease: "power2.in",
-				scrollTrigger: {
-					trigger: container,
-					start: "top top",
-					end: "20% top",
-					scrub: 1,
-				},
-			});
-		}
+				duration: 0.5,
+			},
+			0,
+		);
+
+		const viewportSize = Math.max(window.innerWidth, window.innerHeight);
+		const squareWidth =
+			window.innerWidth >= 768
+				? window.innerWidth * 0.5
+				: window.innerWidth * 0.75;
+		const targetScale = (viewportSize / squareWidth) * 3;
+
+		timeline.to(
+			square,
+			{
+				scale: targetScale,
+				ease: "power2.inOut",
+				duration: 1,
+			},
+			0,
+		);
 	}
 </script>

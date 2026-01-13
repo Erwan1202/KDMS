@@ -1,0 +1,263 @@
+---
+const expertiseItems = [
+    {
+        title: "Notre histoire",
+        text: "Depuis 1997 nous sommes bien plus qu'un fournisseur pour les professionnels de l'industrie, de l'événementiel et du spectacle vivant. Nous sommes le partenaire de tous vos projets de conditionnement.",
+    },
+    {
+        title: "2 poles de production",
+        text: "Situées à Tigery (91) sud IDF, et à Viana Do Castelo au Portugal, nous vous offrons une solide présence logistique et commerciale sur toute l'Europe.",
+    },
+    {
+        title: "Gestion des processus de bout en bout",
+        text: "Au carrefour de l'artisanat et de l'industrie nous avons adapté nos gestes et outils de production pour défendre notre compétitivité, en supervisant notre chaîne de production de bout en bout.",
+    },
+    {
+        title: "Une société a taille humaine",
+        text: "Tous nos collaborateurs sont sensibles aux valeurs que nous défendons : le conseil, la proximité, la flexibilité, et enfin l'engagement de service.",
+    },
+];
+---
+
+<div
+    id="expertise-wrapper"
+    class="expertise-section w-full min-h-screen flex flex-col justify-center pb-12 px-0 pt-32"
+>
+    <div
+        class="expertise-content w-full max-w-5xl mx-auto text-center mb-12 px-8"
+    >
+        <h2 class="expertise-title text-4xl md:text-6xl font-bold mb-4 mt-8">
+            20 ans d'expertise
+        </h2>
+    </div>
+
+    <div class="expertise-content w-full overflow-hidden">
+        <div
+            class="flex gap-5 overflow-x-auto pb-4 pl-8 md:pl-20 pr-8 scrollbar-hide items-center"
+        >
+            {
+                expertiseItems.map((item) => (
+                    <div
+                        class="expertise-image bg-gray-800 w-[160px] min-w-[160px] h-[55vh] rounded-lg border border-white/20 flex-shrink-0 transition-all duration-500 hover:w-[60vh] hover:shadow-[inset_0_0_20px_rgba(255,255,255,0.1),0_0_15px_5px_rgba(255,255,255,0.25)] cursor-pointer"
+                        data-title={item.title}
+                        data-text={item.text}
+                    />
+                ))
+            }
+
+            <div
+                class="pl-8 flex-shrink-0 flex flex-col items-center justify-center gap-2 min-w-[320px] max-w-[350px]"
+            >
+                <h4
+                    id="expertise-title"
+                    class="text-xl md:text-2xl font-bold text-white text-justify transition-opacity duration-300 min-h-[3.5rem] flex items-center justify-center"
+                >
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                </h4>
+
+                <p
+                    id="expertise-text"
+                    class="text-base md:text-lg text-white/80 text-justify transition-opacity duration-300 min-h-[7rem] flex items-center justify-center"
+                >
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui
+                    voluptatem quae eveniet adipisci dolore ratione quam magni
+                    veniam odio enim quos neque iure eius quod, sit dicta
+                    voluptatum. Consequuntur, amet.
+                </p>
+                <a
+                    href="/404"
+                    class="group relative inline-flex items-center justify-center px-16 py-3 overflow-hidden rounded-full bg-[#525946] border-2 border-[#6b755a] shadow-[0_6px_20px_rgba(82,89,70,0.5)] transition-all duration-300 hover:scale-105 hover:shadow-[0_8px_30px_rgba(82,89,70,0.7)] whitespace-nowrap no-underline"
+                >
+                    <span
+                        class="absolute inset-0 w-full h-full bg-gradient-to-br from-white/20 to-transparent opacity-50"
+                    ></span>
+                    <span
+                        class="relative text-white font-bold text-xl tracking-wider"
+                        >Découvrir</span
+                    >
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const expertiseImages = document.querySelectorAll(".expertise-image");
+    const expertiseTitle = document.getElementById("expertise-title");
+    const expertiseText = document.getElementById("expertise-text");
+
+    const defaultTitle =
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit.";
+    const defaultText =
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui voluptatem quae eveniet adipisci dolore ratione quam magni veniam odio enim quos neque iure eius quod, sit dicta voluptatum. Consequuntur, amet.";
+    const conclusionTitle =
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit.";
+    const conclusionText =
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui voluptatem quae eveniet adipisci dolore ratione quam magni veniam odio enim quos neque iure eius quod, sit dicta voluptatum. Consequuntur, amet.";
+
+    let currentIndex = -1;
+    let autoRotateInterval: ReturnType<typeof setInterval> | null = null;
+    let isHovering = false;
+
+    function expandImage(index: number) {
+        expertiseImages.forEach((img, i) => {
+            const element = img as HTMLElement;
+            if (i === index) {
+                element.style.width = "60vh";
+                element.style.boxShadow =
+                    "inset 0 0 20px rgba(255,255,255,0.1), 0 0 15px 5px rgba(255,255,255,0.25)";
+            } else {
+                element.style.width = "160px";
+                element.style.boxShadow = "none";
+            }
+        });
+    }
+
+    function collapseAllImages() {
+        expertiseImages.forEach((img) => {
+            const element = img as HTMLElement;
+            element.style.width = "160px";
+            element.style.boxShadow = "none";
+        });
+    }
+
+    function updateText(title: string, text: string) {
+        if (expertiseTitle && expertiseText) {
+            expertiseTitle.style.opacity = "0";
+            expertiseText.style.opacity = "0";
+            setTimeout(() => {
+                expertiseTitle.innerText = title;
+                expertiseText.innerText = text;
+                expertiseTitle.style.opacity = "1";
+                expertiseText.style.opacity = "1";
+            }, 150);
+        }
+    }
+
+    function autoRotate() {
+        if (isHovering) return;
+
+        currentIndex++;
+
+        if (currentIndex < expertiseImages.length) {
+            const img = expertiseImages[currentIndex];
+            const title = img.getAttribute("data-title") || "";
+            const text = img.getAttribute("data-text") || "";
+            expandImage(currentIndex);
+            updateText(title, text);
+        } else if (currentIndex === expertiseImages.length) {
+            collapseAllImages();
+            updateText(conclusionTitle, conclusionText);
+        } else {
+            currentIndex = -1;
+            collapseAllImages();
+            updateText(defaultTitle, defaultText);
+        }
+    }
+
+    function startAutoRotate() {
+        if (autoRotateInterval) clearInterval(autoRotateInterval);
+        autoRotateInterval = setInterval(autoRotate, 7500);
+    }
+
+    collapseAllImages();
+    startAutoRotate();
+
+    expertiseImages.forEach((img, index) => {
+        img.addEventListener("mouseenter", () => {
+            isHovering = true;
+            const title = img.getAttribute("data-title");
+            const text = img.getAttribute("data-text");
+
+            expandImage(index);
+
+            if (title && text) {
+                updateText(title, text);
+            }
+        });
+
+        img.addEventListener("mouseleave", () => {
+            isHovering = false;
+            if (currentIndex >= 0 && currentIndex < expertiseImages.length) {
+                const currentImg = expertiseImages[currentIndex];
+                const title = currentImg.getAttribute("data-title") || "";
+                const text = currentImg.getAttribute("data-text") || "";
+                expandImage(currentIndex);
+                updateText(title, text);
+            } else if (currentIndex === expertiseImages.length) {
+                collapseAllImages();
+                updateText(conclusionTitle, conclusionText);
+            } else {
+                collapseAllImages();
+                updateText(defaultTitle, defaultText);
+            }
+        });
+    });
+
+    // Scroll Reveal Animations
+    const sectionTitle = document.querySelector(".expertise-title");
+    const contentBlocks = document.querySelectorAll(".expertise-content");
+
+    // Title reveal animation
+    if (sectionTitle) {
+        gsap.fromTo(
+            sectionTitle,
+            { y: 60, opacity: 0 },
+            {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: sectionTitle,
+                    start: "top 85%",
+                    toggleActions: "play none none none",
+                },
+            },
+        );
+    }
+
+    // Content blocks reveal animation
+    contentBlocks.forEach((block, index) => {
+        gsap.fromTo(
+            block,
+            { y: 40, opacity: 0 },
+            {
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+                delay: index * 0.15,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: block,
+                    start: "top 90%",
+                    toggleActions: "play none none none",
+                },
+            },
+        );
+    });
+
+    // Staggered image reveal
+    gsap.fromTo(
+        ".expertise-image",
+        { y: 30, opacity: 0, scale: 0.95 },
+        {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.6,
+            stagger: 0.1,
+            ease: "back.out(1.2)",
+            scrollTrigger: {
+                trigger: ".expertise-image",
+                start: "top 85%",
+                toggleActions: "play none none none",
+            },
+        },
+    );
+</script>

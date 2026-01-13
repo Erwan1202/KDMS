@@ -21,8 +21,19 @@ import logoWhite from "/src/assets/logo-white.png";
     </a>
 
     <div
-        class="nav-links flex items-center gap-0 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+        class="nav-links w-full max-w-5xl px-8 grid grid-cols-4 items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
     >
+        <div class="justify-self-center">
+            <a
+                href="/"
+                class="nav-link text-black text-lg font-medium transition-colors duration-300 no-underline relative group"
+            >
+                Accueil
+                <span
+                    class="absolute bottom-0 left-0 w-0 h-0.5 bg-current transition-all duration-300 group-hover:w-full"
+                ></span>
+            </a>
+        </div>
         <div class="w-64 flex justify-center pointer-events-auto">
             <a
                 href="/404"
@@ -34,7 +45,8 @@ import logoWhite from "/src/assets/logo-white.png";
                 ></span>
             </a>
         </div>
-        <div class="w-64 flex justify-center pointer-events-auto">
+
+        <div class="justify-self-center">
             <a
                 href="/404"
                 class="nav-link text-black text-lg font-medium transition-colors duration-300 no-underline relative group"
@@ -45,7 +57,8 @@ import logoWhite from "/src/assets/logo-white.png";
                 ></span>
             </a>
         </div>
-        <div class="w-64 flex justify-center pointer-events-auto">
+
+        <div class="justify-self-center">
             <a
                 href="/404"
                 class="nav-link text-black text-lg font-medium transition-colors duration-300 no-underline relative group"
