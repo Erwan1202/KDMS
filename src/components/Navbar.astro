@@ -5,18 +5,18 @@ import logoWhite from "/src/assets/logo-white.png";
 ---
 
 <nav
-    class="fixed -top-8 left-0 right-0 z-50 w-full px-2 py-0 flex items-center"
+    class="navbar-bg fixed top-0 left-0 right-0 z-50 w-full px-4 py-2 flex items-center transition-all duration-75 ease-out"
 >
     <a href="/" class="flex items-center relative">
         <Image
             src={logoBlack}
             alt="KDMS"
-            class="logo-black h-60 w-auto transition-opacity duration-300"
+            class="logo-black h-24 w-auto transition-opacity duration-300"
         />
         <Image
             src={logoWhite}
             alt="KDMS"
-            class="logo-white h-60 w-auto transition-opacity duration-300 opacity-0 absolute left-0 top-0"
+            class="logo-white h-24 w-auto transition-opacity duration-300 opacity-0 absolute left-0 top-0"
         />
     </a>
 
@@ -34,7 +34,7 @@ import logoWhite from "/src/assets/logo-white.png";
                 ></span>
             </a>
         </div>
-        <div class="w-64 flex justify-center pointer-events-auto">
+        <div class="justify-self-center">
             <a
                 href="/404"
                 class="nav-link text-black text-lg font-medium transition-colors duration-300 no-underline relative group"

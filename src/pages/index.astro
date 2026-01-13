@@ -110,4 +110,23 @@ import RealisationsSection from "../components/RealisationsSection.astro";
 			0,
 		);
 	}
+
+	const navbarBg = document.querySelector(".navbar-bg") as HTMLElement;
+	const contentSection = document.getElementById("content-section");
+
+	if (navbarBg && contentSection) {
+		navbarBg.style.willChange = "background-color";
+
+		ScrollTrigger.create({
+			trigger: contentSection,
+			start: "top 90%",
+			end: "top top",
+			onEnter: () => {
+				navbarBg.style.backgroundColor = "rgb(0, 0, 0)";
+			},
+			onLeaveBack: () => {
+				navbarBg.style.backgroundColor = "transparent";
+			},
+		});
+	}
 </script>
