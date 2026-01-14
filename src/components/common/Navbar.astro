@@ -1,0 +1,218 @@
+---
+import { Image } from "astro:assets";
+import logoBlack from "/src/assets/logo-black.png";
+import logoWhite from "/src/assets/logo-white.png";
+---
+
+<nav
+    class="navbar-bg fixed top-0 left-0 right-0 z-50 w-full px-4 py-2 flex items-center transition-all duration-75 ease-out"
+>
+    <a href="/" class="flex items-center relative">
+        <Image
+            src={logoBlack}
+            alt="KDMS"
+            loading="eager"
+            class="logo-black h-24 w-auto transition-opacity duration-300"
+        />
+        <Image
+            src={logoWhite}
+            alt="KDMS"
+            loading="eager"
+            class="logo-white h-24 w-auto transition-opacity duration-300 opacity-0 absolute left-0 top-0"
+        />
+    </a>
+
+    <!-- Desktop Navigation -->
+    <div
+        class="nav-links w-full max-w-5xl px-8 hidden lg:grid grid-cols-4 items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+    >
+        <div class="justify-self-center">
+            <a
+                href="/"
+                class="nav-link text-black text-lg font-medium transition-colors duration-300 no-underline relative group"
+            >
+                Accueil
+                <span
+                    class="absolute bottom-0 left-0 w-0 h-0.5 bg-current transition-all duration-300 group-hover:w-full"
+                ></span>
+            </a>
+        </div>
+        <div class="justify-self-center">
+            <a
+                href="/404"
+                class="nav-link text-black text-lg font-medium transition-colors duration-300 no-underline relative group"
+            >
+                Notre Savoir Faire
+                <span
+                    class="absolute bottom-0 left-0 w-0 h-0.5 bg-current transition-all duration-300 group-hover:w-full"
+                ></span>
+            </a>
+        </div>
+
+        <div class="justify-self-center">
+            <a
+                href="/404"
+                class="nav-link text-black text-lg font-medium transition-colors duration-300 no-underline relative group"
+            >
+                Nos Réalisations
+                <span
+                    class="absolute bottom-0 left-0 w-0 h-0.5 bg-current transition-all duration-300 group-hover:w-full"
+                ></span>
+            </a>
+        </div>
+
+        <div class="justify-self-center">
+            <a
+                href="/404"
+                class="nav-link text-black text-lg font-medium transition-colors duration-300 no-underline relative group"
+            >
+                Contact
+                <span
+                    class="absolute bottom-0 left-0 w-0 h-0.5 bg-current transition-all duration-300 group-hover:w-full"
+                ></span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button
+        id="mobile-menu-btn"
+        class="lg:hidden absolute right-8 top-1/2 -translate-y-1/2 z-50 p-2 bg-transparent border-none outline-none focus:outline-none"
+        aria-label="Menu"
+    >
+        <div class="w-6 h-4.5 flex flex-col justify-between">
+            <span
+                class="w-full h-0.5 bg-black transition-all duration-300 origin-left"
+            ></span>
+            <span
+                class="w-full h-0.5 bg-black transition-all duration-300 opacity-100"
+            ></span>
+            <span
+                class="w-full h-0.5 bg-black transition-all duration-300 origin-left"
+            ></span>
+        </div>
+    </button>
+
+    <!-- Mobile Menu Overlay -->
+    <div
+        id="mobile-menu"
+        class="fixed inset-0 bg-white z-40 translate-x-full transition-transform duration-500 ease-in-out flex flex-col items-center justify-center gap-8 lg:hidden"
+    >
+        <a href="/" class="text-black text-3xl font-bold nav-link-mobile"
+            >Accueil</a
+        >
+        <a href="/404" class="text-black text-3xl font-bold nav-link-mobile"
+            >Notre Savoir Faire</a
+        >
+        <a href="/404" class="text-black text-3xl font-bold nav-link-mobile"
+            >Nos Réalisations</a
+        >
+        <a href="/404" class="text-black text-3xl font-bold nav-link-mobile"
+            >Contact</a
+        >
+    </div>
+</nav>
+
+<script>
+    const menuBtn = document.getElementById("mobile-menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const spans = menuBtn?.querySelectorAll("span");
+    const body = document.body;
+    let isOpen = false;
+
+    // Handle scroll color change for mobile button spans
+    const heroSection = document.querySelector("#hero-section");
+    if (heroSection) {
+        window.addEventListener("scroll", () => {
+            const scrollValues = heroSection.getBoundingClientRect();
+            // Assuming similar thresholds to desktop nav
+            const progress = Math.abs(scrollValues.top) / window.innerHeight;
+
+            if (progress > 0.8 && !isOpen) {
+                // White bars on black bg
+                spans?.forEach((span) =>
+                    span.classList.replace("bg-black", "bg-white"),
+                );
+            } else {
+                if (!isOpen) {
+                    // Black bars on white bg (unless menu is open)
+                    spans?.forEach((span) =>
+                        span.classList.replace("bg-white", "bg-black"),
+                    );
+                }
+            }
+        });
+    }
+
+    menuBtn?.addEventListener("click", () => {
+        isOpen = !isOpen;
+
+        // Toggle menu visibility
+        if (isOpen) {
+            mobileMenu?.classList.remove("translate-x-full");
+            body.style.overflow = "hidden"; // Prevent scrolling
+
+            // Animate burger to cross
+            spans?.[0].classList.add("rotate-45");
+            spans?.[1].classList.add("opacity-0");
+            spans?.[2].classList.add("-rotate-45");
+
+            // Force black color when open (on white overlay)
+            spans?.forEach((span) => {
+                span.classList.remove("bg-white");
+                span.classList.add("bg-black");
+            });
+        } else {
+            mobileMenu?.classList.add("translate-x-full");
+            body.style.overflow = ""; // Restore scrolling
+
+            // Reset burger animation
+            spans?.[0].classList.remove("rotate-45");
+            spans?.[1].classList.remove("opacity-0");
+            spans?.[2].classList.remove("-rotate-45");
+
+            // Restore color based on scroll position
+            const scrollValues = heroSection?.getBoundingClientRect();
+            const progress = scrollValues
+                ? Math.abs(scrollValues.top) / window.innerHeight
+                : 0;
+
+            spans?.forEach((span) => {
+                if (progress > 0.8) {
+                    span.classList.add("bg-white");
+                    span.classList.remove("bg-black");
+                } else {
+                    span.classList.add("bg-black");
+                    span.classList.remove("bg-white");
+                }
+            });
+        }
+    });
+
+    // Close menu when clicking a link
+    document.querySelectorAll(".nav-link-mobile").forEach((link) => {
+        link.addEventListener("click", () => {
+            isOpen = false;
+            mobileMenu?.classList.add("translate-x-full");
+            body.style.overflow = "";
+            spans?.[0].classList.remove("rotate-45");
+            spans?.[1].classList.remove("opacity-0");
+            spans?.[2].classList.remove("-rotate-45");
+
+            // Restore color
+            const scrollValues = heroSection?.getBoundingClientRect();
+            const progress = scrollValues
+                ? Math.abs(scrollValues.top) / window.innerHeight
+                : 0;
+            spans?.forEach((span) => {
+                if (progress > 0.8) {
+                    span.classList.add("bg-white");
+                    span.classList.remove("bg-black");
+                } else {
+                    span.classList.add("bg-black");
+                    span.classList.remove("bg-white");
+                }
+            });
+        });
+    });
+</script>
