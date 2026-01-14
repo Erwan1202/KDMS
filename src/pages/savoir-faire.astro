@@ -1,0 +1,33 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/common/Navbar.astro";
+import Footer from "../components/common/Footer.astro";
+---
+
+<Layout title="Notre Savoir-Faire - KDMS">
+    <Navbar />
+
+    <div
+        class="main-wrapper bg-black w-full min-h-screen flex flex-col justify-between pt-32"
+    >
+        <div class="flex-grow"></div>
+        <Footer />
+    </div>
+</Layout>
+
+<style>
+    @import "tailwindcss";
+
+    :global(.navbar-bg) {
+        background-color: black !important;
+    }
+    :global(.logo-black) {
+        opacity: 0 !important;
+    }
+    :global(.logo-white) {
+        opacity: 1 !important;
+    }
+    :global(.nav-link) {
+        color: white !important;
+    }
+</style>
