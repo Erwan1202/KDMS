@@ -60,16 +60,19 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
         alignment: "right",
     },
 ];
+
+const timelineScope = steps.map((_, i) => `--s-${i}`).join(",");
 ---
 
-<Layout title="Notre Savoir-Faire - KDMS">
+<Layout title="Notre Savoir-Faure - KDMS">
     <Navbar theme="dark" />
 
     <div
-        class="main-wrapper bg-black w-full h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth text-white pt-24 no-scrollbar"
+        style={{ timelineScope }}
+        class="main-wrapper bg-black w-full h-screen overflow-y-scroll text-white pt-24 no-scrollbar scroll-smooth"
     >
         <div
-            class="relative w-full min-h-screen flex flex-col items-center justify-center snap-start"
+            class="relative w-full min-h-screen flex flex-col items-center justify-center"
         >
             <div class="text-center w-full max-w-5xl mx-auto px-6 z-10">
                 <h1
@@ -88,7 +91,7 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
             </div>
 
             <div
-                class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce flex flex-col items-center gap-3"
+                class="absolute bottom-24 left-1/2 -translate-x-1/2 z-10 animate-bounce flex flex-col items-center gap-3"
             >
                 <span
                     class="text-white/50 text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold"
@@ -117,68 +120,83 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
             </div>
         </div>
 
-        <div class="w-full">
-            {
-                steps.map((step, index) => (
-                    <div class="step-card sticky top-0 h-screen w-full flex flex-col justify-center bg-black border-t border-white/10 rounded-t-[3rem] shadow-[0_-4px_20px_rgba(255,255,255,0.05)] overflow-hidden snap-start relative">
-                        <div class={`w-full py-16 md:py-24 px-6 md:px-12`}>
-                            <div
-                                class={`max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 md:gap-24 ${step.alignment === "right" ? "md:flex-row-reverse" : ""}`}
-                            >
-                                <div class="w-full md:flex-1 step-image">
-                                    <div class="relative aspect-[4/3] w-full bg-gray-900 rounded-lg overflow-hidden border border-white/10 shadow-2xl group">
-                                        <div class="absolute inset-0 flex items-center justify-center text-white/10 text-9xl font-bold group-hover:text-white/20 transition-colors duration-500">
-                                            {step.number}
-                                        </div>
-                                        <div class="absolute inset-0 bg-gradient-to-tr from-black/80 via-transparent to-transparent" />
+        {
+            steps.map((step, index) => (
+                <div
+                    style={{
+                        zIndex: index + 1,
+                        viewTimelineName: `--s-${index}`,
+                        animationTimeline:
+                            index < steps.length - 1
+                                ? `--s-${index + 1}`
+                                : "none",
+                    }}
+                    class={`${
+                        index !== steps.length - 1
+                            ? "sticky top-0 h-screen step-card bg-black"
+                            : "relative min-h-screen z-20 bg-black"
+                    } w-full flex flex-col justify-center overflow-hidden`}
+                >
+                    <div class="absolute -top-32 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none" />
+                    <div
+                        class={`w-full pt-8 pb-32 md:pt-16 md:pb-48 px-6 md:px-12`}
+                    >
+                        <div
+                            class={`max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 md:gap-24 ${step.alignment === "right" ? "md:flex-row-reverse" : ""}`}
+                        >
+                            <div class="w-full md:flex-1 step-image">
+                                <div class="relative aspect-[4/3] w-full bg-gray-900 rounded-lg overflow-hidden border border-white/10 shadow-2xl group">
+                                    <div class="absolute inset-0 flex items-center justify-center text-white/10 text-9xl font-bold group-hover:text-white/20 transition-colors duration-500">
+                                        {step.number}
                                     </div>
+                                    <div class="absolute inset-0 bg-gradient-to-tr from-black/80 via-transparent to-transparent" />
+                                </div>
+                            </div>
+
+                            <div class="w-full md:flex-1 text-content">
+                                <div class="flex items-baseline gap-4 mb-6">
+                                    <span class="text-[#6b755a] text-6xl md:text-8xl font-black opacity-30 select-none">
+                                        {step.number}
+                                    </span>
+                                    <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white leading-tight">
+                                        {step.title}
+                                    </h2>
                                 </div>
 
-                                <div class="w-full md:flex-1 text-content">
-                                    <div class="flex items-baseline gap-4 mb-6">
-                                        <span class="text-[#6b755a] text-6xl md:text-8xl font-black opacity-30 select-none">
-                                            {step.number}
-                                        </span>
-                                        <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white leading-tight">
-                                            {step.title}
-                                        </h2>
-                                    </div>
-
-                                    <div class="prose prose-lg prose-invert text-gray-400 font-light leading-relaxed whitespace-pre-line text-justify">
-                                        {step.text}
-                                    </div>
+                                <div class="prose prose-lg prose-invert text-gray-400 font-light leading-relaxed whitespace-pre-line text-justify">
+                                    {step.text}
                                 </div>
                             </div>
                         </div>
-
-                        {index < steps.length - 1 && (
-                            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce flex flex-col items-center gap-3">
-                                <span class="text-white/30 text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold">
-                                    Scroll
-                                </span>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    class="text-white/30"
-                                >
-                                    <path d="M7 13l5 5 5-5" />
-                                    <path d="M7 6l5 5 5-5" />
-                                </svg>
-                            </div>
-                        )}
                     </div>
-                ))
-            }
-        </div>
 
-        <div class="snap-start">
+                    {index < steps.length - 1 && (
+                        <div class="absolute bottom-24 left-1/2 -translate-x-1/2 z-10 animate-bounce flex flex-col items-center gap-3">
+                            <span class="text-white/30 text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold">
+                                Scroll
+                            </span>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="text-white/30"
+                            >
+                                <path d="M7 13l5 5 5-5" />
+                                <path d="M7 6l5 5 5-5" />
+                            </svg>
+                        </div>
+                    )}
+                </div>
+            ))
+        }
+
+        <div class="bg-black relative z-50">
             <ContactSection />
             <Footer />
         </div>
@@ -187,8 +205,8 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
 
 <style>
     .no-scrollbar {
-        -ms-overflow-style: none; /* IE and Edge */
-        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none;
+        scrollbar-width: none;
     }
     .no-scrollbar::-webkit-scrollbar {
         display: none;
@@ -196,16 +214,18 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
 
     @keyframes scale-down {
         to {
-            transform: scale(0.9);
-            opacity: 0.3;
-            filter: blur(5px);
+            transform: scale(0.8);
+            filter: brightness(0.5);
+            opacity: 0;
         }
     }
 
     .step-card {
-        animation: scale-down linear both;
-        animation-timeline: view();
-        animation-range: exit-crossing 0% exit-crossing 100%;
+        animation: scale-down ease-in-out both;
+        animation-range: entry 0% entry 100%;
         transform-origin: top center;
+    }
+    .snap-always {
+        scroll-snap-stop: always;
     }
 </style>
