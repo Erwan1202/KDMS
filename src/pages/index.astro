@@ -131,6 +131,15 @@ import ContactSection from "../components/AccueilSections/ContactSection.astro";
                         scrollSvg?.classList.add("text-black/80");
                         scrollSvg?.classList.remove("text-white");
                     }
+
+                    // Force hero background to black at the end to prevent white bar
+                    if (self.progress > 0.9) {
+                        heroSection.classList.remove("bg-white");
+                        heroSection.classList.add("bg-black");
+                    } else {
+                        heroSection.classList.add("bg-white");
+                        heroSection.classList.remove("bg-black");
+                    }
                 },
             },
         });
@@ -151,7 +160,7 @@ import ContactSection from "../components/AccueilSections/ContactSection.astro";
             window.innerWidth >= 768
                 ? window.innerWidth * 0.5
                 : window.innerWidth * 0.75;
-        const targetScale = (viewportSize / squareWidth) * 3;
+        const targetScale = (viewportSize / squareWidth) * 4;
 
         timeline.to(
             square,
@@ -169,10 +178,10 @@ import ContactSection from "../components/AccueilSections/ContactSection.astro";
                 scrollIndicator,
                 {
                     opacity: 0,
-                    duration: 0.1,
+                    duration: 0.05,
                     ease: "power1.out",
                 },
-                0.98, // Moved to 0.98 (almost end of timeline)
+                0.99, // Moved to 0.99 (very end of timeline)
             );
         }
     }
