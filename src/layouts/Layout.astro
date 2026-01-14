@@ -3,6 +3,8 @@ interface Props {
     title: string;
 }
 
+import SpeedInsights from "@vercel/speed-insights/astro";
+
 const { title } = Astro.props;
 ---
 
@@ -33,11 +35,7 @@ const { title } = Astro.props;
         </style>
     </head>
     <body class="bg-white scrollbar-hide overflow-x-hidden">
-        <!-- Debug: Red center line -->
-        <div
-            class="fixed top-0 left-1/2 w-[2px] h-full bg-red-500 z-[9999] pointer-events-none"
-        >
-        </div>
         <slot />
+        <SpeedInsights />
     </body>
 </html>
