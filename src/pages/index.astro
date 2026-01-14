@@ -1,8 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/common/Navbar.astro";
-import ExpertiseSection from "../components/sections/ExpertiseSection.astro";
-import RealisationsSection from "../components/sections/RealisationsSection.astro";
+import ExpertiseSection from "../components/AccueilSections/ExpertiseSection.astro";
+import RealisationsSection from "../components/AccueilSections/RealisationsSection.astro";
 ---
 
 <Layout title="KDMS">
@@ -97,7 +97,7 @@ import RealisationsSection from "../components/sections/RealisationsSection.astr
                 pin: true,
                 scrub: 1,
                 onUpdate: (self) => {
-                    if (self.progress > 0.8) {
+                    if (self.progress > 0.35) {
                         logoBlack?.classList.add("opacity-0");
                         logoWhite?.classList.remove("opacity-0");
                         navLinks.forEach((link) => {
