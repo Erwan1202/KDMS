@@ -35,7 +35,6 @@ const expertiseItems = [
     </div>
 
     <div class="expertise-content w-full overflow-hidden">
-        <!-- Desktop View (Horizontal Scroll + Interaction) -->
         <div
             class="hidden md:flex gap-5 overflow-x-auto pb-4 pl-20 pr-8 scrollbar-hide items-center"
         >
@@ -50,27 +49,23 @@ const expertiseItems = [
             }
 
             <div
-                class="pl-8 flex-shrink-0 flex flex-col items-center justify-center gap-6 min-w-[320px] max-w-[400px]"
+                class="pl-8 flex-shrink-0 flex flex-col items-center justify-center gap-4 min-w-[320px] max-w-[450px]"
             >
                 <h4
                     id="expertise-title"
-                    class="text-3xl md:text-4xl font-bold text-white text-center leading-tight transition-opacity duration-300 min-h-[4rem] flex items-center justify-center"
+                    class="text-2xl md:text-3xl font-bold text-white text-center leading-snug transition-opacity duration-300 flex items-center justify-center"
                 >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    La mobilité de votre expertise est notre métier
                 </h4>
 
                 <p
                     id="expertise-text"
-                    class="text-lg md:text-xl text-white/80 text-center transition-opacity duration-300 min-h-[8rem] flex items-center justify-center font-light leading-relaxed"
+                    class="text-base md:text-lg text-white/80 text-justify transition-all duration-300 font-light leading-relaxed hidden"
                 >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui
-                    voluptatem quae eveniet adipisci dolore ratione quam magni
-                    veniam odio enim quos neque iure eius quod, sit dicta
-                    voluptatum. Consequuntur, amet.
                 </p>
                 <a
                     href="/404"
-                    class="group relative inline-flex items-center justify-center px-16 py-3 overflow-hidden rounded-full bg-[#525946] border-2 border-[#6b755a] shadow-[0_6px_20px_rgba(82,89,70,0.5)] transition-all duration-300 hover:scale-105 hover:shadow-[0_8px_30px_rgba(82,89,70,0.7)] whitespace-nowrap no-underline"
+                    class="mt-4 group relative inline-flex items-center justify-center px-16 py-3 overflow-hidden rounded-full bg-[#525946] border-2 border-[#6b755a] shadow-[0_6px_20px_rgba(82,89,70,0.5)] transition-all duration-300 hover:scale-105 hover:shadow-[0_8px_30px_rgba(82,89,70,0.7)] whitespace-nowrap no-underline"
                 >
                     <span
                         class="absolute inset-0 w-full h-full bg-gradient-to-br from-white/20 to-transparent opacity-50"
@@ -83,15 +78,12 @@ const expertiseItems = [
             </div>
         </div>
 
-        <!-- Mobile View (Vertical Stack) -->
         <div class="flex flex-col gap-12 px-8 md:hidden text-white pb-20">
             {
                 expertiseItems.map((item, index) => (
                     <div class="flex flex-col gap-6">
-                        <div class="w-full aspect-square rounded-lg border border-white/20 overflow-hidden bg-gray-800 shadow-[inset_0_0_20px_rgba(255,255,255,0.1)]">
-                            {/* Placeholder for image */}
-                        </div>
-                        <div class="text-center">
+                        <div class="w-full aspect-square rounded-lg border border-white/20 overflow-hidden bg-gray-800 shadow-[inset_0_0_20px_rgba(255,255,255,0.1)]" />
+                        <div class="text-justify">
                             <h4 class="text-2xl font-bold mb-3 tracking-tight">
                                 {item.title}
                             </h4>
@@ -129,14 +121,9 @@ const expertiseItems = [
     const expertiseTitle = document.getElementById("expertise-title");
     const expertiseText = document.getElementById("expertise-text");
 
-    const defaultTitle =
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit.";
-    const defaultText =
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui voluptatem quae eveniet adipisci dolore ratione quam magni veniam odio enim quos neque iure eius quod, sit dicta voluptatum. Consequuntur, amet.";
+    const defaultTitle = "La mobilité de votre expertise est notre métier";
     const conclusionTitle =
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit.";
-    const conclusionText =
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui voluptatem quae eveniet adipisci dolore ratione quam magni veniam odio enim quos neque iure eius quod, sit dicta voluptatum. Consequuntur, amet.";
+        "C’est avec cette dynamique que nous souhaitons continuer à développer nos activités, en restant flexible et pouvoir rapidement nous réinventer.";
 
     let currentIndex = -1;
     let autoRotateInterval: ReturnType<typeof setInterval> | null = null;
@@ -164,15 +151,20 @@ const expertiseItems = [
         });
     }
 
-    function updateText(title: string, text: string) {
+    function updateText(title: string, text: string = "") {
         if (expertiseTitle && expertiseText) {
             expertiseTitle.style.opacity = "0";
             expertiseText.style.opacity = "0";
             setTimeout(() => {
                 expertiseTitle.innerText = title;
-                expertiseText.innerText = text;
                 expertiseTitle.style.opacity = "1";
-                expertiseText.style.opacity = "1";
+                if (text) {
+                    expertiseText.innerText = text;
+                    expertiseText.classList.remove("hidden");
+                    expertiseText.style.opacity = "1";
+                } else {
+                    expertiseText.classList.add("hidden");
+                }
             }, 150);
         }
     }
@@ -190,11 +182,11 @@ const expertiseItems = [
             updateText(title, text);
         } else if (currentIndex === expertiseImages.length) {
             collapseAllImages();
-            updateText(conclusionTitle, conclusionText);
+            updateText(conclusionTitle);
         } else {
             currentIndex = -1;
             collapseAllImages();
-            updateText(defaultTitle, defaultText);
+            updateText(defaultTitle);
         }
     }
 
@@ -209,14 +201,11 @@ const expertiseItems = [
     expertiseImages.forEach((img, index) => {
         img.addEventListener("mouseenter", () => {
             isHovering = true;
-            const title = img.getAttribute("data-title");
-            const text = img.getAttribute("data-text");
+            const title = img.getAttribute("data-title") || "";
+            const text = img.getAttribute("data-text") || "";
 
             expandImage(index);
-
-            if (title && text) {
-                updateText(title, text);
-            }
+            updateText(title, text);
         });
 
         img.addEventListener("mouseleave", () => {
@@ -229,10 +218,10 @@ const expertiseItems = [
                 updateText(title, text);
             } else if (currentIndex === expertiseImages.length) {
                 collapseAllImages();
-                updateText(conclusionTitle, conclusionText);
+                updateText(conclusionTitle);
             } else {
                 collapseAllImages();
-                updateText(defaultTitle, defaultText);
+                updateText(defaultTitle);
             }
         });
     });
