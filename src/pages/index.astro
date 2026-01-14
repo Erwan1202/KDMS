@@ -1,175 +1,177 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Navbar from "../components/Navbar.astro";
-import ExpertiseSection from "../components/ExpertiseSection.astro";
-import RealisationsSection from "../components/RealisationsSection.astro";
+import Navbar from "../components/common/Navbar.astro";
+import ExpertiseSection from "../components/AccueilSections/ExpertiseSection.astro";
+import RealisationsSection from "../components/AccueilSections/RealisationsSection.astro";
 ---
 
 <Layout title="KDMS">
-	<Navbar />
+    <Navbar />
 
-	<div class="main-wrapper bg-black">
-		<section
-			id="hero-section"
-			class="h-screen w-full bg-white relative overflow-hidden flex flex-col items-center justify-center"
-		>
-			<div
-				class="hero-text text-center mb-4 z-10 relative w-full max-w-5xl mx-auto px-8"
-			>
-				<h1
-					class="text-7xl md:text-9xl font-bold text-black tracking-tight"
-				>
-					KDMS
-				</h1>
-				<p
-					class="text-xl md:text-2xl text-black mt-4 uppercase tracking-[0.2em] font-medium"
-				>
-					Le flight case 100% custom
-				</p>
-			</div>
-			<div
-				class="black-square w-[75vw] h-[30vw] md:w-[50vw] md:h-[20vw] bg-black mt-4 z-10"
-			>
-			</div>
+    <div class="main-wrapper bg-black w-full overflow-x-hidden">
+        <section
+            id="hero-section"
+            class="min-h-[115vh] md:min-h-screen w-full min-w-full bg-white relative overflow-hidden flex flex-col items-center justify-center"
+        >
+            <div
+                class="hero-text text-center mb-4 z-10 relative w-full max-w-5xl mx-auto px-8"
+            >
+                <h1
+                    class="text-6xl sm:text-7xl md:text-9xl font-bold text-black tracking-tight"
+                >
+                    KDMS
+                </h1>
+                <p
+                    class="text-base sm:text-xl md:text-2xl text-black mt-4 uppercase tracking-[0.2em] font-medium px-4"
+                >
+                    Le flight case 100% custom
+                </p>
+            </div>
+            <div
+                class="black-square w-[75vw] h-[30vw] md:w-[50vw] md:h-[20vw] bg-black mt-4 z-10"
+            >
+            </div>
 
-			<div
-				class="scroll-indicator absolute bottom-8 z-10 animate-bounce flex flex-col items-center gap-3"
-			>
-				<span
-					class="text-black text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold opacity-80"
-					>Scroll</span
-				>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					width="24"
-					height="24"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					class="text-black/80"
-				>
-					<path d="M7 13l5 5 5-5"></path>
-					<path d="M7 6l5 5 5-5"></path>
-				</svg>
-			</div>
-		</section>
+            <div
+                class="scroll-indicator absolute bottom-[20vh] md:bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce flex flex-col items-center gap-3"
+            >
+                <span
+                    class="text-black text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold opacity-80"
+                    >Scroll</span
+                >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="text-black/80"
+                >
+                    <path d="M7 13l5 5 5-5"></path>
+                    <path d="M7 6l5 5 5-5"></path>
+                </svg>
+            </div>
+        </section>
 
-		<section
-			id="content-section"
-			class="bg-black text-white min-h-screen relative z-20 -mt-1"
-		>
-			<ExpertiseSection />
-			<RealisationsSection />
-		</section>
-	</div>
+        <section
+            id="content-section"
+            class="bg-black text-white min-h-screen relative z-20 -mt-1"
+        >
+            <ExpertiseSection />
+            <RealisationsSection />
+        </section>
+    </div>
 </Layout>
 
 <style>
-	@import "tailwindcss";
+    @import "tailwindcss";
 </style>
 
 <script>
-	import { gsap } from "gsap";
-	import { ScrollTrigger } from "gsap/ScrollTrigger";
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-	gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin(ScrollTrigger);
 
-	const heroSection = document.querySelector("#hero-section");
-	const square = document.querySelector(".black-square");
-	const logoBlack = document.querySelector(".logo-black");
-	const logoWhite = document.querySelector(".logo-white");
-	const navLinks = document.querySelectorAll(".nav-link");
-	const heroText = document.querySelector(".hero-text");
+    const heroSection = document.querySelector("#hero-section");
+    const square = document.querySelector(".black-square");
+    const logoBlack = document.querySelector(".logo-black");
+    const logoWhite = document.querySelector(".logo-white");
+    const navLinks = document.querySelectorAll(".nav-link");
+    const heroText = document.querySelector(".hero-text");
 
-	if (heroSection && square) {
-		const timeline = gsap.timeline({
-			scrollTrigger: {
-				trigger: heroSection,
-				start: "top top",
-				end: "+=80%",
-				pin: true,
-				scrub: 1,
-				onUpdate: (self) => {
-					if (self.progress > 0.8) {
-						logoBlack?.classList.add("opacity-0");
-						logoWhite?.classList.remove("opacity-0");
-						navLinks.forEach((link) => {
-							link.classList.remove("text-black");
-							link.classList.add("text-white");
-						});
-					} else {
-						logoBlack?.classList.remove("opacity-0");
-						logoWhite?.classList.add("opacity-0");
-						navLinks.forEach((link) => {
-							link.classList.remove("text-white");
-							link.classList.add("text-black");
-						});
-					}
-				},
-			},
-		});
+    if (heroSection && square) {
+        const navbarBg = document.querySelector(".navbar-bg") as HTMLElement;
+        const scrollSpan = document.querySelector(".scroll-indicator span");
+        const scrollSvg = document.querySelector(".scroll-indicator svg");
 
-		timeline.to(
-			heroText,
-			{
-				y: -200,
-				opacity: 0,
-				ease: "power2.in",
-				duration: 0.5,
-			},
-			0,
-		);
+        const timeline = gsap.timeline({
+            scrollTrigger: {
+                trigger: heroSection,
+                start: "top top",
+                end: "+=80%",
+                pin: true,
+                scrub: 1,
+                onUpdate: (self) => {
+                    if (self.progress > 0.35) {
+                        logoBlack?.classList.add("opacity-0");
+                        logoWhite?.classList.remove("opacity-0");
+                        navLinks.forEach((link) => {
+                            link.classList.remove("text-black");
+                            link.classList.add("text-white");
+                        });
+                        if (navbarBg)
+                            navbarBg.style.backgroundColor = "rgb(0, 0, 0)";
+                    } else {
+                        logoBlack?.classList.remove("opacity-0");
+                        logoWhite?.classList.add("opacity-0");
+                        navLinks.forEach((link) => {
+                            link.classList.remove("text-white");
+                            link.classList.add("text-black");
+                        });
+                        if (navbarBg)
+                            navbarBg.style.backgroundColor = "transparent";
+                    }
 
-		const viewportSize = Math.max(window.innerWidth, window.innerHeight);
-		const squareWidth =
-			window.innerWidth >= 768
-				? window.innerWidth * 0.5
-				: window.innerWidth * 0.75;
-		const targetScale = (viewportSize / squareWidth) * 3;
+                    // Toggle scroll indicator color mid-transition
+                    if (self.progress > 0.4) {
+                        scrollSpan?.classList.remove("text-black");
+                        scrollSpan?.classList.add("text-white");
+                        scrollSvg?.classList.remove("text-black/80");
+                        scrollSvg?.classList.add("text-white");
+                    } else {
+                        scrollSpan?.classList.add("text-black");
+                        scrollSpan?.classList.remove("text-white");
+                        scrollSvg?.classList.add("text-black/80");
+                        scrollSvg?.classList.remove("text-white");
+                    }
+                },
+            },
+        });
 
-		timeline.to(
-			square,
-			{
-				scale: targetScale,
-				ease: "power2.inOut",
-				duration: 1,
-			},
-			0,
-		);
+        timeline.to(
+            heroText,
+            {
+                y: -200,
+                opacity: 0,
+                ease: "power2.in",
+                duration: 0.5,
+            },
+            0,
+        );
 
-		const scrollIndicator = document.querySelector(".scroll-indicator");
-		if (scrollIndicator) {
-			timeline.to(
-				scrollIndicator,
-				{
-					opacity: 0,
-					duration: 0.2,
-					ease: "power1.out",
-				},
-				0,
-			);
-		}
-	}
+        const viewportSize = Math.max(window.innerWidth, window.innerHeight);
+        const squareWidth =
+            window.innerWidth >= 768
+                ? window.innerWidth * 0.5
+                : window.innerWidth * 0.75;
+        const targetScale = (viewportSize / squareWidth) * 3;
 
-	const navbarBg = document.querySelector(".navbar-bg") as HTMLElement;
-	const contentSection = document.getElementById("content-section");
+        timeline.to(
+            square,
+            {
+                scale: targetScale,
+                ease: "power2.inOut",
+                duration: 1,
+            },
+            0,
+        );
 
-	if (navbarBg && contentSection) {
-		navbarBg.style.willChange = "background-color";
-
-		ScrollTrigger.create({
-			trigger: contentSection,
-			start: "top 90%",
-			end: "top top",
-			onEnter: () => {
-				navbarBg.style.backgroundColor = "rgb(0, 0, 0)";
-			},
-			onLeaveBack: () => {
-				navbarBg.style.backgroundColor = "transparent";
-			},
-		});
-	}
+        const scrollIndicator = document.querySelector(".scroll-indicator");
+        if (scrollIndicator) {
+            timeline.to(
+                scrollIndicator,
+                {
+                    opacity: 0,
+                    duration: 0.1,
+                    ease: "power1.out",
+                },
+                0.98, // Moved to 0.98 (almost end of timeline)
+            );
+        }
+    }
 </script>

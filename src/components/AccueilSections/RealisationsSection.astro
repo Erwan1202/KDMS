@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import consoleImage from "../assets/flight-case-console.png";
+import consoleImage from "../../assets/flight-case-console.png";
 
 const realisations = [
     {
@@ -68,14 +68,14 @@ const realisations = [
         {
             realisations.map((item) => (
                 <div
-                    class={`realisation-card ${item.bgColor} py-24 md:py-32 px-4 md:px-12`}
+                    class={`realisation-card ${item.bgColor} py-12 md:py-32 px-6 md:px-12`}
                 >
                     <div
-                        class={`max-w-[90%] mx-auto flex flex-col md:flex-row items-center gap-32 md:gap-64 ${item.imagePosition === "right" ? "md:flex-row-reverse" : ""}`}
+                        class={`max-w-[90%] mx-auto flex flex-col md:flex-row items-center gap-12 md:gap-64 ${item.imagePosition === "right" ? "md:flex-row-reverse" : ""}`}
                     >
                         <div class="w-full md:w-1/2 flex-shrink-0">
                             {item.image ? (
-                                <div class="w-full overflow-hidden rounded-lg">
+                                <div class="w-full overflow-hidden rounded-lg shadow-lg">
                                     <Image
                                         src={item.image}
                                         alt={item.title}
@@ -88,12 +88,12 @@ const realisations = [
                         </div>
 
                         <div
-                            class={`w-full md:w-1/2 text-reveal ${item.imagePosition === "right" ? "text-left" : "text-right md:text-left"}`}
+                            class={`w-full md:w-1/2 text-reveal text-center md:text-left ${item.imagePosition === "right" ? "md:text-left" : "md:text-right"}`}
                         >
-                            <h3 class="text-4xl md:text-5xl font-bold mb-6 text-[#d4d4d4] tracking-tight">
+                            <h3 class="text-3xl md:text-5xl font-bold mb-4 md:mb-6 text-[#d4d4d4] tracking-tight">
                                 {item.title}
                             </h3>
-                            <p class="text-lg md:text-xl text-white/70 leading-relaxed font-light">
+                            <p class="text-base md:text-xl text-white/70 leading-relaxed font-light">
                                 {item.description}
                             </p>
                         </div>
@@ -106,7 +106,8 @@ const realisations = [
     <div class="flex justify-center mt-16">
         <a
             href="/404"
-            class="cta-button group relative inline-flex items-center justify-center px-16 py-3 overflow-hidden rounded-full bg-[#525946] border-2 border-[#6b755a] shadow-[0_6px_20px_rgba(82,89,70,0.5)] transition-all duration-300 hover:scale-105 hover:shadow-[0_8px_30px_rgba(82,89,70,0.7)] whitespace-nowrap no-underline opacity-0 translate-y-10"
+            class="cta-button group relative inline-flex items-center justify-center px-16 py-3 overflow-hidden rounded-full bg-[#525946] border-2 border-[#6b755a] shadow-[0_6px_20px_rgba(82,89,70,0.5)] transition-all
+            duration-300 hover:scale-105 hover:shadow-[0_8px_30px_rgba(82,89,70,0.7)] whitespace-nowrap no-underline opacity-0 translate-y-10"
         >
             <span
                 class="absolute inset-0 w-full h-full bg-gradient-to-br from-white/20 to-transparent opacity-50"
