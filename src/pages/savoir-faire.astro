@@ -2,32 +2,210 @@
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/common/Navbar.astro";
 import Footer from "../components/common/Footer.astro";
+import ContactSection from "../components/AccueilSections/ContactSection.astro";
+
+const steps = [
+    {
+        number: "01",
+        title: "Écoute et Analyse des besoins",
+        text: `Depuis notre atelier de 700m² situé à TIGERY aux portes de Paris nous supervisons l’ensemble des dossiers client. Chaque projet est unique et nécessite des prouesses de modélisation.
+
+La phase d’écoute est donc extrêmement importante pour réussir un flight aligné avec vos enjeux métiers. Et la connaissance de vos process et le dialogue avec vos équipes opérationnelles sont importants pour définir tous les points fonctionnels et technique de votre flight case.
+
+Le design aussi est un facteur clé dans la réussite d’un flight case et nous l'intégrons dans nos réalisations. En plus d’être fonctionnel, votre flight mérite d’être élégant.`,
+        alignment: "left",
+    },
+    {
+        number: "02",
+        title: "Modélisation et Solution technique",
+        text: `Depuis un plan fourni, un modèle à répliquer ou alors partir d’une feuille blanche, notre bureau d’étude exploite et programme un Nesting de production sur nos système numérique.
+
+Le succès de la réalisation d’un flight case se mesure par plusieurs critères dont :
+• la cohérence des agencements qu’il propose
+• le respect d’un standard de votre parc existant
+• le confort de manipulation par vos opérateurs
+• l’optimisation de son encombrement dans votre stock, lors des transports, en situation d’usage`,
+        alignment: "right",
+    },
+    {
+        number: "03",
+        title: "Usinage et CN",
+        text: `Notre équipement numérique est un élément de productivité qui apporte précision et rapidité de traitement de nos débits. Ainsi les métriques de notre fabrication sont constantes, du prototype à la série.
+
+Néanmoins nous restons très attaché à l’artisanat, et la précision du geste de nos opérateurs est encore très présent dans notre process de fabrication.`,
+        alignment: "left",
+    },
+    {
+        number: "04",
+        title: "Assemblage",
+        text: `L’assemblage du projet et est confié à l’un de nos collaborateur qui en assure le montage tout en étant garant du contrôle qualité.
+
+Le bois, les aluminiums et les accessoires sont tous supervisés avant assemblage pour garantir une durabilité maximale.`,
+        alignment: "right",
+    },
+    {
+        number: "05",
+        title: "Capitonnage et Finitions mousses",
+        text: `Le capitonnage est aussi une étape clé qui garanti le maintien total de votre item dans toutes les configurations possibles de transport, neutralisant les vibrations et les chocs.
+
+Les mousses haute densité sont utilisées en fonction des contraintes spécifiques de chaque équipement protégé.`,
+        alignment: "left",
+    },
+    {
+        number: "06",
+        title: "Conditionnement et livraison",
+        text: `Notre process de conditionnement s’appuie sur les standards du transport, afin de garantir un état irréprochable à nos livraisons.
+
+Chaque flight case est inspecté minutieusement avant d'être expédié vers votre site ou vos événements.`,
+        alignment: "right",
+    },
+];
 ---
 
 <Layout title="Notre Savoir-Faire - KDMS">
-    <Navbar />
+    <Navbar theme="dark" />
 
     <div
-        class="main-wrapper bg-black w-full min-h-screen flex flex-col justify-between pt-32"
+        class="main-wrapper bg-black w-full h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth text-white pt-24 no-scrollbar"
     >
-        <div class="flex-grow"></div>
-        <Footer />
+        <div
+            class="relative w-full min-h-screen flex flex-col items-center justify-center snap-start"
+        >
+            <div class="text-center w-full max-w-5xl mx-auto px-6 z-10">
+                <h1
+                    class="hero-title text-2xl sm:text-3xl md:text-5xl lg:text-7xl font-bold mb-3 md:mb-4 tracking-tight scroll-reveal"
+                >
+                    NOTRE SAVOIR-FAIRE
+                </h1>
+                <p
+                    class="hero-text text-sm sm:text-base md:text-xl lg:text-2xl text-white/70 font-light scroll-reveal"
+                >
+                    L'EXCELLENCE TECHNIQUE AU SERVICE DE VOS PROJETS.<br
+                        class="hidden md:block"
+                    />
+                    DE LA CONCEPTION À LA FABRICATION.
+                </p>
+            </div>
+
+            <div
+                class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce flex flex-col items-center gap-3"
+            >
+                <span
+                    class="text-white/50 text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold"
+                    >Scroll</span
+                >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="text-white/50"
+                >
+                    <path d="M7 13l5 5 5-5"></path>
+                    <path d="M7 6l5 5 5-5"></path>
+                </svg>
+            </div>
+
+            <div
+                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[400px] bg-gradient-to-r from-[#525946]/20 to-transparent blur-[100px] -z-0 pointer-events-none"
+            >
+            </div>
+        </div>
+
+        <div class="w-full">
+            {
+                steps.map((step, index) => (
+                    <div class="step-card sticky top-0 h-screen w-full flex flex-col justify-center bg-black border-t border-white/10 rounded-t-[3rem] shadow-[0_-4px_20px_rgba(255,255,255,0.05)] overflow-hidden snap-start relative">
+                        <div class={`w-full py-16 md:py-24 px-6 md:px-12`}>
+                            <div
+                                class={`max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 md:gap-24 ${step.alignment === "right" ? "md:flex-row-reverse" : ""}`}
+                            >
+                                <div class="w-full md:flex-1 step-image">
+                                    <div class="relative aspect-[4/3] w-full bg-gray-900 rounded-lg overflow-hidden border border-white/10 shadow-2xl group">
+                                        <div class="absolute inset-0 flex items-center justify-center text-white/10 text-9xl font-bold group-hover:text-white/20 transition-colors duration-500">
+                                            {step.number}
+                                        </div>
+                                        <div class="absolute inset-0 bg-gradient-to-tr from-black/80 via-transparent to-transparent" />
+                                    </div>
+                                </div>
+
+                                <div class="w-full md:flex-1 text-content">
+                                    <div class="flex items-baseline gap-4 mb-6">
+                                        <span class="text-[#6b755a] text-6xl md:text-8xl font-black opacity-30 select-none">
+                                            {step.number}
+                                        </span>
+                                        <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white leading-tight">
+                                            {step.title}
+                                        </h2>
+                                    </div>
+
+                                    <div class="prose prose-lg prose-invert text-gray-400 font-light leading-relaxed whitespace-pre-line text-justify">
+                                        {step.text}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {index < steps.length - 1 && (
+                            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce flex flex-col items-center gap-3">
+                                <span class="text-white/30 text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold">
+                                    Scroll
+                                </span>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="text-white/30"
+                                >
+                                    <path d="M7 13l5 5 5-5" />
+                                    <path d="M7 6l5 5 5-5" />
+                                </svg>
+                            </div>
+                        )}
+                    </div>
+                ))
+            }
+        </div>
+
+        <div class="snap-start">
+            <ContactSection />
+            <Footer />
+        </div>
     </div>
 </Layout>
 
 <style>
-    @import "tailwindcss";
+    .no-scrollbar {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
 
-    :global(.navbar-bg) {
-        background-color: black !important;
+    @keyframes scale-down {
+        to {
+            transform: scale(0.9);
+            opacity: 0.3;
+            filter: blur(5px);
+        }
     }
-    :global(.logo-black) {
-        opacity: 0 !important;
-    }
-    :global(.logo-white) {
-        opacity: 1 !important;
-    }
-    :global(.nav-link) {
-        color: white !important;
+
+    .step-card {
+        animation: scale-down linear both;
+        animation-timeline: view();
+        animation-range: exit-crossing 0% exit-crossing 100%;
+        transform-origin: top center;
     }
 </style>

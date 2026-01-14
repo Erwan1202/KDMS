@@ -2,34 +2,41 @@
 import { Image } from "astro:assets";
 import logoBlack from "/src/assets/logo-black.png";
 import logoWhite from "/src/assets/logo-white.png";
+
+interface Props {
+    theme?: "light" | "dark";
+}
+
+const { theme = "light" } = Astro.props;
+
+const isDark = theme === "dark";
 ---
 
 <nav
-    class="navbar-bg fixed top-0 left-0 right-0 z-50 w-full px-4 py-2 flex items-center transition-all duration-75 ease-out"
+    class={`navbar-bg fixed top-0 left-0 right-0 z-50 w-full px-4 py-2 flex items-center transition-all duration-75 ease-out ${isDark ? "bg-black" : "bg-transparent"}`}
 >
     <a href="/" class="flex items-center relative">
         <Image
             src={logoBlack}
             alt="KDMS"
             loading="eager"
-            class="logo-black h-24 w-auto transition-opacity duration-300"
+            class={`logo-black h-24 w-auto transition-opacity duration-300 ${isDark ? "opacity-0" : "opacity-100"}`}
         />
         <Image
             src={logoWhite}
             alt="KDMS"
             loading="eager"
-            class="logo-white h-24 w-auto transition-opacity duration-300 opacity-0 absolute left-0 top-0"
+            class={`logo-white h-24 w-auto transition-opacity duration-300 absolute left-0 top-0 ${isDark ? "opacity-100" : "opacity-0"}`}
         />
     </a>
 
-    <!-- Desktop Navigation -->
     <div
         class="nav-links w-full max-w-5xl px-8 hidden lg:grid grid-cols-4 items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
     >
         <div class="justify-self-center">
             <a
                 href="/"
-                class="nav-link text-black text-lg font-medium transition-colors duration-300 no-underline relative group"
+                class={`nav-link text-lg font-medium transition-colors duration-300 no-underline relative group ${isDark ? "text-white" : "text-black"}`}
             >
                 Accueil
                 <span
@@ -40,7 +47,7 @@ import logoWhite from "/src/assets/logo-white.png";
         <div class="justify-self-center">
             <a
                 href="/savoir-faire"
-                class="nav-link text-black text-lg font-medium transition-colors duration-300 no-underline relative group"
+                class={`nav-link text-lg font-medium transition-colors duration-300 no-underline relative group ${isDark ? "text-white" : "text-black"}`}
             >
                 Notre Savoir Faire
                 <span
@@ -52,7 +59,7 @@ import logoWhite from "/src/assets/logo-white.png";
         <div class="justify-self-center">
             <a
                 href="/404"
-                class="nav-link text-black text-lg font-medium transition-colors duration-300 no-underline relative group"
+                class={`nav-link text-lg font-medium transition-colors duration-300 no-underline relative group ${isDark ? "text-white" : "text-black"}`}
             >
                 Nos Réalisations
                 <span
@@ -64,7 +71,7 @@ import logoWhite from "/src/assets/logo-white.png";
         <div class="justify-self-center">
             <a
                 href="/404"
-                class="nav-link text-black text-lg font-medium transition-colors duration-300 no-underline relative group"
+                class={`nav-link text-lg font-medium transition-colors duration-300 no-underline relative group ${isDark ? "text-white" : "text-black"}`}
             >
                 Contact
                 <span
@@ -74,7 +81,6 @@ import logoWhite from "/src/assets/logo-white.png";
         </div>
     </div>
 
-    <!-- Mobile Menu Button -->
     <button
         id="mobile-menu-btn"
         class="lg:hidden absolute right-8 top-1/2 -translate-y-1/2 z-50 p-2 bg-transparent border-none outline-none focus:outline-none"
@@ -82,18 +88,17 @@ import logoWhite from "/src/assets/logo-white.png";
     >
         <div class="w-6 h-4.5 flex flex-col justify-between">
             <span
-                class="w-full h-0.5 bg-black transition-all duration-300 origin-left"
+                class={`w-full h-0.5 transition-all duration-300 origin-left ${isDark ? "bg-white" : "bg-black"}`}
             ></span>
             <span
-                class="w-full h-0.5 bg-black transition-all duration-300 opacity-100"
+                class={`w-full h-0.5 transition-all duration-300 opacity-100 ${isDark ? "bg-white" : "bg-black"}`}
             ></span>
             <span
-                class="w-full h-0.5 bg-black transition-all duration-300 origin-left"
+                class={`w-full h-0.5 transition-all duration-300 origin-left ${isDark ? "bg-white" : "bg-black"}`}
             ></span>
         </div>
     </button>
 
-    <!-- Mobile Menu Overlay -->
     <div
         id="mobile-menu"
         class="fixed inset-0 bg-white z-40 translate-x-full transition-transform duration-500 ease-in-out flex flex-col items-center justify-center gap-8 lg:hidden"
@@ -122,22 +127,18 @@ import logoWhite from "/src/assets/logo-white.png";
     const body = document.body;
     let isOpen = false;
 
-    // Handle scroll color change for mobile button spans
     const heroSection = document.querySelector("#hero-section");
     if (heroSection) {
         window.addEventListener("scroll", () => {
             const scrollValues = heroSection.getBoundingClientRect();
-            // Assuming similar thresholds to desktop nav
             const progress = Math.abs(scrollValues.top) / window.innerHeight;
 
             if (progress > 0.8 && !isOpen) {
-                // White bars on black bg
                 spans?.forEach((span) =>
                     span.classList.replace("bg-black", "bg-white"),
                 );
             } else {
                 if (!isOpen) {
-                    // Black bars on white bg (unless menu is open)
                     spans?.forEach((span) =>
                         span.classList.replace("bg-white", "bg-black"),
                     );
@@ -149,31 +150,25 @@ import logoWhite from "/src/assets/logo-white.png";
     menuBtn?.addEventListener("click", () => {
         isOpen = !isOpen;
 
-        // Toggle menu visibility
         if (isOpen) {
             mobileMenu?.classList.remove("translate-x-full");
-            body.style.overflow = "hidden"; // Prevent scrolling
+            body.style.overflow = "hidden";
 
-            // Animate burger to cross
             spans?.[0].classList.add("rotate-45");
             spans?.[1].classList.add("opacity-0");
             spans?.[2].classList.add("-rotate-45");
 
-            // Force black color when open (on white overlay)
             spans?.forEach((span) => {
                 span.classList.remove("bg-white");
                 span.classList.add("bg-black");
             });
         } else {
             mobileMenu?.classList.add("translate-x-full");
-            body.style.overflow = ""; // Restore scrolling
+            body.style.overflow = "";
 
-            // Reset burger animation
             spans?.[0].classList.remove("rotate-45");
             spans?.[1].classList.remove("opacity-0");
             spans?.[2].classList.remove("-rotate-45");
-
-            // Restore color based on scroll position
             const scrollValues = heroSection?.getBoundingClientRect();
             const progress = scrollValues
                 ? Math.abs(scrollValues.top) / window.innerHeight
@@ -191,7 +186,6 @@ import logoWhite from "/src/assets/logo-white.png";
         }
     });
 
-    // Close menu when clicking a link
     document.querySelectorAll(".nav-link-mobile").forEach((link) => {
         link.addEventListener("click", () => {
             isOpen = false;
@@ -201,7 +195,6 @@ import logoWhite from "/src/assets/logo-white.png";
             spans?.[1].classList.remove("opacity-0");
             spans?.[2].classList.remove("-rotate-45");
 
-            // Restore color
             const scrollValues = heroSection?.getBoundingClientRect();
             const progress = scrollValues
                 ? Math.abs(scrollValues.top) / window.innerHeight
