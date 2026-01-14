@@ -1,0 +1,133 @@
+---
+import { Image } from "astro:assets";
+import logoWhite from "/src/assets/logo-white.png";
+
+const navigationLinks = [
+    { label: "Accueil", href: "/" },
+    { label: "Savoir-faire", href: "/404" },
+    { label: "Nos réalisations", href: "/404" },
+    { label: "Contact", href: "/404" },
+];
+
+const contactInfo = [
+    {
+        lines: ["123 Rue de l'Industrie", "75000 Paris", "France"],
+        type: "text",
+    },
+    {
+        label: "+33 1 69 90 27 54",
+        href: "tel:+33169902754",
+        type: "link",
+    },
+    {
+        label: "contact@kdms.fr",
+        href: "mailto:contact@kdms.fr",
+        type: "link",
+    },
+];
+
+const legalLinks = [
+    { label: "Mentions Légales", href: "/404" },
+    { label: "Politique de confidentialité", href: "/404" },
+    { label: "CGV", href: "/404" },
+];
+---
+
+<footer class="bg-[#525946] text-white py-12 md:py-20 relative overflow-hidden">
+    <div
+        class="absolute inset-0 bg-gradient-to-br from-black/20 to-transparent pointer-events-none"
+    >
+    </div>
+
+    <div class="relative max-w-7xl mx-auto px-6 md:px-8 z-10">
+        <div
+            class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 lg:gap-16"
+        >
+            <div class="col-span-1 md:col-span-4 flex flex-col gap-6">
+                <a href="/" class="inline-block w-fit">
+                    <Image
+                        src={logoWhite}
+                        alt="KDMS"
+                        class="h-16 w-auto opacity-90 transition-opacity hover:opacity-100"
+                    />
+                </a>
+                <p class="text-white/70 font-light leading-relaxed max-w-sm">
+                    Experts dans la conception et fabrication de flight cases
+                    sur mesure. Protection optimale pour votre matériel, adaptée
+                    à vos besoins spécifiques.
+                </p>
+            </div>
+
+            <div class="col-span-1 md:col-span-3">
+                <h4 class="text-lg font-bold mb-6 tracking-wide">Navigation</h4>
+                <div class="flex flex-col gap-4">
+                    {
+                        navigationLinks.map((link) => (
+                            <a
+                                href={link.href}
+                                class="text-white/60 hover:text-white transition-colors duration-300 inline-flex items-center gap-2 group w-fit no-underline"
+                            >
+                                {link.label}
+                            </a>
+                        ))
+                    }
+                </div>
+            </div>
+
+            <div class="col-span-1 md:col-span-3">
+                <h4 class="text-lg font-bold mb-6 tracking-wide">Contact</h4>
+                <div class="flex flex-col gap-6 text-white/60">
+                    {
+                        contactInfo.map((item) => (
+                            <div class="group">
+                                {item.type === "text" ? (
+                                    <span class="font-light hover:text-white transition-colors cursor-default">
+                                        {item.lines?.map((line, index) => (
+                                            <>
+                                                {line}
+                                                {index <
+                                                    (item.lines?.length || 0) -
+                                                        1 && <br />}
+                                            </>
+                                        ))}
+                                    </span>
+                                ) : (
+                                    <a
+                                        href={item.href}
+                                        class="font-light hover:text-white transition-colors no-underline"
+                                    >
+                                        {item.label}
+                                    </a>
+                                )}
+                            </div>
+                        ))
+                    }
+                </div>
+            </div>
+
+            <div class="col-span-1 md:col-span-2">
+                <h4 class="text-lg font-bold mb-6 tracking-wide">Infos</h4>
+                <div class="flex flex-col gap-4">
+                    {
+                        legalLinks.map((link) => (
+                            <a
+                                href={link.href}
+                                class="text-white/60 hover:text-white transition-colors duration-300 text-sm w-fit no-underline"
+                            >
+                                {link.label}
+                            </a>
+                        ))
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div
+            class="border-t border-white/10 mt-16 pt-8 text-center text-white/30 font-light text-sm"
+        >
+            <p>
+                &copy; {new Date().getFullYear()} KDMS. Tous droits réservés.
+            </p>
+        </div>
+    </div>
+</footer>
