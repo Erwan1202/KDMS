@@ -35,7 +35,7 @@ import Footer from "../components/common/Footer.astro";
             </div>
 
             <div
-                class="scroll-indicator absolute bottom-[20vh] md:bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce flex flex-col items-center gap-3"
+                class="scroll-indicator absolute bottom-[20vh] md:bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce flex flex-col items-center gap-3 cursor-pointer"
             >
                 <span
                     class="text-black text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold opacity-80"
@@ -74,8 +74,9 @@ import Footer from "../components/common/Footer.astro";
 <script>
     import { gsap } from "gsap";
     import { ScrollTrigger } from "gsap/ScrollTrigger";
+    import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 
-    gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
     const heroSection = document.querySelector("#hero-section");
     const square = document.querySelector(".black-square");
@@ -117,7 +118,6 @@ import Footer from "../components/common/Footer.astro";
                             navbarBg.style.backgroundColor = "transparent";
                     }
 
-                    // Toggle scroll indicator color mid-transition
                     if (self.progress > 0.4) {
                         scrollSpan?.classList.remove("text-black");
                         scrollSpan?.classList.add("text-white");
@@ -130,7 +130,6 @@ import Footer from "../components/common/Footer.astro";
                         scrollSvg?.classList.remove("text-white");
                     }
 
-                    // Force hero background to black at the end to prevent white bar
                     if (self.progress > 0.9) {
                         heroSection.classList.remove("bg-white");
                         heroSection.classList.add("bg-black");
@@ -172,6 +171,18 @@ import Footer from "../components/common/Footer.astro";
 
         const scrollIndicator = document.querySelector(".scroll-indicator");
         if (scrollIndicator) {
+            scrollIndicator.addEventListener("click", () => {
+                const contentSection =
+                    document.querySelector("#content-section");
+                if (contentSection) {
+                    gsap.to(window, {
+                        duration: 2.5,
+                        scrollTo: { y: contentSection, offsetY: 0 },
+                        ease: "power2.inOut",
+                    });
+                }
+            });
+
             timeline.to(
                 scrollIndicator,
                 {
@@ -179,7 +190,7 @@ import Footer from "../components/common/Footer.astro";
                     duration: 0.05,
                     ease: "power1.out",
                 },
-                0.99, // Moved to 0.99 (very end of timeline)
+                0.99,
             );
         }
     }
