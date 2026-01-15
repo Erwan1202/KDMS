@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/common/Navbar.astro";
 import Footer from "../components/common/Footer.astro";
 import ContactSection from "../components/AccueilSections/ContactSection.astro";
+import heroBackground from "../assets/savoir-faire/hero-background.png";
 
 const steps = [
     {
@@ -94,7 +95,7 @@ const timelineScope = steps.map((_, i) => `--s-${i}`).join(",");
                 class="absolute right-0 top-1/2 -translate-y-2/3 z-0 h-[90vh] w-auto opacity-30"
             >
                 <img
-                    src="/src/assets/savoir-faire/hero-background.png"
+                    src={heroBackground.src}
                     alt="Flight case KDMS"
                     class="h-full w-auto object-contain drop-shadow-2xl"
                 />

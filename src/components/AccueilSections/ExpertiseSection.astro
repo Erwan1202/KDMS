@@ -117,13 +117,14 @@ const expertiseItems = [
 
     gsap.registerPlugin(ScrollTrigger);
 
+    // Expertise carousel logic (no GSAP dependency)
     const expertiseImages = document.querySelectorAll(".expertise-image");
     const expertiseTitle = document.getElementById("expertise-title");
     const expertiseText = document.getElementById("expertise-text");
 
     const defaultTitle = "La mobilité de votre expertise est notre métier";
     const conclusionTitle =
-        "C’est avec cette dynamique que nous souhaitons continuer à développer nos activités, en restant flexible et pouvoir rapidement nous réinventer.";
+        "C'est avec cette dynamique que nous souhaitons continuer à développer nos activités, en restant flexible et pouvoir rapidement nous réinventer.";
 
     let currentIndex = -1;
     let autoRotateInterval: ReturnType<typeof setInterval> | null = null;
