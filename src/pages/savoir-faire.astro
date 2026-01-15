@@ -64,7 +64,7 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
 const timelineScope = steps.map((_, i) => `--s-${i}`).join(",");
 ---
 
-<Layout title="Notre Savoir-Faure - KDMS">
+<Layout title="Notre Savoir-Faire - KDMS">
     <Navbar theme="dark" />
 
     <div
@@ -91,7 +91,18 @@ const timelineScope = steps.map((_, i) => `--s-${i}`).join(",");
             </div>
 
             <div
-                class="absolute bottom-24 left-1/2 -translate-x-1/2 z-10 animate-bounce flex flex-col items-center gap-3"
+                class="absolute right-0 top-1/2 -translate-y-2/3 z-0 h-[90vh] w-auto opacity-30"
+            >
+                <img
+                    src="/src/assets/NotreSavoirFaire/Hero.png"
+                    alt="Flight case KDMS"
+                    class="h-full w-auto object-contain drop-shadow-2xl"
+                />
+            </div>
+
+            <div
+                class="scroll-indicator absolute bottom-32 left-1/2 -translate-x-1/2 z-10 animate-bounce flex flex-col items-center gap-3 cursor-pointer"
+                data-target="step-0"
             >
                 <span
                     class="text-white/50 text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold"
@@ -120,9 +131,29 @@ const timelineScope = steps.map((_, i) => `--s-${i}`).join(",");
             </div>
         </div>
 
+        <div
+            class="timeline-nav fixed right-10 top-1/2 -translate-y-1/2 z-50 hidden md:flex flex-col items-center gap-6 opacity-0 transition-opacity duration-500"
+        >
+            {
+                steps.map((step, index) => (
+                    <button
+                        class="timeline-dot group flex items-center gap-3 cursor-pointer transition-all duration-300"
+                        data-step={index}
+                        aria-label={`Aller à l'étape ${step.number}`}
+                    >
+                        <span class="text-xs font-bold tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-[#6b755a]">
+                            {step.number}
+                        </span>
+                        <div class="w-3.5 h-3.5 rounded-full border-2 border-[#6b755a]/40 bg-transparent transition-all duration-300 group-hover:border-[#6b755a] group-hover:scale-125" />
+                    </button>
+                ))
+            }
+        </div>
+
         {
             steps.map((step, index) => (
                 <div
+                    id={`step-${index}`}
                     style={{
                         zIndex: index + 1,
                         viewTimelineName: `--s-${index}`,
@@ -171,7 +202,10 @@ const timelineScope = steps.map((_, i) => `--s-${i}`).join(",");
                     </div>
 
                     {index < steps.length - 1 && (
-                        <div class="absolute bottom-24 left-1/2 -translate-x-1/2 z-10 animate-bounce flex flex-col items-center gap-3">
+                        <div
+                            class="scroll-indicator absolute bottom-32 left-1/2 -translate-x-1/2 z-10 animate-bounce flex flex-col items-center gap-3 cursor-pointer"
+                            data-target={`step-${index + 1}`}
+                        >
                             <span class="text-white/30 text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold">
                                 Scroll
                             </span>
@@ -229,3 +263,101 @@ const timelineScope = steps.map((_, i) => `--s-${i}`).join(",");
         scroll-snap-stop: always;
     }
 </style>
+
+<script>
+    const mainWrapper = document.querySelector(".main-wrapper");
+    const timelineNav = document.querySelector(".timeline-nav");
+    const timelineDots = document.querySelectorAll(".timeline-dot");
+    const steps = document.querySelectorAll("[id^='step-']");
+    const firstStep = document.getElementById("step-0");
+
+    function updateTimeline() {
+        if (!mainWrapper || !timelineNav || !firstStep) return;
+
+        const firstStepRect = firstStep.getBoundingClientRect();
+        if (firstStepRect.top <= window.innerHeight * 0.8) {
+            timelineNav.classList.remove("opacity-0");
+            timelineNav.classList.add("opacity-100");
+        } else {
+            timelineNav.classList.add("opacity-0");
+            timelineNav.classList.remove("opacity-100");
+        }
+
+        let activeIndex = 0;
+        const scrollTop = mainWrapper.scrollTop;
+        const windowHeight = window.innerHeight;
+
+        steps.forEach((step, index) => {
+            const rect = step.getBoundingClientRect();
+            if (rect.top <= windowHeight / 2) {
+                activeIndex = index;
+            }
+        });
+        timelineDots.forEach((dot, index) => {
+            const dotCircle = dot.querySelector("div");
+            const dotNumber = dot.querySelector("span");
+
+            if (index === activeIndex) {
+                dotCircle?.classList.add(
+                    "bg-[#6b755a]",
+                    "border-[#6b755a]",
+                    "scale-125",
+                );
+                dotCircle?.classList.remove(
+                    "bg-transparent",
+                    "border-[#6b755a]/40",
+                );
+                dotNumber?.classList.add("opacity-100");
+                dotNumber?.classList.remove("opacity-0");
+            } else {
+                dotCircle?.classList.remove(
+                    "bg-[#6b755a]",
+                    "border-[#6b755a]",
+                    "scale-125",
+                );
+                dotCircle?.classList.add(
+                    "bg-transparent",
+                    "border-[#6b755a]/40",
+                );
+                dotNumber?.classList.remove("opacity-100");
+                dotNumber?.classList.add("opacity-0");
+            }
+        });
+    }
+
+    mainWrapper?.addEventListener("scroll", updateTimeline);
+
+    updateTimeline();
+
+    timelineDots.forEach((dot) => {
+        dot.addEventListener("click", () => {
+            const stepIndex = dot.getAttribute("data-step");
+            if (!stepIndex || !mainWrapper) return;
+
+            const index = parseInt(stepIndex);
+            const heroHeight = window.innerHeight;
+            const stepHeight = window.innerHeight;
+            const targetScroll = heroHeight + index * stepHeight;
+
+            mainWrapper.scrollTo({
+                top: targetScroll,
+                behavior: "smooth",
+            });
+        });
+    });
+
+    document.querySelectorAll(".scroll-indicator").forEach((indicator) => {
+        indicator.addEventListener("click", () => {
+            const targetId = indicator.getAttribute("data-target");
+            if (!targetId) return;
+            const targetElement = document.getElementById(targetId);
+
+            if (targetElement && mainWrapper) {
+                targetElement.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                });
+            }
+        });
+    });
+</script>
