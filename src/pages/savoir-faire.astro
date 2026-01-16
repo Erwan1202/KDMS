@@ -61,15 +61,12 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
         alignment: "right",
     },
 ];
-
-const timelineScope = steps.map((_, i) => `--s-${i}`).join(",");
 ---
 
 <Layout title="Notre Savoir-Faire - KDMS">
     <Navbar theme="dark" />
 
     <div
-        style={{ timelineScope }}
         class="main-wrapper bg-black w-full h-screen overflow-y-scroll text-white pt-24 no-scrollbar scroll-smooth"
     >
         <div
@@ -155,14 +152,7 @@ const timelineScope = steps.map((_, i) => `--s-${i}`).join(",");
             steps.map((step, index) => (
                 <div
                     id={`step-${index}`}
-                    style={{
-                        zIndex: index + 1,
-                        viewTimelineName: `--s-${index}`,
-                        animationTimeline:
-                            index < steps.length - 1
-                                ? `--s-${index + 1}`
-                                : "none",
-                    }}
+                    style={{ zIndex: index + 1 }}
                     class={`${
                         index !== steps.length - 1
                             ? "sticky top-0 h-screen step-card bg-black"
@@ -256,8 +246,6 @@ const timelineScope = steps.map((_, i) => `--s-${i}`).join(",");
     }
 
     .step-card {
-        animation: scale-down ease-in-out both;
-        animation-range: entry 0% entry 100%;
         transform-origin: top center;
     }
     .snap-always {
@@ -266,11 +254,39 @@ const timelineScope = steps.map((_, i) => `--s-${i}`).join(",");
 </style>
 
 <script>
-    const mainWrapper = document.querySelector(".main-wrapper");
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const mainWrapper = document.querySelector(".main-wrapper") as HTMLElement;
     const timelineNav = document.querySelector(".timeline-nav");
     const timelineDots = document.querySelectorAll(".timeline-dot");
     const steps = document.querySelectorAll("[id^='step-']");
     const firstStep = document.getElementById("step-0");
+
+    if (mainWrapper) {
+        ScrollTrigger.defaults({
+            scroller: mainWrapper,
+        });
+
+        steps.forEach((step, index) => {
+            if (index < steps.length - 1) {
+                gsap.to(step, {
+                    scale: 0.85,
+                    opacity: 0.3,
+                    filter: "brightness(0.5)",
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: steps[index + 1],
+                        start: "top bottom",
+                        end: "top top",
+                        scrub: true,
+                    },
+                });
+            }
+        });
+    }
 
     function updateTimeline() {
         if (!mainWrapper || !timelineNav || !firstStep) return;
