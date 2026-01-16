@@ -7,96 +7,208 @@ import Footer from "../components/common/Footer.astro";
 <Layout title="Contact - KDMS">
     <Navbar theme="dark" />
 
-    <main class="bg-black text-white min-h-screen pt-24 md:pt-32 pb-12">
-        <section class="max-w-7xl mx-auto px-6 md:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
-                <div class="flex flex-col justify-start">
-                    <h1
-                        class="animate-title opacity-0 text-4xl md:text-6xl font-bold mb-8 tracking-tight"
+    <main class="bg-black text-white min-h-screen">
+        <section class="relative h-[70vh] min-h-[500px] overflow-hidden">
+            <div class="absolute inset-0 bg-gray-700 animate-pulse">
+                <div
+                    class="w-full h-full flex items-center justify-center text-white/20"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="120"
+                        height="120"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="0.5"
                     >
-                        Contactez-nous
-                    </h1>
-                    <p
-                        class="animate-text opacity-0 text-white/70 text-lg md:text-xl font-light mb-12 max-w-lg"
-                    >
-                        Un projet spécifique ? Une demande de devis ? N'hésitez
-                        pas à nous contacter, nous vous répondrons dans les plus
-                        brefs délais.
-                    </p>
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"
+                        ></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                </div>
+            </div>
+
+            <div
+                class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"
+            >
+            </div>
+            <div
+                class="relative h-full w-full mx-auto px-8 md:px-16 lg:px-24 flex items-center justify-end"
+            >
+                <div
+                    class="bg-black/60 backdrop-blur-md rounded-2xl border border-white/10 p-8 space-y-6 animate-info opacity-0 max-w-md"
+                >
+                    <div class="mb-2">
+                        <h1
+                            class="text-2xl md:text-3xl font-bold tracking-tight text-white"
+                        >
+                            Contactez-nous
+                        </h1>
+                    </div>
 
                     <div
-                        class="flex items-center gap-6 mb-12 animate-director opacity-0"
+                        class="flex items-center gap-4 pb-6 border-b border-white/10"
                     >
                         <div
-                            class="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-[#525946] shadow-lg flex-shrink-0 bg-white/5"
+                            class="w-16 h-16 rounded-full bg-[#525946] flex items-center justify-center"
                         >
-                            <div
-                                class="w-full h-full bg-gray-600 animate-pulse flex items-center justify-center text-white/20"
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="28"
+                                height="28"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="text-white"
                             >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="48"
-                                    height="48"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="1"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                >
-                                    <path
-                                        d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
-                                    ></path>
-                                    <circle cx="12" cy="7" r="4"></circle>
-                                </svg>
-                            </div>
+                                <path
+                                    d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+                                ></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
                         </div>
                         <div>
                             <span
-                                class="text-[#6b755a] font-bold text-sm tracking-widest uppercase mb-1 block"
+                                class="text-[#6b755a] font-bold text-xs tracking-widest uppercase block"
                                 >Votre interlocuteur</span
                             >
-                            <h3 class="text-3xl font-bold text-white mb-1">
+                            <h3 class="text-2xl font-bold text-white">
                                 Régis Kozak
                             </h3>
-                            <p class="text-white/60 font-light text-lg">
+                            <p class="text-white/60 font-light text-sm">
                                 Dirigeant
                             </p>
                         </div>
                     </div>
 
-                    <div class="space-y-8 animate-info opacity-0">
-                        <div class="group">
-                            <h3 class="text-xl font-bold mb-2">Adresse</h3>
-                            <p
-                                class="text-white/70 font-light group-hover:text-white transition-colors"
+                    <div class="flex items-start gap-4 group">
+                        <div
+                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="text-[#6b755a]"
                             >
-                                8 Rue Camille Décauville<br />
-                                91250 Tigery<br />
-                                France
-                            </p>
+                                <path
+                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                                ></path>
+                            </svg>
                         </div>
-
-                        <div class="group">
-                            <h3 class="text-xl font-bold mb-2">Téléphone</h3>
+                        <div>
+                            <span
+                                class="text-white/50 text-xs uppercase tracking-wider block mb-1"
+                                >Téléphone</span
+                            >
                             <a
                                 href="tel:+33650003101"
-                                class="text-white/70 font-light hover:text-white transition-colors text-lg"
+                                class="text-white font-medium hover:text-[#6b755a] transition-colors"
                             >
                                 +33 6 50 00 31 01
                             </a>
                         </div>
+                    </div>
 
-                        <div class="group">
-                            <h3 class="text-xl font-bold mb-2">Email</h3>
+                    <div class="flex items-start gap-4 group">
+                        <div
+                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="text-[#6b755a]"
+                            >
+                                <path
+                                    d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                                ></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                        </div>
+                        <div>
+                            <span
+                                class="text-white/50 text-xs uppercase tracking-wider block mb-1"
+                                >Email</span
+                            >
                             <a
                                 href="mailto:regis.kozak@k-dms.co"
-                                class="text-white/70 font-light hover:text-white transition-colors text-lg"
+                                class="text-white font-medium hover:text-[#6b755a] transition-colors"
                             >
                                 regis.kozak@k-dms.co
                             </a>
                         </div>
                     </div>
+
+                    <div class="flex items-start gap-4 group">
+                        <div
+                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center flex-shrink-0"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="18"
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="text-[#6b755a]"
+                            >
+                                <path
+                                    d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"
+                                ></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                        </div>
+                        <div>
+                            <span
+                                class="text-white/50 text-xs uppercase tracking-wider block mb-1"
+                                >Adresse</span
+                            >
+                            <p class="text-white font-medium">
+                                8 Rue Camille Décauville<br />
+                                91250 Tigery, France
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="max-w-7xl mx-auto px-6 md:px-8 py-24">
+            <div
+                class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start"
+            >
+                <div>
+                    <h2
+                        class="text-3xl md:text-4xl font-bold mb-4 animate-text opacity-0"
+                    >
+                        Envoyez-nous un message
+                    </h2>
+                    <p
+                        class="text-white/60 font-light mb-8 animate-text opacity-0"
+                    >
+                        Nous vous répondrons dans les plus brefs délais.
+                    </p>
                 </div>
 
                 <div
@@ -204,7 +316,7 @@ import Footer from "../components/common/Footer.astro";
         </section>
 
         <section
-            class="max-w-7xl mx-auto px-6 md:px-8 mt-24 animate-map opacity-0"
+            class="max-w-7xl mx-auto px-6 md:px-8 mt-12 pb-24 animate-map opacity-0"
         >
             <div
                 class="w-full h-96 rounded-2xl overflow-hidden border border-white/10 shadow-lg"
@@ -220,63 +332,53 @@ import Footer from "../components/common/Footer.astro";
                 ></iframe>
             </div>
         </section>
+
+        <script>
+            import { gsap } from "gsap";
+
+            const timeline = gsap.timeline({
+                defaults: { ease: "power3.out" },
+            });
+
+            timeline
+                .fromTo(
+                    ".animate-text",
+                    { y: 30, opacity: 0 },
+                    { y: 0, opacity: 1, duration: 0.8 },
+                    0.2,
+                )
+                .fromTo(
+                    ".animate-info",
+                    { x: 30, opacity: 0 },
+                    { x: 0, opacity: 1, duration: 0.8 },
+                    "-=0.6",
+                )
+                .fromTo(
+                    ".animate-form",
+                    { x: 30, opacity: 0 },
+                    { x: 0, opacity: 1, duration: 0.8 },
+                    "-=0.8",
+                )
+                .fromTo(
+                    ".animate-map",
+                    { y: 30, opacity: 0 },
+                    { y: 0, opacity: 1, duration: 0.8 },
+                    "-=0.6",
+                );
+        </script>
+
+        <style>
+            input:-webkit-autofill,
+            input:-webkit-autofill:hover,
+            input:-webkit-autofill:focus,
+            textarea:-webkit-autofill,
+            textarea:-webkit-autofill:hover,
+            textarea:-webkit-autofill:focus {
+                -webkit-text-fill-color: white;
+                -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+                transition: background-color 5000s ease-in-out 0s;
+            }
+        </style>
     </main>
     <Footer />
 </Layout>
-
-<script>
-    import { gsap } from "gsap";
-
-    const timeline = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-    timeline
-        .fromTo(
-            ".animate-title",
-            { y: 50, opacity: 0 },
-            { y: 0, opacity: 1, duration: 1 },
-            0.2,
-        )
-        .fromTo(
-            ".animate-text",
-            { y: 30, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.8 },
-            "-=0.6",
-        )
-        .fromTo(
-            ".animate-director",
-            { x: -30, opacity: 0 },
-            { x: 0, opacity: 1, duration: 0.8 },
-            "-=0.6",
-        )
-        .fromTo(
-            ".animate-info",
-            { x: -30, opacity: 0 },
-            { x: 0, opacity: 1, duration: 0.8 },
-            "-=0.6",
-        )
-        .fromTo(
-            ".animate-form",
-            { x: 30, opacity: 0 },
-            { x: 0, opacity: 1, duration: 0.8 },
-            "-=0.8",
-        )
-        .fromTo(
-            ".animate-map",
-            { y: 30, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.8 },
-            "-=0.6",
-        );
-</script>
-
-<style>
-    input:-webkit-autofill,
-    input:-webkit-autofill:hover,
-    input:-webkit-autofill:focus,
-    textarea:-webkit-autofill,
-    textarea:-webkit-autofill:hover,
-    textarea:-webkit-autofill:focus {
-        -webkit-text-fill-color: white;
-        -webkit-box-shadow: 0 0 0px 1000px #000 inset;
-        transition: background-color 5000s ease-in-out 0s;
-    }
-</style>
