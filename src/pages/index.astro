@@ -13,8 +13,14 @@ import Footer from "../components/common/Footer.astro";
     <div class="main-wrapper bg-black w-full overflow-x-hidden">
         <section
             id="hero-section"
-            class="min-h-[115vh] md:min-h-screen w-full min-w-full bg-white relative overflow-hidden flex flex-col items-center justify-center"
+            class="min-h-[115vh] md:min-h-screen w-full min-w-full relative overflow-hidden flex flex-col items-center justify-center bg-white"
         >
+            <img
+                id="hero-bg"
+                src="/hero-bg.jpg"
+                alt="Atelier KDMS"
+                class="absolute inset-0 w-full h-full object-cover blur-[2px] z-0 opacity-30 brightness-75"
+            />
             <div
                 class="hero-text text-center mb-36 md:mb-72 z-20 relative w-full max-w-5xl mx-auto px-8"
             >
