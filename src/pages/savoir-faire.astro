@@ -3,7 +3,8 @@ import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/common/Navbar.astro";
 import Footer from "../components/common/Footer.astro";
 import ContactSection from "../components/AccueilSections/ContactSection.astro";
-import heroBackground from "../assets/savoir-faire/hero-background.png";
+import heroDesktop from "../assets/savoir-faire/hero-background.png";
+import heroMobile from "../assets/savoir-faire/hero-mobile.png";
 
 const steps = [
     {
@@ -70,9 +71,11 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
         class="main-wrapper bg-black w-full h-screen overflow-y-scroll text-white pt-24 no-scrollbar scroll-smooth"
     >
         <div
-            class="relative w-full min-h-screen flex flex-col items-center justify-center"
+            class="relative w-full min-h-screen flex flex-col items-center justify-center pb-32 md:pb-0"
         >
-            <div class="text-center w-full max-w-5xl mx-auto px-6 z-10">
+            <div
+                class="text-center w-full max-w-5xl mx-auto px-6 z-10 -mt-12 md:mt-0"
+            >
                 <h1
                     class="hero-title text-2xl sm:text-3xl md:text-5xl lg:text-7xl font-bold mb-3 md:mb-4 tracking-tight scroll-reveal"
                 >
@@ -89,10 +92,20 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
             </div>
 
             <div
-                class="absolute right-0 top-1/2 -translate-y-2/3 z-0 h-[90vh] w-auto opacity-30"
+                class="absolute right-0 top-1/2 -translate-y-2/3 z-0 h-[90vh] w-auto opacity-30 hidden md:block"
             >
                 <img
-                    src={heroBackground.src}
+                    src={heroDesktop.src}
+                    alt="Flight case KDMS"
+                    class="h-full w-auto object-contain drop-shadow-2xl"
+                />
+            </div>
+
+            <div
+                class="absolute right-0 top-1/2 -translate-y-1/2 z-0 h-[70vh] w-auto opacity-40 md:hidden"
+            >
+                <img
+                    src={heroMobile.src}
                     alt="Flight case KDMS"
                     class="h-full w-auto object-contain drop-shadow-2xl"
                 />
@@ -164,11 +177,11 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                         class={`w-full pt-8 pb-32 md:pt-16 md:pb-48 px-6 md:px-12`}
                     >
                         <div
-                            class={`max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 md:gap-24 ${step.alignment === "right" ? "md:flex-row-reverse" : ""}`}
+                            class={`max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-6 md:gap-24 ${step.alignment === "right" ? "md:flex-row-reverse" : ""}`}
                         >
                             <div class="w-full md:flex-1 step-image">
-                                <div class="relative aspect-[4/3] w-full bg-gray-900 rounded-lg overflow-hidden border border-white/10 shadow-2xl group">
-                                    <div class="absolute inset-0 flex items-center justify-center text-white/10 text-9xl font-bold group-hover:text-white/20 transition-colors duration-500">
+                                <div class="relative aspect-[4/3] w-full max-w-xs md:max-w-none mx-auto bg-gray-900 rounded-lg overflow-hidden border border-white/10 shadow-2xl group">
+                                    <div class="absolute inset-0 flex items-center justify-center text-white/10 text-6xl md:text-9xl font-bold group-hover:text-white/20 transition-colors duration-500">
                                         {step.number}
                                     </div>
                                     <div class="absolute inset-0 bg-gradient-to-tr from-black/80 via-transparent to-transparent" />
@@ -176,16 +189,16 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                             </div>
 
                             <div class="w-full md:flex-1 text-content">
-                                <div class="flex items-baseline gap-4 mb-6">
-                                    <span class="text-[#6b755a] text-6xl md:text-8xl font-black opacity-30 select-none">
+                                <div class="flex items-baseline gap-2 md:gap-4 mb-4 md:mb-6">
+                                    <span class="text-[#6b755a] text-4xl md:text-8xl font-black opacity-30 select-none">
                                         {step.number}
                                     </span>
-                                    <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-white leading-tight">
+                                    <h2 class="text-xl md:text-5xl font-bold tracking-tight text-white leading-tight">
                                         {step.title}
                                     </h2>
                                 </div>
 
-                                <div class="prose prose-lg prose-invert text-gray-400 font-light leading-relaxed whitespace-pre-line text-justify">
+                                <div class="prose prose-xs md:prose-lg prose-invert text-gray-400 font-light leading-relaxed whitespace-pre-line text-justify">
                                     {step.text}
                                 </div>
                             </div>
