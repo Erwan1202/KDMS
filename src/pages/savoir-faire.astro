@@ -363,23 +363,28 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
     if (globalScrollIndicator) {
         globalScrollIndicator.addEventListener("click", () => {
             const currentScroll = mainWrapper.scrollTop;
-            const heroHeight = window.innerHeight;
 
             const targets = [0];
-            let accumulatedHeight = heroHeight;
 
             steps.forEach((step) => {
-                targets.push(accumulatedHeight);
-                accumulatedHeight += (step as HTMLElement).offsetHeight;
+                targets.push((step as HTMLElement).offsetTop);
             });
 
             let nextTarget = -1;
 
             for (let i = 0; i < targets.length; i++) {
-                if (targets[i] > currentScroll + 10) {
+                if (targets[i] > currentScroll + 50) {
                     nextTarget = targets[i];
                     break;
                 }
+            }
+
+            if (nextTarget === targets[targets.length - 1]) {
+                mainWrapper.scrollTo({
+                    top: mainWrapper.scrollHeight,
+                    behavior: "smooth",
+                });
+                return;
             }
 
             if (nextTarget !== -1) {
