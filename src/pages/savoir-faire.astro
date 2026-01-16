@@ -68,7 +68,7 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
     <Navbar theme="dark" />
 
     <div
-        class="main-wrapper bg-black w-full h-screen overflow-y-scroll text-white pt-24 no-scrollbar scroll-smooth"
+        class="main-wrapper relative bg-black w-full h-screen overflow-y-scroll text-white pt-24 no-scrollbar scroll-smooth"
     >
         <div
             class="relative w-full min-h-screen flex flex-col items-center justify-center pb-32 md:pb-0"
@@ -149,7 +149,7 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                     class={`${
                         index !== steps.length - 1
                             ? "sticky top-0 h-screen step-card bg-black"
-                            : "relative min-h-[50vh] z-20 bg-black"
+                            : "relative min-h-screen z-20 bg-black"
                     } w-full flex flex-col justify-start md:justify-center overflow-hidden`}
                 >
                     <div class="absolute -top-32 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none" />
@@ -213,11 +213,10 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                 <path d="M7 6l5 5 5-5"></path>
             </svg>
         </div>
-    </div>
-
-    <div class="bg-black relative z-50">
-        <ContactSection />
-        <Footer />
+        <div id="footer-section" class="bg-black relative z-50">
+            <ContactSection />
+            <Footer />
+        </div>
     </div>
 </Layout>
 
@@ -363,36 +362,16 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
     if (globalScrollIndicator) {
         globalScrollIndicator.addEventListener("click", () => {
             const currentScroll = mainWrapper.scrollTop;
+            const viewportHeight = window.innerHeight;
 
-            const targets = [0];
+            const nextTarget =
+                Math.ceil((currentScroll + 10) / viewportHeight) *
+                viewportHeight;
 
-            steps.forEach((step) => {
-                targets.push((step as HTMLElement).offsetTop);
+            mainWrapper.scrollTo({
+                top: nextTarget,
+                behavior: "smooth",
             });
-
-            let nextTarget = -1;
-
-            for (let i = 0; i < targets.length; i++) {
-                if (targets[i] > currentScroll + 50) {
-                    nextTarget = targets[i];
-                    break;
-                }
-            }
-
-            if (nextTarget === targets[targets.length - 1]) {
-                mainWrapper.scrollTo({
-                    top: mainWrapper.scrollHeight,
-                    behavior: "smooth",
-                });
-                return;
-            }
-
-            if (nextTarget !== -1) {
-                mainWrapper.scrollTo({
-                    top: nextTarget,
-                    behavior: "smooth",
-                });
-            }
         });
 
         let isScrolling: number | undefined;

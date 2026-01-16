@@ -14,20 +14,20 @@ const currentPath = Astro.url.pathname;
 ---
 
 <nav
-    class={`navbar-bg fixed top-0 left-0 right-0 z-50 w-full h-25 px-4 flex items-center transition-all duration-75 ease-out ${isDark ? "bg-black" : "bg-transparent"}`}
+    class={`navbar-bg fixed top-0 left-0 right-0 z-50 w-full h-16 md:h-24 px-4 flex items-center transition-all duration-75 ease-out ${isDark ? "bg-black" : "bg-transparent"}`}
 >
     <a href="/" class="flex items-center relative">
         <Image
             src={logoBlack}
             alt="KDMS"
             loading="eager"
-            class={`logo-black h-24 w-auto transition-opacity duration-300 ${isDark ? "opacity-0" : "opacity-100"}`}
+            class={`logo-black h-12 md:h-20 w-auto transition-opacity duration-300 ${isDark ? "opacity-0" : "opacity-100"}`}
         />
         <Image
             src={logoWhite}
             alt="KDMS"
             loading="eager"
-            class={`logo-white h-24 w-auto transition-opacity duration-300 absolute left-0 top-0 ${isDark ? "opacity-100" : "opacity-0"}`}
+            class={`logo-white h-12 md:h-20 w-auto transition-opacity duration-300 absolute left-0 top-0 ${isDark ? "opacity-100" : "opacity-0"}`}
         />
     </a>
 
