@@ -5,6 +5,9 @@ import ExpertiseSection from "../components/AccueilSections/ExpertiseSection.ast
 import RealisationsSection from "../components/AccueilSections/RealisationsSection.astro";
 import ContactSection from "../components/AccueilSections/ContactSection.astro";
 import Footer from "../components/common/Footer.astro";
+import { Image } from "astro:assets";
+import heroBg from "../assets/accueil/index-hero-bg.jpg";
+import heroFlightCase from "../assets/accueil/index-flight-case.png";
 ---
 
 <Layout title="KDMS">
@@ -15,10 +18,12 @@ import Footer from "../components/common/Footer.astro";
             id="hero-section"
             class="min-h-[115vh] md:min-h-screen w-full min-w-full relative overflow-hidden flex flex-col items-center justify-center bg-white"
         >
-            <img
+            <Image
                 id="hero-bg"
-                src="/hero-bg.jpg"
+                src={heroBg}
                 alt="Atelier KDMS"
+                loading="eager"
+                fetchpriority="high"
                 class="absolute inset-0 w-full h-full object-cover blur-[2px] z-0 opacity-30 brightness-75"
             />
             <div
@@ -35,9 +40,11 @@ import Footer from "../components/common/Footer.astro";
                     Le flight case 100% custom
                 </p>
             </div>
-            <img
-                src="/flight-case.png"
+            <Image
+                src={heroFlightCase}
                 alt="Flight Case KDMS"
+                loading="eager"
+                fetchpriority="high"
                 class="flight-case w-[90vw] md:w-[70vw] object-contain absolute top-[64%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
             />
 
