@@ -48,6 +48,7 @@ const legalLinks = [
                     <Image
                         src={logoWhite}
                         alt="KDMS"
+                        height={64}
                         class="h-16 w-auto opacity-90 transition-opacity hover:opacity-100"
                     />
                 </a>
@@ -59,7 +60,7 @@ const legalLinks = [
             </div>
 
             <div class="col-span-1 md:col-span-3">
-                <h4 class="text-lg font-bold mb-6 tracking-wide">Navigation</h4>
+                <h3 class="text-lg font-bold mb-6 tracking-wide">Navigation</h3>
                 <div class="flex flex-col gap-4">
                     {
                         navigationLinks.map((link) => (
@@ -75,7 +76,7 @@ const legalLinks = [
             </div>
 
             <div class="col-span-1 md:col-span-3">
-                <h4 class="text-lg font-bold mb-6 tracking-wide">Contact</h4>
+                <h3 class="text-lg font-bold mb-6 tracking-wide">Contact</h3>
                 <div class="flex flex-col gap-6 text-white/60">
                     {
                         contactInfo.map((item) => (
@@ -106,7 +107,7 @@ const legalLinks = [
             </div>
 
             <div class="col-span-1 md:col-span-2">
-                <h4 class="text-lg font-bold mb-6 tracking-wide">Infos</h4>
+                <h3 class="text-lg font-bold mb-6 tracking-wide">Infos</h3>
                 <div class="flex flex-col gap-4">
                     {
                         legalLinks.map((link) => (
