@@ -5,223 +5,212 @@ import Footer from "../components/common/Footer.astro";
 import ContactSection from "../components/AccueilSections/ContactSection.astro";
 import { Image } from "astro:assets";
 
-// Placeholder import - in production these would be distinct images
+import { categories, projects, brandLogos } from "../data/realisations";
 import projectImage from "../assets/accueil/hero-flight-case.png";
-
-// Data Structure simulating a rich portfolio
-// Aspect ratios: 1 (square), 0.75 (portrait), 1.5 (landscape)
-const categories = [
-    { id: "all", label: "Tout Voir" },
-    { id: "meubles", label: "Meubles" },
-    { id: "spectacle", label: "Spectacle" },
-    { id: "industrie", label: "Industrie" },
-    { id: "audiovisuel", label: "Audiovisuel" }
-];
-
-const projects = [
-    {
-        id: 1,
-        title: "Bureau Mobile",
-        category: "meubles",
-        description: "Poste de travail déployable",
-        ratio: "aspect-[3/4]", // Portrait
-        color: "bg-neutral-800"
-    },
-    {
-        id: 2,
-        title: "Régie Tournée",
-        category: "spectacle",
-        description: " protection console grand format",
-        ratio: "aspect-[16/9]", // Landscape
-        color: "bg-stone-800"
-    },
-    {
-        id: 3,
-        title: "Valise Drone",
-        category: "audiovisuel",
-        description: "Calage haute précision",
-        ratio: "aspect-square", // Square
-        color: "bg-zinc-800"
-    },
-    {
-        id: 4,
-        title: "Armoire Serveur",
-        category: "industrie",
-        description: "Rack 19 pouces amorti",
-        ratio: "aspect-[3/5]", // Tall Portrait
-        color: "bg-slate-800"
-    },
-    {
-        id: 5,
-        title: "Commode Costumes",
-        category: "spectacle",
-        description: "Tiroirs et penderie intégrée",
-        ratio: "aspect-[4/3]", // Landscape
-        color: "bg-gray-800"
-    },
-    {
-        id: 6,
-        title: "Kitchen Set",
-        category: "meubles",
-        description: "Cuisine mobile pour catering",
-        ratio: "aspect-square",
-        color: "bg-neutral-900"
-    },
-    {
-        id: 7,
-        title: "Lentilles Cinéma",
-        category: "audiovisuel",
-        description: "Set complet d'optiques",
-        ratio: "aspect-[3/4]",
-        color: "bg-zinc-900"
-    },
-    {
-        id: 8,
-        title: "Moteur Avion",
-        category: "industrie",
-        description: "Transport sécurisé pièce critique",
-        ratio: "aspect-[16/9]",
-        color: "bg-slate-900"
-    },
-    {
-        id: 9,
-        title: "Backline Guitares",
-        category: "spectacle",
-        description: "Vault pour 6 guitares",
-        ratio: "aspect-[3/5]",
-        color: "bg-stone-900"
-    },
-    {
-        id: 10,
-        title: "Bar Evénementiel",
-        category: "meubles",
-        description: "Station cocktail mobile",
-        ratio: "aspect-[4/5]",
-        color: "bg-gray-900"
-    },
-    {
-        id: 11,
-        title: "Écran Géant LED",
-        category: "spectacle",
-        description: "Modules LED tiles",
-        ratio: "aspect-video",
-        color: "bg-neutral-800"
-    },
-    {
-        id: 12,
-        title: "Station Médicale",
-        category: "industrie",
-        description: "Unité de soin projetable",
-        ratio: "aspect-square",
-        color: "bg-slate-800"
-    }
-];
 ---
 
 <Layout title="Nos Réalisations - KDMS">
     <Navbar theme="dark" />
 
-    <div class="main-wrapper bg-black min-h-screen text-white pt-24 pb-0">
-        
-        <div class="px-6 md:px-12 lg:px-24 mb-12 md:mb-16">
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight">
+    <main class="main-wrapper bg-black min-h-screen text-white pt-24 pb-0">
+        <header class="px-6 md:px-12 lg:px-24 mb-12 md:mb-16">
+            <h1
+                class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight"
+            >
                 NOS CRÉATIONS
             </h1>
-            <p class="text-white/60 text-xl md:text-2xl font-light max-w-2xl">
-                Explorez notre galerie de solutions sur-mesure. Chaque flight case est une réponse unique à une contrainte spécifique.
+            <p class="text-white/60 text-lg md:text-xl font-light max-w-2xl">
+                Explorez notre galerie de solutions sur-mesure. Chaque flight
+                case est une réponse unique à une contrainte spécifique.
             </p>
-        </div>
+        </header>
 
-        <div class="sticky top-16 md:top-24 z-40 bg-black/80 backdrop-blur-md border-b border-white/10 w-full mb-8 py-4 px-6 md:px-12 lg:px-24 flex items-center justify-start overflow-x-auto no-scrollbar">
-             <div class="flex flex-nowrap gap-4 min-w-max">
-                {categories.map((cat) => (
-                    <button
-                        class={`filter-btn px-6 py-2 rounded-full border text-base font-medium transition-all duration-300 hover:scale-105 ${cat.id === 'all' ? 'bg-white text-black border-white' : 'bg-transparent text-white/70 border-white/20 hover:border-white hover:text-white'}`}
-                        data-category={cat.id}
-                    >
-                        {cat.label}
-                    </button>
-                ))}
+        <nav
+            class="sticky top-16 md:top-24 z-40 bg-black/80 backdrop-blur-md border-b border-white/10 w-full mb-8 py-4 px-6 md:px-12 lg:px-24 flex items-center justify-start overflow-x-auto no-scrollbar"
+            aria-label="Filtres par catégorie"
+        >
+            <div class="flex flex-nowrap gap-4 min-w-max" role="group">
+                {
+                    categories.map((cat) => (
+                        <button
+                            type="button"
+                            class={`filter-btn px-6 py-2 rounded-full border text-sm font-medium transition-all duration-300 hover:scale-105 ${cat.id === "all" ? "bg-white text-black border-white" : "bg-transparent text-white/70 border-white/20 hover:border-white hover:text-white"}`}
+                            data-category={cat.id}
+                            aria-pressed={cat.id === "all" ? "true" : "false"}
+                        >
+                            {cat.label}
+                        </button>
+                    ))
+                }
             </div>
-        </div>
+        </nav>
 
-        <div class="px-4 md:px-8 lg:px-12 pb-24 mx-auto max-w-[1920px]">
-            <div class="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-4 md:gap-8 space-y-4 md:space-y-8">
-                {projects.map((project, index) => (
-                    <div 
-                        class={`project-item break-inside-avoid relative group cursor-pointer overflow-hidden rounded-xl ${project.color} ${project.ratio}`}
-                        data-category={project.category}
-                    >
-                        <!-- Image Placeholder (simulating different images) -->
-                        <div class="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500">
-                             <!-- Using a CSS pattern or the same image with different object positions to simulate variety -->
-                             <Image 
-                                src={projectImage} 
-                                alt={project.title}
-                                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                             />
-                        </div>
+        <section
+            class="px-4 md:px-8 lg:px-12 pb-24 mx-auto max-w-[1920px]"
+            aria-label="Galerie de projets"
+        >
+            <div
+                class="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-4 md:gap-8 space-y-4 md:space-y-8"
+            >
+                {
+                    projects.map((project) => (
+                        <article
+                            class={`project-item break-inside-avoid relative group cursor-pointer overflow-hidden rounded-xl ${project.color} ${project.ratio}`}
+                            data-category={project.category}
+                        >
+                            <div class="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500">
+                                <Image
+                                    src={projectImage}
+                                    alt={project.title}
+                                    class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                                    loading="lazy"
+                                />
+                            </div>
 
-                        <!-- Gradient Overlay -->
-                        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300" />
 
-                        <!-- Content (Bottom Reveal) -->
-                        <div class="absolute bottom-0 left-0 w-full p-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
-                            <span class="text-[#6b755a] text-sm font-bold uppercase tracking-widest mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                                {project.category}
-                            </span>
-                            <h3 class="text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">
-                                {project.title}
-                            </h3>
-                            <p class="text-white/60 text-base font-light max-h-0 overflow-hidden opacity-0 group-hover:max-h-20 group-hover:opacity-100 transition-all duration-500 ease-in-out">
-                                {project.description}
-                            </p>
-                        </div>
+                            <div class="absolute bottom-0 left-0 w-full p-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                                <span class="text-[#6b755a] text-xs font-bold uppercase tracking-widest mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                                    {project.category}
+                                </span>
+                                <h2 class="text-xl md:text-2xl font-bold text-white mb-2 leading-tight">
+                                    {project.title}
+                                </h2>
+                                <p class="text-white/60 text-sm font-light max-h-0 overflow-hidden opacity-0 group-hover:max-h-20 group-hover:opacity-100 transition-all duration-500 ease-in-out">
+                                    {project.description}
+                                </p>
+                            </div>
 
-                        <div class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="text-white">
-                                <path d="M7 17L17 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M7 7H17V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                    </div>
-                ))}
-            </div>        
-        </div>
+                            <div
+                                class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
+                                aria-hidden="true"
+                            >
+                                <svg
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    class="text-white"
+                                >
+                                    <path
+                                        d="M7 17L17 7"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    />
+                                    <path
+                                        d="M7 7H17V17"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    />
+                                </svg>
+                            </div>
+                        </article>
+                    ))
+                }
+            </div>
+        </section>
 
-        <div id="footer-section" class="bg-black relative z-50 border-t border-white/10">
+        <section
+            class="w-full py-16 md:py-24 bg-black border-t border-white/10 overflow-hidden"
+            aria-label="Marques partenaires"
+        >
+            <div class="px-6 md:px-12 lg:px-24 mb-10 text-center">
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">
+                    Lorem ipsum dolor sit
+                </h2>
+                <p class="text-white/50 text-sm font-light">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                </p>
+            </div>
+
+            <div class="marquee-container relative">
+                <div class="marquee-track flex gap-16 animate-marquee">
+                    {
+                        brandLogos.map((logo) => (
+                            <div class="flex-shrink-0 w-24 h-24 bg-white/5 rounded-lg flex items-center justify-center text-white/30 font-bold text-sm">
+                                {logo.name}
+                            </div>
+                        ))
+                    }
+                    {
+                        brandLogos.map((logo) => (
+                            <div class="flex-shrink-0 w-24 h-24 bg-white/5 rounded-lg flex items-center justify-center text-white/30 font-bold text-sm">
+                                {logo.name}
+                            </div>
+                        ))
+                    }
+                </div>
+            </div>
+        </section>
+
+        <footer
+            id="footer-section"
+            class="bg-black relative z-50 border-t border-white/10"
+        >
             <ContactSection />
             <Footer />
-        </div>
-    </div>
+        </footer>
+    </main>
 </Layout>
 
 <script>
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const items = document.querySelectorAll('.project-item');
+    const filterBtns =
+        document.querySelectorAll<HTMLButtonElement>(".filter-btn");
+    const items = document.querySelectorAll<HTMLElement>(".project-item");
 
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterBtns.forEach(b => {
-                b.classList.remove('bg-white', 'text-black', 'border-white');
-                b.classList.add('bg-transparent', 'text-white/70', 'border-white/20');
+    filterBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            // Reset all buttons
+            filterBtns.forEach((b) => {
+                b.classList.remove("bg-white", "text-black", "border-white");
+                b.classList.add(
+                    "bg-transparent",
+                    "text-white/70",
+                    "border-white/20",
+                );
+                b.setAttribute("aria-pressed", "false");
             });
-            btn.classList.add('bg-white', 'text-black', 'border-white');
-            btn.classList.remove('bg-transparent', 'text-white/70', 'border-white/20');
 
-            const category = btn.getAttribute('data-category');
-            
-            items.forEach(item => {
-                const itemCat = item.getAttribute('data-category');
-                
-                if (item instanceof HTMLElement) {
-                    if (category === 'all' || itemCat === category) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                }
+            btn.classList.add("bg-white", "text-black", "border-white");
+            btn.classList.remove(
+                "bg-transparent",
+                "text-white/70",
+                "border-white/20",
+            );
+            btn.setAttribute("aria-pressed", "true");
+
+            const category = btn.dataset.category;
+
+            items.forEach((item) => {
+                const itemCat = item.dataset.category;
+                item.style.display =
+                    category === "all" || itemCat === category
+                        ? "block"
+                        : "none";
             });
         });
     });
 </script>
+
+<style>
+    @keyframes marquee {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+
+    .animate-marquee {
+        animation: marquee 30s linear infinite;
+    }
+
+    .marquee-container:hover .animate-marquee {
+        animation-play-state: paused;
+    }
+</style>
