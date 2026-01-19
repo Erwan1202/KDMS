@@ -52,7 +52,9 @@ const legalLinks = [
                         class="h-16 w-auto opacity-90 transition-opacity hover:opacity-100"
                     />
                 </a>
-                <p class="text-white/70 font-light leading-relaxed max-w-sm">
+                <p
+                    class="text-base text-white/70 font-light leading-relaxed max-w-sm"
+                >
                     Experts dans la conception et fabrication de flight cases
                     sur mesure. Protection optimale pour votre matériel, adaptée
                     à vos besoins spécifiques.
@@ -60,7 +62,7 @@ const legalLinks = [
             </div>
 
             <div class="col-span-1 md:col-span-3">
-                <h3 class="text-lg font-bold mb-6 tracking-wide">Navigation</h3>
+                <h3 class="text-xl font-bold mb-6 tracking-wide">Navigation</h3>
                 <div class="flex flex-col gap-4">
                     {
                         navigationLinks.map((link) => (
@@ -76,7 +78,7 @@ const legalLinks = [
             </div>
 
             <div class="col-span-1 md:col-span-3">
-                <h3 class="text-lg font-bold mb-6 tracking-wide">Contact</h3>
+                <h3 class="text-xl font-bold mb-6 tracking-wide">Contact</h3>
                 <div class="flex flex-col gap-6 text-white/60">
                     {
                         contactInfo.map((item) => (
@@ -107,13 +109,13 @@ const legalLinks = [
             </div>
 
             <div class="col-span-1 md:col-span-2">
-                <h3 class="text-lg font-bold mb-6 tracking-wide">Infos</h3>
+                <h3 class="text-xl font-bold mb-6 tracking-wide">Infos</h3>
                 <div class="flex flex-col gap-4">
                     {
                         legalLinks.map((link) => (
                             <a
                                 href={link.href}
-                                class="text-white/60 hover:text-white transition-colors duration-300 text-sm w-fit no-underline"
+                                class="text-white/60 hover:text-white transition-colors duration-300 text-base w-fit no-underline"
                             >
                                 {link.label}
                             </a>
@@ -124,7 +126,7 @@ const legalLinks = [
         </div>
 
         <div
-            class="border-t border-white/10 mt-16 pt-8 text-center text-white/30 font-light text-sm"
+            class="border-t border-white/10 mt-16 pt-8 text-center text-white/30 font-light text-base"
         >
             <p>
                 &copy; {new Date().getFullYear()} KDMS. Tous droits réservés.
