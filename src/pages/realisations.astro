@@ -49,7 +49,7 @@ import projectImage from "../assets/accueil/hero-flight-case.png";
                         categories.map((cat) => (
                             <button
                                 type="button"
-                                class={`dropdown-item w-full text-left px-4 py-3 text-sm font-medium transition-colors duration-200 hover:bg-white/10 border-b border-white/5 last:border-0 ${cat.id === "all" ? "bg-white/10 text-white" : "text-white/70"}`}
+                                class={`dropdown-item w-full text-left px-4 py-3 text-sm font-medium transition-colors duration-150 active:bg-white/20 border-b border-white/5 last:border-0 ${cat.id === "all" ? "bg-white/10 text-white" : "text-white/70"}`}
                                 data-category={cat.id}
                             >
                                 {cat.label}
@@ -64,8 +64,8 @@ import projectImage from "../assets/accueil/hero-flight-case.png";
                     categories.map((cat) => (
                         <button
                             type="button"
-                            class={`filter-btn px-6 py-2 rounded-full border text-sm font-medium transition-all duration-300 
-                                hover:scale-105 whitespace-nowrap ${cat.id === "all" ? "bg-white text-black border-white" : "bg-transparent text-white/70 border-white/20 hover:border-white hover:text-white"}`}
+                            class={`filter-btn px-6 py-2 rounded-full border text-sm font-medium transition-all duration-200 
+                                hover:scale-105 whitespace-nowrap will-change-transform ${cat.id === "all" ? "bg-white text-black border-white" : "bg-transparent text-white/70 border-white/20 hover:border-white hover:text-white"}`}
                             data-category={cat.id}
                             aria-pressed={cat.id === "all" ? "true" : "false"}
                         >
@@ -89,19 +89,19 @@ import projectImage from "../assets/accueil/hero-flight-case.png";
                             class={`project-item break-inside-avoid relative group cursor-pointer overflow-hidden rounded-lg sm:rounded-xl ${project.color} ${project.ratio}`}
                             data-category={project.category}
                         >
-                            <div class="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500">
+                            <div class="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-300 will-change-opacity">
                                 <Image
                                     src={projectImage}
                                     alt={project.title}
-                                    class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                                    class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-[filter] duration-500"
                                     loading="lazy"
                                 />
                             </div>
 
-                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-200" />
 
                             <!-- Contenu des cards adapté mobile -->
-                            <div class="absolute bottom-0 left-0 w-full p-4 sm:p-5 md:p-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                            <div class="absolute bottom-0 left-0 w-full p-4 sm:p-5 md:p-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-300 ease-out will-change-transform">
                                 <span class="text-[#6b755a] text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-1.5 sm:mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
                                     {project.category}
                                 </span>
@@ -190,113 +190,89 @@ import projectImage from "../assets/accueil/hero-flight-case.png";
 </Layout>
 
 <script>
-    const filterBtns = document.querySelectorAll<HTMLButtonElement>(".filter-btn");
-    const dropdownItems = document.querySelectorAll<HTMLButtonElement>(".dropdown-item");
-    const items = document.querySelectorAll<HTMLElement>(".project-item");
-    const dropdownBtn = document.getElementById("filter-dropdown-btn");
+    const filterBtnsContainer = document.querySelector('[role="group"]');
+    const dropdownMenuEl = document.getElementById("filter-dropdown-menu");
+    const dropdownBtnEl = document.getElementById("filter-dropdown-btn");
+    const dropdownArrowEl = document.getElementById("dropdown-arrow");
+    const selectedLabelEl = document.getElementById("selected-filter-label");
+    const projectItems = document.querySelectorAll<HTMLElement>(".project-item");
     
-    const dropdownMenu = document.getElementById("filter-dropdown-menu");
-    const dropdownArrow = document.getElementById("dropdown-arrow");
-    const selectedLabel = document.getElementById("selected-filter-label");
-
-    function filterProjects(category: string) {
-        items.forEach((item) => {
-            const itemCat = item.dataset.category;
-            item.style.display =
-                category === "all" || itemCat === category
-                    ? "block"
-                    : "none";
+    const activeClasses = ["bg-white", "text-black", "border-white"];
+    const inactiveClasses = ["bg-transparent", "text-white/70", "border-white/20"];
+    const dropdownActiveClasses = ["bg-white/10", "text-white"];
+    const dropdownInactiveClasses = ["text-white/70"];
+    function filterProjects(category: string): void {
+        requestAnimationFrame(() => {
+            projectItems.forEach((item) => {
+                const show = category === "all" || item.dataset.category === category;
+                item.style.display = show ? "block" : "none";
+            });
+        });
+    }
+    function updateButtonStates(activeCategory: string): void {
+        const btns = filterBtnsContainer?.querySelectorAll<HTMLButtonElement>(".filter-btn");
+        btns?.forEach((b) => {
+            const isActive = b.dataset.category === activeCategory;
+            b.classList.remove(...(isActive ? inactiveClasses : activeClasses));
+            b.classList.add(...(isActive ? activeClasses : inactiveClasses));
+            b.setAttribute("aria-pressed", String(isActive));
         });
     }
 
-    function toggleDropdown() {
-        const isOpen = !dropdownMenu?.classList.contains("hidden");
-        dropdownMenu?.classList.toggle("hidden");
-        dropdownArrow?.classList.toggle("rotate-180", !isOpen);
+    function updateDropdownStates(activeCategory: string, label: string): void {
+        if (selectedLabelEl) selectedLabelEl.textContent = label;
+        
+        dropdownMenuEl?.querySelectorAll<HTMLButtonElement>(".dropdown-item").forEach((i) => {
+            const isActive = i.dataset.category === activeCategory;
+            i.classList.remove(...(isActive ? dropdownInactiveClasses : dropdownActiveClasses));
+            i.classList.add(...(isActive ? dropdownActiveClasses : dropdownInactiveClasses));
+        });
     }
 
-    function closeDropdown() {
-        dropdownMenu?.classList.add("hidden");
-        dropdownArrow?.classList.remove("rotate-180");
+    function toggleDropdown(): void {
+        const isHidden = dropdownMenuEl?.classList.toggle("hidden");
+        dropdownArrowEl?.classList.toggle("rotate-180", !isHidden);
     }
 
-    // Toggle dropdown on button click
-    dropdownBtn?.addEventListener("click", (e) => {
+    function closeDropdown(): void {
+        dropdownMenuEl?.classList.add("hidden");
+        dropdownArrowEl?.classList.remove("rotate-180");
+    }
+
+    function handleFilterSelect(category: string, label: string): void {
+        filterProjects(category);
+        updateButtonStates(category);
+        updateDropdownStates(category, label);
+    }
+    dropdownBtnEl?.addEventListener("click", (e) => {
         e.stopPropagation();
         toggleDropdown();
     });
+    dropdownMenuEl?.addEventListener("click", (e) => {
+        const target = (e.target as HTMLElement).closest<HTMLButtonElement>(".dropdown-item");
+        if (!target) return;
+        
+        const category = target.dataset.category || "all";
+        const label = target.textContent?.trim() || "Tout voir";
+        handleFilterSelect(category, label);
+        closeDropdown();
+    });
 
-    // Close dropdown when clicking outside
+    filterBtnsContainer?.addEventListener("click", (e) => {
+        const target = (e.target as HTMLElement).closest<HTMLButtonElement>(".filter-btn");
+        if (!target) return;
+        
+        const category = target.dataset.category || "all";
+        const label = target.textContent?.trim() || "Tout voir";
+        handleFilterSelect(category, label);
+    });
+
     document.addEventListener("click", (e) => {
-        if (!dropdownBtn?.contains(e.target as Node) && !dropdownMenu?.contains(e.target as Node)) {
+        const target = e.target as Node;
+        if (!dropdownBtnEl?.contains(target) && !dropdownMenuEl?.contains(target)) {
             closeDropdown();
         }
-    });
-
-    // Handle dropdown item selection
-    dropdownItems.forEach((item) => {
-        item.addEventListener("click", () => {
-            const category = item.dataset.category || "all";
-            const label = item.textContent?.trim() || "Tout voir";
-            
-            // Update label
-            if (selectedLabel) selectedLabel.textContent = label;
-            
-            // Update active state
-            dropdownItems.forEach((i) => {
-                i.classList.remove("bg-white/10", "text-white");
-                i.classList.add("text-white/70");
-            });
-            item.classList.add("bg-white/10", "text-white");
-            item.classList.remove("text-white/70");
-            
-            // Filter projects
-            filterProjects(category);
-            
-            // Sync desktop buttons
-            filterBtns.forEach((b) => {
-                const isActive = b.dataset.category === category;
-                b.classList.toggle("bg-white", isActive);
-                b.classList.toggle("text-black", isActive);
-                b.classList.toggle("border-white", isActive);
-                b.classList.toggle("bg-transparent", !isActive);
-                b.classList.toggle("text-white/70", !isActive);
-                b.classList.toggle("border-white/20", !isActive);
-                b.setAttribute("aria-pressed", isActive ? "true" : "false");
-            });
-            
-            closeDropdown();
-        });
-    });
-
-    // Handle desktop button clicks
-    filterBtns.forEach((btn) => {
-        btn.addEventListener("click", () => {
-            filterBtns.forEach((b) => {
-                b.classList.remove("bg-white", "text-black", "border-white");
-                b.classList.add("bg-transparent", "text-white/70", "border-white/20");
-                b.setAttribute("aria-pressed", "false");
-            });
-
-            btn.classList.add("bg-white", "text-black", "border-white");
-            btn.classList.remove("bg-transparent", "text-white/70", "border-white/20");
-            btn.setAttribute("aria-pressed", "true");
-
-            const category = btn.dataset.category || "all";
-            filterProjects(category);
-            
-            // Sync mobile dropdown
-            const label = btn.textContent?.trim() || "Tout voir";
-            if (selectedLabel) selectedLabel.textContent = label;
-            
-            dropdownItems.forEach((i) => {
-                const isActive = i.dataset.category === category;
-                i.classList.toggle("bg-white/10", isActive);
-                i.classList.toggle("text-white", isActive);
-                i.classList.toggle("text-white/70", !isActive);
-            });
-        });
-    });
+    }, { passive: true });
 </script>
 
 <style>
@@ -311,9 +287,40 @@ import projectImage from "../assets/accueil/hero-flight-case.png";
 
     .animate-marquee {
         animation: marquee 30s linear infinite;
+        will-change: transform;
+    }
+
+    @media (max-width: 768px) {
+        .animate-marquee {
+            animation-duration: 20s;
+        }
     }
 
     .marquee-container:hover .animate-marquee {
         animation-play-state: paused;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .animate-marquee {
+            animation: none;
+        }
+        
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+        .group:hover .group-hover\:scale-105 {
+            transform: none;
+        }
+    
+
+        
+        .filter-btn:hover {
+            transform: none !important;
+        }
     }
 </style>

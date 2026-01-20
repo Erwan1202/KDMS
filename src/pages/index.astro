@@ -20,6 +20,9 @@ import Footer from "../components/common/Footer.astro";
                 src="/hero-bg.jpg"
                 alt="Atelier KDMS"
                 class="absolute inset-0 w-full h-full object-cover blur-[2px] z-0 opacity-30 brightness-75"
+                fetchpriority="high"
+                loading="eager"
+                decoding="async"
             />
             <div
                 class="hero-text text-center mb-36 md:mb-72 z-20 relative w-full max-w-5xl mx-auto px-8"
@@ -39,6 +42,8 @@ import Footer from "../components/common/Footer.astro";
                 src="/flight-case.png"
                 alt="Flight Case KDMS"
                 class="flight-case w-[90vw] md:w-[70vw] object-contain absolute top-[64%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
+                loading="eager"
+                decoding="async"
             />
 
             <div
