@@ -11,6 +11,8 @@ const {
     title,
     description = "KDMS - Menuiserie et Agencement sur mesure. Conception, fabrication et pose de mobilier haut de gamme pour professionnels et particuliers.",
 } = Astro.props;
+
+const isProd = import.meta.env.PROD;
 ---
 
 <!doctype html>
@@ -19,8 +21,28 @@ const {
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content={description} />
+
+        <!-- Preload critical assets for LCP -->
+        <link
+            rel="preload"
+            href="/hero-bg.jpg"
+            as="image"
+            type="image/jpeg"
+            fetchpriority="high"
+        />
+        <link
+            rel="preload"
+            href="/flight-case.png"
+            as="image"
+            type="image/png"
+        />
+
+        <!-- DNS Prefetch for external resources -->
+        <link rel="dns-prefetch" href="https://maps.google.com" />
+        <link rel="dns-prefetch" href="https://maps.gstatic.com" />
         <link rel="preconnect" href="https://maps.google.com" />
         <link rel="preconnect" href="https://maps.gstatic.com" crossorigin />
+
         <title>{title}</title>
         <style>
             * {
@@ -44,5 +66,6 @@ const {
     </head>
     <body class="bg-white scrollbar-hide overflow-x-hidden">
         <slot />
+        {isProd && <SpeedInsights />}
     </body>
 </html>
