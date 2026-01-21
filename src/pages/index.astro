@@ -16,7 +16,7 @@ import heroFlightCase from "../assets/accueil/index-flight-case.png";
     <div class="main-wrapper bg-black w-full overflow-x-hidden">
         <section
             id="hero-section"
-            class="min-h-[115vh] md:min-h-screen w-full min-w-full relative overflow-hidden flex flex-col items-center justify-center bg-white"
+            class="min-h-screen w-full min-w-full relative overflow-hidden flex flex-col items-center justify-center gap-[4vh] bg-white pt-32"
         >
             <Image
                 id="hero-bg"
@@ -30,15 +30,15 @@ import heroFlightCase from "../assets/accueil/index-flight-case.png";
                 decoding="async"
             />
             <div
-                class="hero-text text-center mb-52 md:mb-100 z-20 relative w-full max-w-5xl mx-auto px-8"
+                class="hero-text text-center z-20 relative w-full max-w-[60vw] mx-auto px-4"
             >
                 <h1
-                    class="text-6xl sm:text-7xl md:text-9xl font-bold text-black tracking-tight"
+                    class="font-bold text-black tracking-tight text-[clamp(3.5rem,10vw,8rem)] leading-none"
                 >
                     KDMS
                 </h1>
                 <p
-                    class="text-lg sm:text-2xl md:text-3xl text-black mt-4 uppercase tracking-[0.2em] font-medium px-4"
+                    class="text-black mt-1 uppercase tracking-[0.2em] font-medium px-4 text-[clamp(0.9rem,2vw,1.8rem)]"
                 >
                     Le flight case 100% custom
                 </p>
@@ -48,13 +48,13 @@ import heroFlightCase from "../assets/accueil/index-flight-case.png";
                 alt="Flight Case KDMS"
                 loading="eager"
                 fetchpriority="high"
-                class="flight-case w-[90vw] md:w-[70vw] object-contain absolute top-[64%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
+                class="flight-case w-[95vw] md:w-[85vw] object-contain relative z-10 block md:-mt-[8vh]"
                 loading="eager"
                 decoding="async"
             />
 
             <div
-                class="scroll-indicator absolute bottom-[20vh] md:bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce flex flex-col items-center gap-3 cursor-pointer"
+                class="scroll-indicator absolute bottom-[8vh] md:bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce flex flex-col items-center gap-3 cursor-pointer"
             >
                 <span
                     class="text-black text-xs md:text-sm uppercase tracking-[0.2em] font-bold opacity-80"
@@ -77,17 +77,22 @@ import heroFlightCase from "../assets/accueil/index-flight-case.png";
                 </svg>
             </div>
         </section>
-
-        <section
-            id="content-section"
-            class="bg-black text-white min-h-screen relative z-20 -mt-1"
+        <div
+            id="black-overlay"
+            class="absolute inset-0 bg-black opacity-0 z-10 pointer-events-none"
         >
-            <ExpertiseSection />
-            <RealisationsSection />
-            <ContactSection />
-            <Footer />
-        </section>
+        </div>
     </div>
+
+    <section
+        id="content-section"
+        class="bg-black text-white min-h-screen relative z-20"
+    >
+        <ExpertiseSection />
+        <RealisationsSection />
+        <ContactSection />
+        <Footer />
+    </section>
 </Layout>
 
 <script>
@@ -113,9 +118,9 @@ import heroFlightCase from "../assets/accueil/index-flight-case.png";
             scrollTrigger: {
                 trigger: heroSection,
                 start: "top top",
-                end: "+=80%",
+                end: "+=50%",
                 pin: true,
-                scrub: 1,
+                scrub: 0.5,
                 onUpdate: (self) => {
                     if (self.progress > 0.35) {
                         logoBlack?.classList.add("opacity-0");
@@ -190,7 +195,9 @@ import heroFlightCase from "../assets/accueil/index-flight-case.png";
             0,
         );
 
+        const preloaderText = document.querySelector("#preloader-text");
         const scrollIndicator = document.querySelector(".scroll-indicator");
+        const blackOverlay = document.querySelector("#black-overlay");
         if (scrollIndicator) {
             scrollIndicator.addEventListener("click", () => {
                 const contentSection =
