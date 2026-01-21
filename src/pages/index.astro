@@ -16,7 +16,7 @@ import heroFlightCase from "../assets/accueil/index-flight-case.png";
     <div class="main-wrapper bg-black w-full overflow-x-hidden">
         <section
             id="hero-section"
-            class="min-h-screen w-full min-w-full relative overflow-hidden flex flex-col items-center justify-center gap-[4vh] bg-white pt-32"
+            class="min-h-screen w-full min-w-full relative overflow-hidden flex flex-col items-center justify-center gap-[4vh] bg-[#0E0E0E] pt-32"
         >
             <Image
                 id="hero-bg"
@@ -24,21 +24,25 @@ import heroFlightCase from "../assets/accueil/index-flight-case.png";
                 alt="Atelier KDMS"
                 loading="eager"
                 fetchpriority="high"
-                class="absolute inset-0 w-full h-full object-cover blur-[2px] z-0 opacity-30 brightness-75"
+                class="absolute inset-0 w-full h-full object-cover blur-[2px] z-0 brightness-[0.4]"
                 decoding="async"
             />
+            <div class="absolute inset-0 bg-black/60 z-[1] pointer-events-none">
+            </div>
+
             <div
                 class="hero-text text-center z-20 relative w-full max-w-[60vw] mx-auto px-4"
             >
                 <h1
-                    class="font-bold text-black tracking-tight text-[clamp(3.5rem,10vw,8rem)] leading-none"
+                    class="font-bold text-white tracking-tight text-[clamp(3.5rem,10vw,7rem)] leading-none"
                 >
-                    KDMS
+                    K-DMS
                 </h1>
                 <p
-                    class="text-black mt-1 uppercase tracking-[0.2em] font-medium px-4 text-[clamp(0.9rem,2vw,1.8rem)]"
+                    class="mt-1 uppercase tracking-[0.2em] font-medium px-4 text-[clamp(0.9rem,2vw,1.8rem)]"
                 >
-                    Le flight case 100% custom
+                    <span class="text-[#B8B8B8]">Le flight case</span>
+                    <span class="text-[#5C8F3A] font-bold">100% custom</span>
                 </p>
             </div>
             <Image
@@ -54,7 +58,7 @@ import heroFlightCase from "../assets/accueil/index-flight-case.png";
                 class="scroll-indicator absolute bottom-[8vh] md:bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce flex flex-col items-center gap-3 cursor-pointer"
             >
                 <span
-                    class="text-black text-xs md:text-sm uppercase tracking-[0.2em] font-bold opacity-80"
+                    class="text-[#5C8F3A] text-xs md:text-sm uppercase tracking-[0.2em] font-bold opacity-100"
                     >Scroll</span
                 >
                 <svg
@@ -67,7 +71,7 @@ import heroFlightCase from "../assets/accueil/index-flight-case.png";
                     stroke-width="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    class="text-black/80"
+                    class="text-[#5C8F3A]"
                 >
                     <path d="M7 13l5 5 5-5"></path>
                     <path d="M7 6l5 5 5-5"></path>
@@ -125,47 +129,6 @@ import heroFlightCase from "../assets/accueil/index-flight-case.png";
                     duration: { min: 0.3, max: 1.0 },
                     delay: 0,
                     ease: "power2.inOut",
-                },
-                onUpdate: (self) => {
-                    if (self.progress > 0.35) {
-                        logoBlack?.classList.add("opacity-0");
-                        logoWhite?.classList.remove("opacity-0");
-                        navLinks.forEach((link) => {
-                            link.classList.remove("text-black");
-                            link.classList.add("text-white");
-                        });
-                        if (navbarBg)
-                            navbarBg.style.backgroundColor = "rgb(0, 0, 0)";
-                    } else {
-                        logoBlack?.classList.remove("opacity-0");
-                        logoWhite?.classList.add("opacity-0");
-                        navLinks.forEach((link) => {
-                            link.classList.remove("text-white");
-                            link.classList.add("text-black");
-                        });
-                        if (navbarBg)
-                            navbarBg.style.backgroundColor = "transparent";
-                    }
-
-                    if (self.progress > 0.4) {
-                        scrollSpan?.classList.remove("text-black");
-                        scrollSpan?.classList.add("text-white");
-                        scrollSvg?.classList.remove("text-black/80");
-                        scrollSvg?.classList.add("text-white");
-                    } else {
-                        scrollSpan?.classList.add("text-black");
-                        scrollSpan?.classList.remove("text-white");
-                        scrollSvg?.classList.add("text-black/80");
-                        scrollSvg?.classList.remove("text-white");
-                    }
-
-                    if (self.progress > 0.9) {
-                        heroSection.classList.remove("bg-white");
-                        heroSection.classList.add("bg-black");
-                    } else {
-                        heroSection.classList.add("bg-white");
-                        heroSection.classList.remove("bg-black");
-                    }
                 },
             },
         });
