@@ -15,13 +15,13 @@ const contactInfo = [
         type: "text",
     },
     {
-        label: "+33 6 50 00 31 01",
-        href: "tel:+33650003101",
+        label: "01 69 12 72 10",
+        href: "tel:+33169127210",
         type: "link",
     },
     {
-        label: "regis.kozak@k-dms.co",
-        href: "mailto:regis.kozak@k-dms.co",
+        label: "contact@k-dms.co",
+        href: "mailto:contact@k-dms.co",
         type: "link",
     },
 ];
@@ -32,12 +32,7 @@ const legalLinks = [
 ];
 ---
 
-<footer class="bg-[#525946] text-white py-12 md:py-20 relative overflow-hidden">
-    <div
-        class="absolute inset-0 bg-gradient-to-br from-black/20 to-transparent pointer-events-none"
-    >
-    </div>
-
+<footer class="bg-[#161616] text-white py-10 md:py-14 relative overflow-hidden">
     <div class="relative max-w-7xl mx-auto px-6 md:px-8 z-10">
         <div
             class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 lg:gap-16"
@@ -47,12 +42,12 @@ const legalLinks = [
                     <Image
                         src={logoWhite}
                         alt="KDMS"
-                        height={64}
-                        class="h-16 w-auto opacity-90 transition-opacity hover:opacity-100"
+                        height={72}
+                        class="h-[72px] w-auto transition-transform hover:scale-105"
                     />
                 </a>
                 <p
-                    class="text-base text-white/70 font-light leading-relaxed max-w-sm"
+                    class="text-[#B3B3B3] font-light leading-relaxed max-w-sm text-base"
                 >
                     Experts dans la conception et fabrication de flight cases
                     sur mesure. Protection optimale pour votre matériel, adaptée
@@ -61,14 +56,11 @@ const legalLinks = [
             </div>
 
             <div class="col-span-1 md:col-span-3">
-                <h3 class="text-xl font-bold mb-6 tracking-wide">Navigation</h3>
+                <h3 class="footer-title">Navigation</h3>
                 <div class="flex flex-col gap-4">
                     {
                         navigationLinks.map((link) => (
-                            <a
-                                href={link.href}
-                                class="text-white/60 hover:text-white transition-colors duration-300 inline-flex items-center gap-2 group w-fit no-underline"
-                            >
+                            <a href={link.href} class="footer-link">
                                 {link.label}
                             </a>
                         ))
@@ -77,13 +69,13 @@ const legalLinks = [
             </div>
 
             <div class="col-span-1 md:col-span-3">
-                <h3 class="text-xl font-bold mb-6 tracking-wide">Contact</h3>
-                <div class="flex flex-col gap-6 text-white/60">
+                <h3 class="footer-title">Contact</h3>
+                <div class="flex flex-col gap-5">
                     {
                         contactInfo.map((item) => (
-                            <div class="group">
+                            <div>
                                 {item.type === "text" ? (
-                                    <span class="font-light hover:text-white transition-colors cursor-default">
+                                    <span class="text-[#B3B3B3] font-light leading-relaxed">
                                         {item.lines?.map((line, index) => (
                                             <>
                                                 {line}
@@ -94,10 +86,7 @@ const legalLinks = [
                                         ))}
                                     </span>
                                 ) : (
-                                    <a
-                                        href={item.href}
-                                        class="font-light hover:text-white transition-colors no-underline"
-                                    >
+                                    <a href={item.href} class="footer-link">
                                         {item.label}
                                     </a>
                                 )}
@@ -108,14 +97,11 @@ const legalLinks = [
             </div>
 
             <div class="col-span-1 md:col-span-2">
-                <h3 class="text-xl font-bold mb-6 tracking-wide">Infos</h3>
+                <h3 class="footer-title">Infos</h3>
                 <div class="flex flex-col gap-4">
                     {
                         legalLinks.map((link) => (
-                            <a
-                                href={link.href}
-                                class="text-white/60 hover:text-white transition-colors duration-300 text-base w-fit no-underline"
-                            >
+                            <a href={link.href} class="footer-link">
                                 {link.label}
                             </a>
                         ))
@@ -124,12 +110,39 @@ const legalLinks = [
             </div>
         </div>
 
-        <div
-            class="border-t border-white/10 mt-16 pt-8 text-center text-white/30 font-light text-base"
-        >
+        <div class="footer-bottom mt-10 pt-6 text-center">
             <p>
                 &copy; {new Date().getFullYear()} KDMS. Tous droits réservés.
             </p>
         </div>
     </div>
 </footer>
+
+<style>
+    .footer-title {
+        color: #e6e6e6;
+        font-size: 1.125rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        margin-bottom: 1.5rem;
+    }
+
+    .footer-link {
+        color: #b3b3b3;
+        font-weight: 300;
+        transition: color 0.2s ease;
+        text-decoration: none;
+        width: fit-content;
+    }
+
+    .footer-link:hover {
+        color: #b85c00;
+    }
+
+    .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        color: #7a7a7a;
+        font-size: 0.875rem;
+        font-weight: 300;
+    }
+</style>
