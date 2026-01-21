@@ -121,6 +121,14 @@ import heroFlightCase from "../assets/accueil/index-flight-case.png";
                 end: "+=50%",
                 pin: true,
                 scrub: 0.5,
+                snap: {
+                    snapTo: (progress) => {
+                        return progress > 0.02 ? 1 : 0;
+                    },
+                    duration: { min: 0.3, max: 1.0 },
+                    delay: 0,
+                    ease: "power2.inOut",
+                },
                 onUpdate: (self) => {
                     if (self.progress > 0.35) {
                         logoBlack?.classList.add("opacity-0");
@@ -165,8 +173,13 @@ import heroFlightCase from "../assets/accueil/index-flight-case.png";
             },
         });
 
-        timeline.to(
+        timeline.fromTo(
             heroText,
+            {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+            },
             {
                 y: -300,
                 scale: 1.5,
@@ -184,20 +197,24 @@ import heroFlightCase from "../assets/accueil/index-flight-case.png";
                 : window.innerWidth * 0.75;
         const targetScale = (viewportSize / imageWidth) * 25;
 
-        timeline.to(
+        timeline.fromTo(
             flightCase,
             {
+                scale: 1,
+                opacity: 1,
+            },
+            {
                 scale: targetScale,
-                transformOrigin: "center 65%",
+                transformOrigin: "center 60%",
                 ease: "power2.inOut",
                 duration: 1,
             },
             0,
         );
 
-        const preloaderText = document.querySelector("#preloader-text");
         const scrollIndicator = document.querySelector(".scroll-indicator");
         const blackOverlay = document.querySelector("#black-overlay");
+
         if (scrollIndicator) {
             scrollIndicator.addEventListener("click", () => {
                 const contentSection =
@@ -211,14 +228,29 @@ import heroFlightCase from "../assets/accueil/index-flight-case.png";
                 }
             });
 
-            timeline.to(
+            timeline.fromTo(
                 scrollIndicator,
+                {
+                    opacity: 1,
+                },
                 {
                     opacity: 0,
                     duration: 0.05,
                     ease: "power1.out",
                 },
                 0.99,
+            );
+        }
+
+        if (blackOverlay) {
+            timeline.to(
+                blackOverlay,
+                {
+                    opacity: 1,
+                    duration: 0.2,
+                    ease: "power2.inOut",
+                },
+                0.8,
             );
         }
     }
