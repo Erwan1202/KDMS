@@ -36,7 +36,7 @@ const expertiseItems = [
 
     <div class="expertise-content w-full overflow-hidden">
         <div
-            class="hidden xl:flex gap-5 overflow-x-auto pb-4 pl-20 pr-8 scrollbar-hide items-center"
+            class="hidden 2xl:flex gap-5 overflow-hidden pb-4 pl-20 pr-8 items-center"
         >
             {
                 expertiseItems.map((item) => (
@@ -78,11 +78,11 @@ const expertiseItems = [
             </div>
         </div>
 
-        <div class="flex flex-col gap-12 px-8 xl:hidden text-white pb-20">
+        <div class="flex flex-col gap-12 px-8 2xl:hidden text-white pb-20">
             {
                 expertiseItems.map((item, index) => (
-                    <div class="flex flex-col gap-6">
-                        <div class="w-full aspect-square rounded-lg border border-white/20 overflow-hidden bg-[#1a1a1a] shadow-[inset_0_0_20px_rgba(255,255,255,0.1)]" />
+                    <div class="flex flex-col gap-6 items-center">
+                        <div class="w-full md:w-3/4 h-56 md:h-72 rounded-lg border border-white/20 overflow-hidden bg-[#1a1a1a] shadow-[inset_0_0_20px_rgba(255,255,255,0.1)]" />
                         <div class="text-justify">
                             <h4 class="text-3xl font-bold mb-3 tracking-tight">
                                 {item.title}
