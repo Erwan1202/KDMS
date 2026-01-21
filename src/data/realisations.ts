@@ -14,6 +14,7 @@ export interface Project {
 export interface BrandLogo {
     id: number;
     name: string;
+    logo: ImageMetadata;
 }
 
 const RATIOS = [
@@ -72,13 +73,24 @@ export const projects = projectsData.map((p, i) => ({
     color: COLORS[i % COLORS.length],
 }));
 
+import sonyLogo from "../assets/brands/sony.png";
+import yamahaLogo from "../assets/brands/yamaha.png";
+import pioneerLogo from "../assets/brands/pioneer.png";
+import fordLogo from "../assets/brands/ford.png";
+import lgLogo from "../assets/brands/lg.png";
+import fenderLogo from "../assets/brands/fender.png";
+import midasLogo from "../assets/brands/midas.png";
+import allenHeathLogo from "../assets/brands/allen-heath.png";
+import uniluminLogo from "../assets/brands/unilumin.png";
+
 export const brandLogos: BrandLogo[] = [
-    { id: 1, name: "Marque 1" },
-    { id: 2, name: "Marque 2" },
-    { id: 3, name: "Marque 3" },
-    { id: 4, name: "Marque 4" },
-    { id: 5, name: "Marque 5" },
-    { id: 6, name: "Marque 6" },
-    { id: 7, name: "Marque 7" },
-    { id: 8, name: "Marque 8" },
+    { id: 1, name: "Sony", logo: sonyLogo },
+    { id: 2, name: "Yamaha", logo: yamahaLogo },
+    { id: 3, name: "Pioneer", logo: pioneerLogo },
+    { id: 4, name: "Ford", logo: fordLogo },
+    { id: 5, name: "LG", logo: lgLogo },
+    { id: 6, name: "Fender", logo: fenderLogo },
+    { id: 7, name: "Midas", logo: midasLogo },
+    { id: 8, name: "Allen & Heath", logo: allenHeathLogo },
+    { id: 9, name: "Unilumin", logo: uniluminLogo },
 ];
