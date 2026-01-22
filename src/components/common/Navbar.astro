@@ -10,7 +10,7 @@ const currentPath = Astro.url.pathname;
     class="fixed top-0 left-0 right-0 z-50 w-full h-16 md:h-24 px-4 flex items-center transition-all duration-75 ease-out bg-transparent"
 >
     <div
-        class={`navbar-bg absolute inset-0 bg-black -z-10 transition-all duration-300 ${currentPath === "/" ? "opacity-0 invisible" : ""}`}
+        class={`navbar-bg absolute inset-0 bg-[#0E0E0E] -z-10 transition-all duration-300 ${currentPath === "/" ? "opacity-0 invisible" : ""}`}
     >
     </div>
     <a href="/" class="flex items-center relative">
@@ -40,7 +40,7 @@ const currentPath = Astro.url.pathname;
             >
                 Accueil
                 <span
-                    class={`nav-underline absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 ${currentPath === "/" ? "w-full group-hover/nav:w-0" : "w-0"} group-hover:!w-full`}
+                    class={`nav-underline absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 group-hover:w-full ${currentPath === "/" ? "w-full" : "w-0"}`}
                 ></span>
             </a>
         </div>
@@ -51,6 +51,7 @@ const currentPath = Astro.url.pathname;
             >
                 Notre expertise
                 <span
+                    class={`nav-underline absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 group-hover:w-full ${currentPath === "/savoir-faire" || currentPath === "/savoir-faire/" ? "w-full" : "w-0"}`}
                     class={`nav-underline absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 ${currentPath === "/expertise" || currentPath === "/expertise/" ? "w-full group-hover/nav:w-0" : "w-0"} group-hover:!w-full`}
                 ></span>
             </a>
@@ -63,7 +64,7 @@ const currentPath = Astro.url.pathname;
             >
                 Nos Réalisations
                 <span
-                    class={`nav-underline absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 ${currentPath === "/realisations" || currentPath === "/realisations/" ? "w-full group-hover/nav:w-0" : "w-0"} group-hover:!w-full`}
+                    class={`nav-underline absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 group-hover:w-full ${currentPath === "/realisations" || currentPath === "/realisations/" ? "w-full" : "w-0"}`}
                 ></span>
             </a>
         </div>
@@ -75,7 +76,7 @@ const currentPath = Astro.url.pathname;
             >
                 Contact
                 <span
-                    class={`nav-underline absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 ${currentPath === "/contact" || currentPath === "/contact/" ? "w-full group-hover/nav:w-0" : "w-0"} group-hover:!w-full`}
+                    class={`nav-underline absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 group-hover:w-full ${currentPath === "/contact" || currentPath === "/contact/" ? "w-full" : "w-0"}`}
                 ></span>
             </a>
         </div>
@@ -109,7 +110,7 @@ const currentPath = Astro.url.pathname;
         >
             Accueil
             <span
-                class={`absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 ${currentPath === "/" ? "w-full group-hover/mobile:w-0" : "w-0"} group-hover:!w-full`}
+                class={`absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 group-hover:w-full ${currentPath === "/" ? "w-full" : "w-0"}`}
             ></span>
         </a>
         <a
@@ -118,8 +119,9 @@ const currentPath = Astro.url.pathname;
         >
             Notre expertise
             <span
+                class={`absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 group-hover:w-full ${currentPath === "/savoir-faire" || currentPath === "/savoir-faire/" ? "w-full" : "w-0"}`}
                 class={`absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 ${currentPath === "/expertise" || currentPath === "/expertise/" ? "w-full group-hover/mobile:w-0" : "w-0"} group-hover:!w-full`}
-            ></span>
+            ></span>https://github.com/Erwan1202/KDMS/pull/25/conflict?name=src%252Fcomponents%252Fcommon%252FNavbar.astro&ancestor_oid=4e338763e6a2fb2c50e8916733891fd68d72f060&base_oid=870047e631ad8f330e11bdf98bae90f01c1096e2&head_oid=ba11e30cf9d3090795e3c39e87759e333e355f1f
         </a>
         <a
             href="/realisations"
@@ -127,7 +129,7 @@ const currentPath = Astro.url.pathname;
         >
             Nos Réalisations
             <span
-                class={`absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 ${currentPath === "/realisations" || currentPath === "/realisations/" ? "w-full group-hover/mobile:w-0" : "w-0"} group-hover:!w-full`}
+                class={`absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 group-hover:w-full ${currentPath === "/realisations" || currentPath === "/realisations/" ? "w-full" : "w-0"}`}
             ></span>
         </a>
         <a
@@ -136,7 +138,7 @@ const currentPath = Astro.url.pathname;
         >
             Contact
             <span
-                class={`absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 ${currentPath === "/contact" || currentPath === "/contact/" ? "w-full group-hover/mobile:w-0" : "w-0"} group-hover:!w-full`}
+                class={`absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 group-hover:w-full ${currentPath === "/contact" || currentPath === "/contact/" ? "w-full" : "w-0"}`}
             ></span>
         </a>
     </div>
