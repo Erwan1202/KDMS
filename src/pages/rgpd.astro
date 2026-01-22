@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/common/Navbar.astro";
 import Footer from "../components/common/Footer.astro";
+import ProtectedText from "../components/common/ProtectedText.astro";
 ---
 
 <Layout
@@ -23,7 +24,7 @@ import Footer from "../components/common/Footer.astro";
                     Politique de Confidentialité
                 </h1>
                 <p class="text-white/50 mt-4 text-base">
-                    Dernière mise à jour : 20 janvier 2026 <!-- a modifier a l'avenir -->
+                    Dernière mise à jour : 20 janvier 2026
                 </p>
             </div>
 
@@ -61,18 +62,13 @@ import Footer from "../components/common/Footer.astro";
                         </p>
                         <div class="bg-white/5 rounded-xl p-4 text-base">
                             <p class="text-white font-medium">
-                                KOZAK - Distribution Marketing et Services
-                                (SASU)
+                                <ProtectedText text="KOZAK - Distribution Marketing et Services (SASU)" />
                             </p>
                             <p class="text-white/60">
-                                8 Rue Camille Décauville, 91250 Tigery
+                                <ProtectedText text="8 Rue Camille Décauville, 91250 Tigery" />
                             </p>
                             <p class="text-white/60">
-                                Email : <a
-                                    href="mailto:contact@k-dms.co"
-                                    class="text-[#6b755a] hover:underline"
-                                    >contact@k-dms.co</a
-                                >
+                                Email : <span class="text-[#6b755a]"><ProtectedText text="contact@k-dms.co" type="email" /></span>
                             </p>
                         </div>
                     </div>

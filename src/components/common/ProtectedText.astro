@@ -1,0 +1,142 @@
+---
+interface Props {
+    text: string;
+    type?: 'email' | 'phone' | 'text';
+    class?: string;
+}
+
+const { text, type = 'text', class: className = '' } = Astro.props;
+
+const obfuscateText = (str: string) => {
+    return str.split('').map((char, i) => ({
+        char,
+        order: i
+    }));
+};
+
+const chars = obfuscateText(text);
+const maskedText = text.replace(/[a-zA-Z0-9]/g, '•');
+---
+
+<span 
+    class:list={["protected-text", className]} 
+    data-protected="true"
+    data-revealed="false"
+    aria-label={type === 'email' ? 'Adresse email' : type === 'phone' ? 'Numéro de téléphone' : undefined}
+>
+    <span class="masked-content">{maskedText}</span>
+    <span class="real-content hidden">
+        {chars.map(({ char, order }) => (
+            <span 
+                class="char" 
+                style={`--o:${order}`}
+                data-c={char === ' ' ? '\u00A0' : undefined}
+            >{char === ' ' ? '\u00A0' : char}</span>
+        ))}
+    </span>
+    <button class="reveal-btn" type="button" aria-label="Afficher l'information">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+    </button>
+</span>
+
+<style>
+    .protected-text {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+    }
+    
+    .masked-content {
+        color: rgba(255, 255, 255, 0.3);
+        letter-spacing: 0.05em;
+    }
+    
+    .real-content {
+        display: none;
+    }
+    
+    .real-content.hidden {
+        display: none !important;
+    }
+    
+    .protected-text[data-revealed="true"] .masked-content {
+        display: none;
+    }
+    
+    .protected-text[data-revealed="true"] .real-content {
+        display: inline !important;
+    }
+    
+    .protected-text[data-revealed="true"] .reveal-btn {
+        display: none;
+    }
+    
+    .protected-text .char {
+        display: inline;
+        order: var(--o);
+        position: relative;
+    }
+    
+    .reveal-btn {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        padding: 0.25rem 0.4rem;
+        cursor: pointer;
+        color: rgba(255, 255, 255, 0.6);
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .reveal-btn:hover {
+        background: rgba(107, 117, 90, 0.3);
+        border-color: rgba(107, 117, 90, 0.5);
+        color: white;
+    }
+    
+    .protected-text * {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+    
+    @media print {
+        .protected-text {
+            display: none !important;
+        }
+        .protected-text::after {
+            content: '[Protégé]';
+            display: inline;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.protected-text').forEach(el => {
+            const btn = el.querySelector('.reveal-btn');
+            const realContent = el.querySelector('.real-content');
+            
+            btn?.addEventListener('click', () => {
+                el.setAttribute('data-revealed', 'true');
+                realContent?.classList.remove('hidden');
+            });
+            
+            el.addEventListener('copy', (e) => {
+                e.preventDefault();
+            });
+            
+            el.addEventListener('selectstart', (e) => {
+                e.preventDefault();
+            });
+        });
+    });
+</script>
