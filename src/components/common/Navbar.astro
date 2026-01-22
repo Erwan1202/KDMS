@@ -46,12 +46,13 @@ const currentPath = Astro.url.pathname;
         </div>
         <div class="justify-self-center">
             <a
-                href="/savoir-faire"
-                class={`nav-link text-xl font-medium transition-colors duration-300 no-underline relative group hover:text-[#4A5D23] ${currentPath === "/savoir-faire" || currentPath === "/savoir-faire/" ? "text-[#4A5D23]" : "text-[#B8B8B8]"}`}
+                href="/expertise"
+                class={`nav-link text-xl font-medium transition-colors duration-300 no-underline relative group hover:text-[#4A5D23] ${currentPath === "/expertise" || currentPath === "/expertise/" ? "text-[#4A5D23]" : "text-[#B8B8B8]"}`}
             >
-                Notre Savoir Faire
+                Notre expertise
                 <span
                     class={`nav-underline absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 group-hover:w-full ${currentPath === "/savoir-faire" || currentPath === "/savoir-faire/" ? "w-full" : "w-0"}`}
+                    class={`nav-underline absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 ${currentPath === "/expertise" || currentPath === "/expertise/" ? "w-full group-hover/nav:w-0" : "w-0"} group-hover:!w-full`}
                 ></span>
             </a>
         </div>
@@ -113,13 +114,14 @@ const currentPath = Astro.url.pathname;
             ></span>
         </a>
         <a
-            href="/savoir-faire"
-            class={`hover:text-[#4A5D23] text-4xl font-bold nav-link-mobile relative group ${currentPath === "/savoir-faire" || currentPath === "/savoir-faire/" ? "text-[#4A5D23]" : "text-[#B8B8B8]"}`}
+            href="/expertise"
+            class={`hover:text-[#4A5D23] text-4xl font-bold nav-link-mobile relative group ${currentPath === "/expertise" || currentPath === "/expertise/" ? "text-[#4A5D23]" : "text-[#B8B8B8]"}`}
         >
-            Notre Savoir Faire
+            Notre expertise
             <span
                 class={`absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 group-hover:w-full ${currentPath === "/savoir-faire" || currentPath === "/savoir-faire/" ? "w-full" : "w-0"}`}
-            ></span>
+                class={`absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 ${currentPath === "/expertise" || currentPath === "/expertise/" ? "w-full group-hover/mobile:w-0" : "w-0"} group-hover:!w-full`}
+            ></span>https://github.com/Erwan1202/KDMS/pull/25/conflict?name=src%252Fcomponents%252Fcommon%252FNavbar.astro&ancestor_oid=4e338763e6a2fb2c50e8916733891fd68d72f060&base_oid=870047e631ad8f330e11bdf98bae90f01c1096e2&head_oid=ba11e30cf9d3090795e3c39e87759e333e355f1f
         </a>
         <a
             href="/realisations"
