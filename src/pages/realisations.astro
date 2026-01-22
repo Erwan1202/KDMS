@@ -210,6 +210,19 @@ import projectImage from "../assets/accueil/hero-flight-case.png";
     const inactiveClasses = ["bg-transparent", "text-white/70", "border-white/20"];
     const dropdownActiveClasses = ["bg-white/10", "text-white"];
     const dropdownInactiveClasses = ["text-white/70"];
+
+    // Récupérer la catégorie depuis l'URL
+    function getCategoryFromURL(): string {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('category') || 'all';
+    }
+
+    // Trouver le label correspondant à une catégorie
+    function getLabelForCategory(category: string): string {
+        const btn = filterBtnsContainer?.querySelector<HTMLButtonElement>(`[data-category="${category}"]`);
+        return btn?.textContent?.trim() || 'Tout voir';
+    }
+
     function filterProjects(category: string): void {
         requestAnimationFrame(() => {
             projectItems.forEach((item) => {
@@ -282,6 +295,13 @@ import projectImage from "../assets/accueil/hero-flight-case.png";
             closeDropdown();
         }
     }, { passive: true });
+
+    // Appliquer le filtre initial depuis l'URL au chargement de la page
+    document.addEventListener('DOMContentLoaded', () => {
+        const initialCategory = getCategoryFromURL();
+        const initialLabel = getLabelForCategory(initialCategory);
+        handleFilterSelect(initialCategory, initialLabel);
+    });
 </script>
 
 <style>

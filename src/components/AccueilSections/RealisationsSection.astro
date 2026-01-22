@@ -5,31 +5,37 @@ import consoleImage from "../../assets/accueil/hero-flight-case.png";
 const realisations = [
     {
         title: "Meubles",
+        category: "meubles",
         gridClass: "md:col-span-2",
         image: consoleImage,
     },
     {
         title: "Evénementiel",
+        category: "evenementiel",
         gridClass: "md:col-span-1",
         image: consoleImage,
     },
     {
         title: "Industrie",
+        category: "industrie",
         gridClass: "md:col-span-1",
         image: consoleImage,
     },
     {
         title: "Spectacle",
+        category: "spectacle",
         gridClass: "md:col-span-2",
         image: consoleImage,
     },
     {
         title: "Audiovisuel",
+        category: "audiovisuel",
         gridClass: "md:col-span-2",
         image: consoleImage,
     },
     {
         title: "Pelicase",
+        category: "pelicase",
         gridClass: "md:col-span-1",
         image: consoleImage,
     },
@@ -52,7 +58,10 @@ const realisations = [
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full px-4 md:px-8">
         {
             realisations.map((item) => (
-                <div class="realisation-card group relative w-full overflow-hidden rounded-2xl bg-[#1A1A1A] cursor-pointer h-[300px] md:h-[400px]">
+                <a 
+                    href={`/realisations?category=${item.category}`}
+                    class={`realisation-card group relative w-full overflow-hidden rounded-2xl bg-[#1A1A1A] cursor-pointer h-[300px] md:h-[400px] block no-underline ${item.gridClass}`}
+                >
                     {item.image ? (
                         <Image
                             src={item.image}
@@ -81,7 +90,7 @@ const realisations = [
                     
                     <!-- Structural Border (Green) -> Active Border (Light Green) -->
                     <div class="absolute inset-0 border border-[#4A5D23]/30 rounded-2xl pointer-events-none transition-colors duration-300 group-hover:border-[#7FB255]/50" />
-                </div>
+                </a>
             ))
         }
     </div>
