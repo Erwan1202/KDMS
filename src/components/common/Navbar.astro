@@ -9,8 +9,12 @@ const currentPath = Astro.url.pathname;
 ---
 
 <nav
-    class="navbar-bg fixed top-0 left-0 right-0 z-50 w-full h-16 md:h-24 px-4 flex items-center transition-all duration-75 ease-out bg-transparent"
+    class="fixed top-0 left-0 right-0 z-50 w-full h-16 md:h-24 px-4 flex items-center transition-all duration-75 ease-out bg-transparent"
 >
+    <div
+        class={`navbar-bg absolute inset-0 bg-black -z-10 transition-all duration-300 ${currentPath === "/" ? "opacity-0 invisible" : ""}`}
+    >
+    </div>
     <a href="/" class="flex items-center relative">
         <Image
             src={logoBlack}
@@ -138,61 +142,61 @@ const currentPath = Astro.url.pathname;
             ></span>
         </a>
     </div>
-</nav>
 
-<script>
-    const menuBtn = document.getElementById("mobile-menu-btn");
-    const mobileMenu = document.getElementById("mobile-menu");
-    const spans = menuBtn?.querySelectorAll("span");
-    const body = document.body;
-    let isOpen = false;
+    <script>
+        const menuBtn = document.getElementById("mobile-menu-btn");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const spans = menuBtn?.querySelectorAll("span");
+        const body = document.body;
+        let isOpen = false;
 
-    menuBtn?.addEventListener("click", () => {
-        isOpen = !isOpen;
+        menuBtn?.addEventListener("click", () => {
+            isOpen = !isOpen;
 
-        if (isOpen) {
-            mobileMenu?.classList.remove("translate-x-full");
-            body.style.overflow = "hidden";
+            if (isOpen) {
+                mobileMenu?.classList.remove("translate-x-full");
+                body.style.overflow = "hidden";
 
-            spans?.[0].classList.add("rotate-45");
-            spans?.[1].classList.add("opacity-0");
-            spans?.[2].classList.add("-rotate-45");
+                spans?.[0].classList.add("rotate-45");
+                spans?.[1].classList.add("opacity-0");
+                spans?.[2].classList.add("-rotate-45");
 
-            // Ensure spans are white on black background
-            spans?.forEach((span) => {
-                span.classList.add("bg-white");
-                span.classList.remove("bg-black");
-            });
-        } else {
-            mobileMenu?.classList.add("translate-x-full");
-            body.style.overflow = "";
+                // Ensure spans are white on black background
+                spans?.forEach((span) => {
+                    span.classList.add("bg-white");
+                    span.classList.remove("bg-black");
+                });
+            } else {
+                mobileMenu?.classList.add("translate-x-full");
+                body.style.overflow = "";
 
-            spans?.[0].classList.remove("rotate-45");
-            spans?.[1].classList.remove("opacity-0");
-            spans?.[2].classList.remove("-rotate-45");
+                spans?.[0].classList.remove("rotate-45");
+                spans?.[1].classList.remove("opacity-0");
+                spans?.[2].classList.remove("-rotate-45");
 
-            // Ensure spans remain white
-            spans?.forEach((span) => {
-                span.classList.add("bg-white");
-                span.classList.remove("bg-black");
-            });
-        }
-    });
+                // Ensure spans remain white
+                spans?.forEach((span) => {
+                    span.classList.add("bg-white");
+                    span.classList.remove("bg-black");
+                });
+            }
+        });
 
-    document.querySelectorAll(".nav-link-mobile").forEach((link) => {
-        link.addEventListener("click", () => {
-            isOpen = false;
-            mobileMenu?.classList.add("translate-x-full");
-            body.style.overflow = "";
-            spans?.[0].classList.remove("rotate-45");
-            spans?.[1].classList.remove("opacity-0");
-            spans?.[2].classList.remove("-rotate-45");
+        document.querySelectorAll(".nav-link-mobile").forEach((link) => {
+            link.addEventListener("click", () => {
+                isOpen = false;
+                mobileMenu?.classList.add("translate-x-full");
+                body.style.overflow = "";
+                spans?.[0].classList.remove("rotate-45");
+                spans?.[1].classList.remove("opacity-0");
+                spans?.[2].classList.remove("-rotate-45");
 
-            // Ensure spans remain white
-            spans?.forEach((span) => {
-                span.classList.add("bg-white");
-                span.classList.remove("bg-black");
+                // Ensure spans remain white
+                spans?.forEach((span) => {
+                    span.classList.add("bg-white");
+                    span.classList.remove("bg-black");
+                });
             });
         });
-    });
-</script>
+    </script>
+</nav>
