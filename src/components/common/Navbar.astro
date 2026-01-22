@@ -3,14 +3,16 @@ import { Image } from "astro:assets";
 import logoBlack from "/src/assets/common/logo-black.png";
 import logoWhite from "/src/assets/common/logo-white.png";
 
-// Always force "dark" theme (White text/logo) for the new design
-const isDark = true;
 const currentPath = Astro.url.pathname;
 ---
 
 <nav
-    class="navbar-bg fixed top-0 left-0 right-0 z-50 w-full h-16 md:h-24 px-4 flex items-center transition-all duration-75 ease-out bg-transparent"
+    class="fixed top-0 left-0 right-0 z-50 w-full h-16 md:h-24 px-4 flex items-center transition-all duration-75 ease-out bg-transparent"
 >
+    <div
+        class={`navbar-bg absolute inset-0 bg-black -z-10 transition-all duration-300 ${currentPath === "/" ? "opacity-0 invisible" : ""}`}
+    >
+    </div>
     <a href="/" class="flex items-center relative">
         <Image
             src={logoBlack}
@@ -34,22 +36,22 @@ const currentPath = Astro.url.pathname;
         <div class="justify-self-center">
             <a
                 href="/"
-                class="nav-link text-xl font-medium transition-colors duration-300 no-underline relative group text-[#B8B8B8] hover:text-[#5C8F3A]"
+                class={`nav-link text-xl font-medium transition-colors duration-300 no-underline relative group hover:text-[#4A5D23] ${currentPath === "/" ? "text-[#4A5D23]" : "text-[#B8B8B8]"}`}
             >
                 Accueil
                 <span
-                    class={`nav-underline absolute bottom-0 left-0 h-0.5 bg-[#5C8F3A] transition-all duration-300 ${currentPath === "/" ? "w-full group-hover/nav:w-0" : "w-0"} group-hover:!w-full`}
+                    class={`nav-underline absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 ${currentPath === "/" ? "w-full group-hover/nav:w-0" : "w-0"} group-hover:!w-full`}
                 ></span>
             </a>
         </div>
         <div class="justify-self-center">
             <a
                 href="/savoir-faire"
-                class="nav-link text-xl font-medium transition-colors duration-300 no-underline relative group text-[#B8B8B8] hover:text-[#5C8F3A]"
+                class={`nav-link text-xl font-medium transition-colors duration-300 no-underline relative group hover:text-[#4A5D23] ${currentPath === "/savoir-faire" || currentPath === "/savoir-faire/" ? "text-[#4A5D23]" : "text-[#B8B8B8]"}`}
             >
                 Notre Savoir Faire
                 <span
-                    class={`nav-underline absolute bottom-0 left-0 h-0.5 bg-[#5C8F3A] transition-all duration-300 ${currentPath === "/savoir-faire" || currentPath === "/savoir-faire/" ? "w-full group-hover/nav:w-0" : "w-0"} group-hover:!w-full`}
+                    class={`nav-underline absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 ${currentPath === "/savoir-faire" || currentPath === "/savoir-faire/" ? "w-full group-hover/nav:w-0" : "w-0"} group-hover:!w-full`}
                 ></span>
             </a>
         </div>
@@ -57,11 +59,11 @@ const currentPath = Astro.url.pathname;
         <div class="justify-self-center">
             <a
                 href="/realisations"
-                class="nav-link text-lg font-medium transition-colors duration-300 no-underline relative group text-[#B8B8B8] hover:text-[#5C8F3A]"
+                class={`nav-link text-lg font-medium transition-colors duration-300 no-underline relative group hover:text-[#4A5D23] ${currentPath === "/realisations" || currentPath === "/realisations/" ? "text-[#4A5D23]" : "text-[#B8B8B8]"}`}
             >
                 Nos Réalisations
                 <span
-                    class={`nav-underline absolute bottom-0 left-0 h-0.5 bg-[#5C8F3A] transition-all duration-300 ${currentPath === "/realisations" || currentPath === "/realisations/" ? "w-full group-hover/nav:w-0" : "w-0"} group-hover:!w-full`}
+                    class={`nav-underline absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 ${currentPath === "/realisations" || currentPath === "/realisations/" ? "w-full group-hover/nav:w-0" : "w-0"} group-hover:!w-full`}
                 ></span>
             </a>
         </div>
@@ -69,11 +71,11 @@ const currentPath = Astro.url.pathname;
         <div class="justify-self-center">
             <a
                 href="/contact"
-                class="nav-link text-xl font-medium transition-colors duration-300 no-underline relative group text-[#B8B8B8] hover:text-[#5C8F3A]"
+                class={`nav-link text-xl font-medium transition-colors duration-300 no-underline relative group hover:text-[#4A5D23] ${currentPath === "/contact" || currentPath === "/contact/" ? "text-[#4A5D23]" : "text-[#B8B8B8]"}`}
             >
                 Contact
                 <span
-                    class={`nav-underline absolute bottom-0 left-0 h-0.5 bg-[#5C8F3A] transition-all duration-300 ${currentPath === "/contact" || currentPath === "/contact/" ? "w-full group-hover/nav:w-0" : "w-0"} group-hover:!w-full`}
+                    class={`nav-underline absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 ${currentPath === "/contact" || currentPath === "/contact/" ? "w-full group-hover/nav:w-0" : "w-0"} group-hover:!w-full`}
                 ></span>
             </a>
         </div>
@@ -86,13 +88,13 @@ const currentPath = Astro.url.pathname;
     >
         <div class="w-6 h-4.5 flex flex-col justify-between">
             <span
-                class="w-full h-0.5 transition-all duration-300 origin-left bg-white group-hover:bg-[#5C8F3A]"
+                class="w-full h-0.5 transition-all duration-300 origin-left bg-white group-hover:bg-[#4A5D23]"
             ></span>
             <span
-                class="w-full h-0.5 transition-all duration-300 opacity-100 bg-white group-hover:bg-[#5C8F3A]"
+                class="w-full h-0.5 transition-all duration-300 opacity-100 bg-white group-hover:bg-[#4A5D23]"
             ></span>
             <span
-                class="w-full h-0.5 transition-all duration-300 origin-left bg-white group-hover:bg-[#5C8F3A]"
+                class="w-full h-0.5 transition-all duration-300 origin-left bg-white group-hover:bg-[#4A5D23]"
             ></span>
         </div>
     </button>
@@ -103,96 +105,96 @@ const currentPath = Astro.url.pathname;
     >
         <a
             href="/"
-            class="text-[#B8B8B8] hover:text-[#5C8F3A] text-4xl font-bold nav-link-mobile relative group"
+            class={`hover:text-[#4A5D23] text-4xl font-bold nav-link-mobile relative group ${currentPath === "/" ? "text-[#4A5D23]" : "text-[#B8B8B8]"}`}
         >
             Accueil
             <span
-                class={`absolute bottom-0 left-0 h-0.5 bg-[#5C8F3A] transition-all duration-300 ${currentPath === "/" ? "w-full group-hover/mobile:w-0" : "w-0"} group-hover:!w-full`}
+                class={`absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 ${currentPath === "/" ? "w-full group-hover/mobile:w-0" : "w-0"} group-hover:!w-full`}
             ></span>
         </a>
         <a
             href="/savoir-faire"
-            class="text-[#B8B8B8] hover:text-[#5C8F3A] text-4xl font-bold nav-link-mobile relative group"
+            class={`hover:text-[#4A5D23] text-4xl font-bold nav-link-mobile relative group ${currentPath === "/savoir-faire" || currentPath === "/savoir-faire/" ? "text-[#4A5D23]" : "text-[#B8B8B8]"}`}
         >
             Notre Savoir Faire
             <span
-                class={`absolute bottom-0 left-0 h-0.5 bg-[#5C8F3A] transition-all duration-300 ${currentPath === "/savoir-faire" || currentPath === "/savoir-faire/" ? "w-full group-hover/mobile:w-0" : "w-0"} group-hover:!w-full`}
+                class={`absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 ${currentPath === "/savoir-faire" || currentPath === "/savoir-faire/" ? "w-full group-hover/mobile:w-0" : "w-0"} group-hover:!w-full`}
             ></span>
         </a>
         <a
             href="/realisations"
-            class="text-[#B8B8B8] hover:text-[#5C8F3A] text-3xl font-bold nav-link-mobile relative group"
+            class={`hover:text-[#4A5D23] text-3xl font-bold nav-link-mobile relative group ${currentPath === "/realisations" || currentPath === "/realisations/" ? "text-[#4A5D23]" : "text-[#B8B8B8]"}`}
         >
             Nos Réalisations
             <span
-                class={`absolute bottom-0 left-0 h-0.5 bg-[#5C8F3A] transition-all duration-300 ${currentPath === "/realisations" || currentPath === "/realisations/" ? "w-full group-hover/mobile:w-0" : "w-0"} group-hover:!w-full`}
+                class={`absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 ${currentPath === "/realisations" || currentPath === "/realisations/" ? "w-full group-hover/mobile:w-0" : "w-0"} group-hover:!w-full`}
             ></span>
         </a>
         <a
             href="/contact"
-            class="text-[#B8B8B8] hover:text-[#5C8F3A] text-4xl font-bold nav-link-mobile relative group"
+            class={`hover:text-[#4A5D23] text-4xl font-bold nav-link-mobile relative group ${currentPath === "/contact" || currentPath === "/contact/" ? "text-[#4A5D23]" : "text-[#B8B8B8]"}`}
         >
             Contact
             <span
-                class={`absolute bottom-0 left-0 h-0.5 bg-[#5C8F3A] transition-all duration-300 ${currentPath === "/contact" || currentPath === "/contact/" ? "w-full group-hover/mobile:w-0" : "w-0"} group-hover:!w-full`}
+                class={`absolute bottom-0 left-0 h-0.5 bg-[#4A5D23] transition-all duration-300 ${currentPath === "/contact" || currentPath === "/contact/" ? "w-full group-hover/mobile:w-0" : "w-0"} group-hover:!w-full`}
             ></span>
         </a>
     </div>
-</nav>
 
-<script>
-    const menuBtn = document.getElementById("mobile-menu-btn");
-    const mobileMenu = document.getElementById("mobile-menu");
-    const spans = menuBtn?.querySelectorAll("span");
-    const body = document.body;
-    let isOpen = false;
+    <script>
+        const menuBtn = document.getElementById("mobile-menu-btn");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const spans = menuBtn?.querySelectorAll("span");
+        const body = document.body;
+        let isOpen = false;
 
-    menuBtn?.addEventListener("click", () => {
-        isOpen = !isOpen;
+        menuBtn?.addEventListener("click", () => {
+            isOpen = !isOpen;
 
-        if (isOpen) {
-            mobileMenu?.classList.remove("translate-x-full");
-            body.style.overflow = "hidden";
+            if (isOpen) {
+                mobileMenu?.classList.remove("translate-x-full");
+                body.style.overflow = "hidden";
 
-            spans?.[0].classList.add("rotate-45");
-            spans?.[1].classList.add("opacity-0");
-            spans?.[2].classList.add("-rotate-45");
+                spans?.[0].classList.add("rotate-45");
+                spans?.[1].classList.add("opacity-0");
+                spans?.[2].classList.add("-rotate-45");
 
-            // Ensure spans are white on black background
-            spans?.forEach((span) => {
-                span.classList.add("bg-white");
-                span.classList.remove("bg-black");
-            });
-        } else {
-            mobileMenu?.classList.add("translate-x-full");
-            body.style.overflow = "";
+                // Ensure spans are white on black background
+                spans?.forEach((span) => {
+                    span.classList.add("bg-white");
+                    span.classList.remove("bg-black");
+                });
+            } else {
+                mobileMenu?.classList.add("translate-x-full");
+                body.style.overflow = "";
 
-            spans?.[0].classList.remove("rotate-45");
-            spans?.[1].classList.remove("opacity-0");
-            spans?.[2].classList.remove("-rotate-45");
+                spans?.[0].classList.remove("rotate-45");
+                spans?.[1].classList.remove("opacity-0");
+                spans?.[2].classList.remove("-rotate-45");
 
-            // Ensure spans remain white
-            spans?.forEach((span) => {
-                span.classList.add("bg-white");
-                span.classList.remove("bg-black");
-            });
-        }
-    });
+                // Ensure spans remain white
+                spans?.forEach((span) => {
+                    span.classList.add("bg-white");
+                    span.classList.remove("bg-black");
+                });
+            }
+        });
 
-    document.querySelectorAll(".nav-link-mobile").forEach((link) => {
-        link.addEventListener("click", () => {
-            isOpen = false;
-            mobileMenu?.classList.add("translate-x-full");
-            body.style.overflow = "";
-            spans?.[0].classList.remove("rotate-45");
-            spans?.[1].classList.remove("opacity-0");
-            spans?.[2].classList.remove("-rotate-45");
+        document.querySelectorAll(".nav-link-mobile").forEach((link) => {
+            link.addEventListener("click", () => {
+                isOpen = false;
+                mobileMenu?.classList.add("translate-x-full");
+                body.style.overflow = "";
+                spans?.[0].classList.remove("rotate-45");
+                spans?.[1].classList.remove("opacity-0");
+                spans?.[2].classList.remove("-rotate-45");
 
-            // Ensure spans remain white
-            spans?.forEach((span) => {
-                span.classList.add("bg-white");
-                span.classList.remove("bg-black");
+                // Ensure spans remain white
+                spans?.forEach((span) => {
+                    span.classList.add("bg-white");
+                    span.classList.remove("bg-black");
+                });
             });
         });
-    });
-</script>
+    </script>
+</nav>
