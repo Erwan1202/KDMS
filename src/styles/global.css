@@ -1,5 +1,3 @@
-
-
 @import "tailwindcss";
 
 html {
@@ -27,4 +25,40 @@ h6 {
 
 p {
     line-height: 1.7;
+}
+
+/* Écrans ultra-wide (21:9 et plus) */
+@media (min-aspect-ratio: 21/9) {
+    .hero-text h1 {
+        font-size: clamp(3rem, 6vw, 6rem);
+    }
+    
+    .flight-case {
+        max-height: 50vh;
+    }
+}
+
+/* Écrans très allongés (smartphones modernes 19.5:9) */
+@media (max-aspect-ratio: 9/16) and (max-width: 768px) {
+    .hero-text {
+        padding-top: 2rem;
+    }
+    
+    .scroll-indicator {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Tablettes portrait (iPad, etc.) */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+    html {
+        font-size: 17px;
+    }
+}
+
+/* Tablettes landscape */
+@media (min-width: 768px) and (max-width: 1280px) and (orientation: landscape) {
+    html {
+        font-size: 16px;
+    }
 }
