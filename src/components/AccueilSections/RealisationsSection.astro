@@ -5,31 +5,37 @@ import consoleImage from "../../assets/accueil/hero-flight-case.png";
 const realisations = [
     {
         title: "Meubles",
+        category: "meubles",
         gridClass: "md:col-span-2",
         image: consoleImage,
     },
     {
         title: "Evénementiel",
+        category: "evenementiel",
         gridClass: "md:col-span-1",
         image: consoleImage,
     },
     {
         title: "Industrie",
+        category: "industrie",
         gridClass: "md:col-span-1",
         image: consoleImage,
     },
     {
         title: "Spectacle",
+        category: "spectacle",
         gridClass: "md:col-span-2",
         image: consoleImage,
     },
     {
         title: "Audiovisuel",
+        category: "audiovisuel",
         gridClass: "md:col-span-2",
         image: consoleImage,
     },
     {
-        title: "Pelicase",
+        title: "Valise résine",
+        category: "Valise résine",
         gridClass: "md:col-span-1",
         image: consoleImage,
     },
@@ -42,7 +48,7 @@ const realisations = [
 >
     <div class="w-full max-w-5xl mx-auto text-center mb-8 md:mb-12 px-6 md:px-8">
         <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-3 md:mb-4 mt-6 md:mt-8 tracking-tight text-white">
-            Nos <span class="text-[#5C8F3A]">réalisations</span>
+            Nos <span class="text-[#4A5D23]">réalisations</span>
         </h2>
         <p class="text-base sm:text-lg md:text-xl lg:text-2xl text-[#B8B8B8] font-medium">
             Découvrez la diversité de nos projets pour différents secteurs
@@ -52,7 +58,10 @@ const realisations = [
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full px-4 md:px-8">
         {
             realisations.map((item) => (
-                <div class="realisation-card group relative w-full overflow-hidden rounded-2xl bg-[#1A1A1A] cursor-pointer h-[300px] md:h-[400px]">
+                <a 
+                    href={`/realisations?category=${item.category}`}
+                    class={`realisation-card group relative w-full overflow-hidden rounded-2xl bg-[#1A1A1A] cursor-pointer h-[300px] md:h-[400px] block no-underline ${item.gridClass}`}
+                >
                     {item.image ? (
                         <Image
                             src={item.image}
@@ -80,8 +89,8 @@ const realisations = [
                     </div>
                     
                     <!-- Structural Border (Green) -> Active Border (Light Green) -->
-                    <div class="absolute inset-0 border border-[#5C8F3A]/30 rounded-2xl pointer-events-none transition-colors duration-300 group-hover:border-[#7FB255]/50" />
-                </div>
+                    <div class="absolute inset-0 border border-[#4A5D23]/30 rounded-2xl pointer-events-none transition-colors duration-300 group-hover:border-[#7FB255]/50" />
+                </a>
             ))
         }
     </div>
