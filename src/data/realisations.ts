@@ -44,7 +44,7 @@ export const categories: Category[] = [
     { id: "industrie", label: "Industrie" },
     { id: "audiovisuel", label: "Audiovisuel" },
     { id: "evenementiel", label: "Evenementiel" },
-    { id: "pelicase", label: "Pelicase" },
+    { id: "Valise résine", label: "Valise résine" },
 ];
 
 
@@ -61,9 +61,9 @@ const projectsData: Project[] = [
     { title: "Bar Evénementiel", category: "meubles", description: "Station cocktail mobile" },
     { title: "Écran Géant LED", category: "spectacle", description: "Modules LED tiles" },
     { title: "Station Médicale", category: "industrie", description: "Unité de soin projetable" },
-    { title: "Pelicase 1", category: "pelicase", description: "Protection équipements" },
-    { title: "Pelicase 2", category: "pelicase", description: "Protection équipements" },
-    { title: "Pelicase 3", category: "pelicase", description: "Protection équipements" },
+    { title: "Valise résine 1", category: "Valise résine", description: "Protection équipements" },
+    { title: "Valise résine 2", category: "Valise résine", description: "Protection équipements" },
+    { title: "Valise résine 3", category: "Valise résine", description: "Protection équipements" },
 ];
 
 export const projects = projectsData.map((p, i) => ({
