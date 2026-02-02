@@ -2,55 +2,47 @@
 import Layout from "../layouts/Layout.astro";
 import { Image } from "astro:assets";
 import logoWhite from "../assets/common/logo-white.png";
-import bgImage from "../assets/landing-bg.png";
+import bgImage from "../assets/landing-bg.jpg";
 ---
 
 <Layout
     title="KDMS - Flight Cases Sur Mesure"
     description="KDMS, fabricant français de flight cases 100% sur mesure."
 >
-    <main class="bg-black text-white min-h-screen flex flex-col lg:flex-row">
-        <!-- Left: Image -->
-        <div class="relative w-full lg:w-1/2 h-[40vh] lg:h-screen">
-            <Image
-                src={bgImage}
-                alt="Fabrication flight case"
-                class="absolute inset-0 w-full h-full object-cover"
-                loading="eager"
-            />
-            <div
-                class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-black/20 lg:to-black"
-            >
-            </div>
-        </div>
+    <main class="min-h-screen relative">
+        <!-- Background Image -->
+        <Image
+            src={bgImage}
+            alt=""
+            class="fixed inset-0 w-full h-full object-cover scale-125 object-[30%_40%]"
+            loading="eager"
+        />
+        <div class="fixed inset-0 bg-black/60" style="z-index: 5;"></div>
 
-        <!-- Right: Content -->
+        <!-- Content -->
         <div
-            class="flex-1 flex flex-col items-center lg:items-start justify-center px-8 py-12 lg:py-0 lg:px-16 relative z-10 lg:-ml-20"
+            class="relative min-h-screen flex flex-col items-center justify-center px-6 py-12 text-center text-white"
+            style="z-index: 10;"
         >
             <Image
                 src={logoWhite}
                 alt="KDMS"
-                class="w-28 md:w-36 mb-6"
+                class="w-28 md:w-36 mb-8"
                 loading="eager"
             />
 
-            <h1
-                class="text-2xl md:text-4xl lg:text-5xl font-bold mb-3 text-center lg:text-left"
-            >
+            <h1 class="text-3xl md:text-5xl font-bold mb-3">
                 On peaufine les <span class="text-[#4A5D23]"
                     >derniers détails...</span
                 >
             </h1>
-            <p
-                class="text-white/60 text-base md:text-lg mb-8 text-center lg:text-left max-w-md"
-            >
+            <p class="text-white/60 text-lg mb-10 max-w-md">
                 Votre expert en flight cases sur mesure arrive bientôt.
             </p>
 
             <!-- Contact Card -->
             <div
-                class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 w-full max-w-sm"
+                class="bg-black/50 backdrop-blur-md border border-white/10 rounded-xl p-6 w-full max-w-sm"
             >
                 <p class="text-white/40 text-xs uppercase tracking-widest mb-4">
                     Contactez-nous
@@ -133,7 +125,7 @@ import bgImage from "../assets/landing-bg.png";
                             <circle cx="12" cy="10" r="3"></circle>
                         </svg>
                     </div>
-                    <span class="text-white/80 text-sm"
+                    <span class="text-white/80 text-sm text-left"
                         >8 Rue Camille Décauville<br />91250 Tigery</span
                     >
                 </div>
