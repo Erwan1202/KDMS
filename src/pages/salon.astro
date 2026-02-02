@@ -1,0 +1,331 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import logoWhite from "../assets/common/logo-white.png";
+import heroFlightCase from "../assets/accueil/index-flight-case.png";
+---
+
+<Layout
+    title="KDMS - Flight Cases Sur Mesure"
+    description="KDMS, fabricant français de flight cases 100% sur mesure."
+>
+    <main class="min-h-screen bg-black text-white">
+        <!-- Hero Section -->
+        <section
+            class="min-h-[60vh] flex flex-col items-center justify-center px-6 py-16 relative overflow-hidden"
+        >
+            <div
+                class="absolute inset-0 bg-gradient-to-b from-[#0a0a0a] via-black to-[#111]"
+            >
+            </div>
+            <div
+                class="absolute inset-0 opacity-5"
+                style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 40px 40px;"
+            >
+            </div>
+
+            <div
+                class="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto"
+            >
+                <Image
+                    src={logoWhite}
+                    alt="KDMS"
+                    class="w-40 md:w-56 mb-6"
+                    loading="eager"
+                />
+
+                <h1
+                    class="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 tracking-tight"
+                >
+                    <span class="text-white">Le flight case</span>
+                    <span class="text-[#4A5D23]"> 100% custom</span>
+                </h1>
+
+                <p
+                    class="text-white/60 text-lg md:text-xl font-light mb-10 max-w-xl"
+                >
+                    Conception et fabrication française sur mesure
+                </p>
+
+                <div class="relative">
+                    <div
+                        class="absolute -inset-8 bg-[#4A5D23]/10 blur-3xl rounded-full"
+                    >
+                    </div>
+                    <Image
+                        src={heroFlightCase}
+                        alt="Flight Case KDMS"
+                        class="relative w-auto h-[180px] md:h-[250px] object-contain drop-shadow-2xl"
+                        loading="eager"
+                    />
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Form Section -->
+        <section class="py-16 px-6 bg-[#0a0a0a]">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">
+                    Demandez un <span class="text-[#4A5D23]">devis gratuit</span
+                    >
+                </h2>
+                <p class="text-white/60 text-center mb-10 max-w-lg mx-auto">
+                    Décrivez votre projet et nous vous recontactons sous 24h.
+                </p>
+
+                <div
+                    class="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 p-8 md:p-10"
+                >
+                    <form class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="relative">
+                                <input
+                                    type="text"
+                                    id="firstname"
+                                    name="firstname"
+                                    required
+                                    class="peer w-full bg-transparent border-b-2 border-white/20 py-3 text-white placeholder-transparent focus:border-[#4A5D23] focus:outline-none transition-colors text-lg"
+                                    placeholder="Prénom"
+                                />
+                                <label
+                                    for="firstname"
+                                    class="absolute left-0 -top-3 text-sm text-white/50 transition-all peer-placeholder-shown:text-lg peer-placeholder-shown:text-white/50 peer-placeholder-shown:top-3 peer-focus:-top-3 peer-focus:text-sm peer-focus:text-[#4A5D23]"
+                                >
+                                    Prénom
+                                </label>
+                            </div>
+                            <div class="relative">
+                                <input
+                                    type="text"
+                                    id="lastname"
+                                    name="lastname"
+                                    required
+                                    class="peer w-full bg-transparent border-b-2 border-white/20 py-3 text-white placeholder-transparent focus:border-[#4A5D23] focus:outline-none transition-colors text-lg"
+                                    placeholder="Nom"
+                                />
+                                <label
+                                    for="lastname"
+                                    class="absolute left-0 -top-3 text-sm text-white/50 transition-all peer-placeholder-shown:text-lg peer-placeholder-shown:text-white/50 peer-placeholder-shown:top-3 peer-focus:-top-3 peer-focus:text-sm peer-focus:text-[#4A5D23]"
+                                >
+                                    Nom
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="relative">
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    required
+                                    class="peer w-full bg-transparent border-b-2 border-white/20 py-3 text-white placeholder-transparent focus:border-[#4A5D23] focus:outline-none transition-colors text-lg"
+                                    placeholder="Email"
+                                />
+                                <label
+                                    for="email"
+                                    class="absolute left-0 -top-3 text-sm text-white/50 transition-all peer-placeholder-shown:text-lg peer-placeholder-shown:text-white/50 peer-placeholder-shown:top-3 peer-focus:-top-3 peer-focus:text-sm peer-focus:text-[#4A5D23]"
+                                >
+                                    Email
+                                </label>
+                            </div>
+                            <div class="relative">
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    name="phone"
+                                    class="peer w-full bg-transparent border-b-2 border-white/20 py-3 text-white placeholder-transparent focus:border-[#4A5D23] focus:outline-none transition-colors text-lg"
+                                    placeholder="Téléphone"
+                                />
+                                <label
+                                    for="phone"
+                                    class="absolute left-0 -top-3 text-sm text-white/50 transition-all peer-placeholder-shown:text-lg peer-placeholder-shown:text-white/50 peer-placeholder-shown:top-3 peer-focus:-top-3 peer-focus:text-sm peer-focus:text-[#4A5D23]"
+                                >
+                                    Téléphone
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="relative">
+                            <textarea
+                                id="message"
+                                name="message"
+                                rows="4"
+                                required
+                                class="peer w-full bg-transparent border-b-2 border-white/20 py-3 text-white placeholder-transparent focus:border-[#4A5D23] focus:outline-none transition-colors resize-none text-lg"
+                                placeholder="Décrivez votre projet"></textarea>
+                            <label
+                                for="message"
+                                class="absolute left-0 -top-3 text-sm text-white/50 transition-all peer-placeholder-shown:text-lg peer-placeholder-shown:text-white/50 peer-placeholder-shown:top-3 peer-focus:-top-3 peer-focus:text-sm peer-focus:text-[#4A5D23]"
+                            >
+                                Décrivez votre projet
+                            </label>
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="w-full bg-[#4A5D23] hover:bg-[#5a7030] text-white font-bold text-lg py-4 px-8 rounded-full transition-all duration-300 hover:scale-[1.02] shadow-lg hover:shadow-[0_8px_30px_rgba(74,93,35,0.4)]"
+                        >
+                            Envoyer ma demande
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Map & Contact Section -->
+        <section class="py-16 px-6">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-10">
+                    Nous <span class="text-[#4A5D23]">trouver</span>
+                </h2>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Contact Info -->
+                    <div
+                        class="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 p-8"
+                    >
+                        <div class="space-y-6">
+                            <a
+                                href="tel:+33169127210"
+                                class="flex items-center gap-4 group"
+                            >
+                                <div
+                                    class="w-12 h-12 rounded-full bg-[#4A5D23]/20 flex items-center justify-center flex-shrink-0"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="22"
+                                        height="22"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="1.5"
+                                        class="text-[#4A5D23]"
+                                    >
+                                        <path
+                                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                                        ></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <span
+                                        class="text-white/40 text-xs uppercase tracking-wider block"
+                                        >Téléphone</span
+                                    >
+                                    <span
+                                        class="text-white font-semibold text-xl group-hover:text-[#4A5D23] transition-colors"
+                                        >+33 1 69 12 72 10</span
+                                    >
+                                </div>
+                            </a>
+
+                            <a
+                                href="mailto:contact@k-dms.co"
+                                class="flex items-center gap-4 group"
+                            >
+                                <div
+                                    class="w-12 h-12 rounded-full bg-[#4A5D23]/20 flex items-center justify-center flex-shrink-0"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="22"
+                                        height="22"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="1.5"
+                                        class="text-[#4A5D23]"
+                                    >
+                                        <path
+                                            d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                                        ></path>
+                                        <polyline points="22,6 12,13 2,6"
+                                        ></polyline>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <span
+                                        class="text-white/40 text-xs uppercase tracking-wider block"
+                                        >Email</span
+                                    >
+                                    <span
+                                        class="text-white font-semibold text-xl group-hover:text-[#4A5D23] transition-colors"
+                                        >contact@k-dms.co</span
+                                    >
+                                </div>
+                            </a>
+
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 rounded-full bg-[#4A5D23]/20 flex items-center justify-center flex-shrink-0"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="22"
+                                        height="22"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="1.5"
+                                        class="text-[#4A5D23]"
+                                    >
+                                        <path
+                                            d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"
+                                        ></path>
+                                        <circle cx="12" cy="10" r="3"></circle>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <span
+                                        class="text-white/40 text-xs uppercase tracking-wider block"
+                                        >Adresse</span
+                                    >
+                                    <span
+                                        class="text-white font-semibold text-lg"
+                                        >8 Rue Camille Décauville<br />91250
+                                        Tigery, France</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Map -->
+                    <div
+                        class="rounded-2xl overflow-hidden border border-white/10 h-[300px] lg:h-auto"
+                    >
+                        <iframe
+                            title="Localisation KDMS"
+                            width="100%"
+                            height="100%"
+                            style="border:0; min-height: 300px;"
+                            loading="lazy"
+                            allowfullscreen
+                            referrerpolicy="no-referrer-when-downgrade"
+                            src="https://maps.google.com/maps?q=8+Rue+Camille+D%C3%A9cauville,+91250+Tigery&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                        ></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-8 px-6 border-t border-white/10 text-center">
+            <p class="text-white/40 text-sm">
+                © 2025 KDMS - Tous droits réservés
+            </p>
+        </footer>
+    </main>
+</Layout>
+
+<style>
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    textarea:-webkit-autofill {
+        -webkit-text-fill-color: white;
+        -webkit-box-shadow: 0 0 0px 1000px #0a0a0a inset;
+        transition: background-color 5000s ease-in-out 0s;
+    }
+</style>
