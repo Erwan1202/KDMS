@@ -103,41 +103,38 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                 />
             </div>
 
-<<<<<<< HEAD
             <div
                 class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce"
             >
-                <span
-                    class="text-white/40 text-xs uppercase tracking-widest font-medium"
-                    >Découvrir</span
+                <button
+                    id="scroll-to-process"
+                    class="flex flex-col items-center gap-2 cursor-pointer hover:opacity-100 transition-opacity bg-transparent border-none"
                 >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    class="text-white/40"
-                >
-                    <path d="M7 13l5 5 5-5"></path>
-                    <path d="M7 6l5 5 5-5"></path>
-                </svg>
-=======
-            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
-                <button id="scroll-to-process" class="flex flex-col items-center gap-2 cursor-pointer hover:opacity-100 transition-opacity bg-transparent border-none">
-                    <span class="text-white/40 text-xs uppercase tracking-widest font-medium">Découvrir</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-white/40">
+                    <span
+                        class="text-white/40 text-xs uppercase tracking-widest font-medium"
+                        >Découvrir</span
+                    >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        class="text-white/40"
+                    >
                         <path d="M7 13l5 5 5-5"></path>
                         <path d="M7 6l5 5 5-5"></path>
                     </svg>
                 </button>
->>>>>>> 16caa31 (feat: Implement image protection and add ProtectedText component for sensitive information)
             </div>
         </section>
 
-        <section id="processus-section" class="relative py-16 md:py-24 px-4 sm:px-6">
+        <section
+            id="processus-section"
+            class="relative py-16 md:py-24 px-4 sm:px-6"
+        >
             <div class="text-center mb-16 md:mb-24">
                 <h2
                     class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4"
@@ -469,18 +466,19 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
     }
 
     // Scroll dynamique vers la section processus
-    const scrollBtn = document.getElementById('scroll-to-process');
-    const processSection = document.getElementById('processus-section');
-    
+    const scrollBtn = document.getElementById("scroll-to-process");
+    const processSection = document.getElementById("processus-section");
+
     if (scrollBtn && processSection) {
-        scrollBtn.addEventListener('click', () => {
-            const navbar = document.querySelector('nav');
+        scrollBtn.addEventListener("click", () => {
+            const navbar = document.querySelector("nav");
             const navHeight = navbar ? navbar.offsetHeight : 0;
-            const sectionTop = processSection.getBoundingClientRect().top + window.scrollY;
-            
+            const sectionTop =
+                processSection.getBoundingClientRect().top + window.scrollY;
+
             window.scrollTo({
                 top: sectionTop - navHeight,
-                behavior: 'smooth'
+                behavior: "smooth",
             });
         });
     }
