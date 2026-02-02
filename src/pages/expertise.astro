@@ -349,7 +349,6 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
         "timeline-progress-mobile",
     );
 
-    // Fonction pour mettre à jour la ligne de progression
     function updateTimelineProgress() {
         if (!timelineContainer) return;
 
@@ -357,9 +356,8 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
         const containerTop = containerRect.top;
         const containerHeight = containerRect.height;
         const windowHeight = window.innerHeight;
-        const scrollTriggerPoint = windowHeight * 0.5; // Point de déclenchement au milieu de l'écran
+        const scrollTriggerPoint = windowHeight * 0.5;
 
-        // Calcul de la progression
         let progress = 0;
 
         if (containerTop < scrollTriggerPoint) {
@@ -377,11 +375,10 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
         }
     }
 
-    // Écouter le scroll
     window.addEventListener("scroll", updateTimelineProgress, {
         passive: true,
     });
-    updateTimelineProgress(); // Initial call
+    updateTimelineProgress();
 
     const observerOptions = {
         root: null,
@@ -420,7 +417,6 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                 currentStep = stepIndex + 1;
                 updateProgress();
 
-                // Add active class
                 timelineSteps.forEach((s, i) => {
                     if (i === stepIndex) {
                         s.classList.add("active");
@@ -465,7 +461,6 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
         sectionObserver.observe(timelineSection);
     }
 
-    // Scroll dynamique vers la section processus
     const scrollBtn = document.getElementById("scroll-to-process");
     const processSection = document.getElementById("processus-section");
 
