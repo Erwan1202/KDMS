@@ -5,12 +5,29 @@
 [build.environment]
   NODE_VERSION = "20"
 
-# Redirections pour SPA / pages 404
+# Autoriser les assets statiques
+[[redirects]]
+  from = "/_astro/*"
+  to = "/_astro/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/assets/*"
+  to = "/assets/:splat"
+  status = 200
+
+# Autoriser la page landing
+[[redirects]]
+  from = "/landing"
+  to = "/landing"
+  status = 200
+
+# Rediriger TOUT le reste vers landing
 [[redirects]]
   from = "/*"
   to = "/landing"
-  status = 200
-  force = false
+  status = 302
+  force = true
 
 # Headers de sécurité
 [[headers]]
