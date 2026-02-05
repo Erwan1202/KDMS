@@ -173,7 +173,7 @@ import bgImage from "../assets/landing/bg.jpg";
                             Être recontacté
                         </p>
 
-                        <form class="space-y-3">
+                        <form id="contact-form" class="space-y-3">
                             <div class="grid grid-cols-2 gap-3">
                                 <input
                                     type="text"
@@ -232,8 +232,77 @@ import bgImage from "../assets/landing/bg.jpg";
             </div>
 
             <p class="text-white/40 text-sm mt-6 text-center">
-                © 2025 KDMS - Tous droits réservés
+                © 2026 KDMS - Tous droits réservés
             </p>
         </div>
     </main>
 </Layout>
+
+<script>
+    // EmailJS - Configuration
+    // 1. Créer un compte sur https://www.emailjs.com/
+    // 2. Remplacer les valeurs ci-dessous par vos identifiants
+    const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY"; // Clé publique EmailJS
+    const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID"; // ID du service email
+    const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID"; // ID du template
+
+    // Charger EmailJS
+    const script = document.createElement("script");
+    script.src = "https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js";
+    script.onload = () => {
+        // @ts-ignore
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+    };
+    document.head.appendChild(script);
+
+    // Gestion du formulaire
+    const form = document.getElementById("contact-form") as HTMLFormElement;
+    
+    form?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        
+        const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+        const originalText = submitBtn.innerText;
+        
+        try {
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Envoi en cours...";
+            
+            const formData = new FormData(form);
+            const templateParams = {
+                firstname: formData.get("firstname"),
+                lastname: formData.get("lastname"),
+                email: formData.get("email"),
+                phone: formData.get("phone"),
+            };
+            
+            // @ts-ignore
+            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+            
+            submitBtn.innerText = "Message envoyé ✓";
+            submitBtn.classList.remove("bg-[#5a7030]", "hover:bg-[#6b8239]");
+            submitBtn.classList.add("bg-green-600");
+            form.reset();
+            
+            setTimeout(() => {
+                submitBtn.innerText = originalText;
+                submitBtn.classList.remove("bg-green-600");
+                submitBtn.classList.add("bg-[#5a7030]", "hover:bg-[#6b8239]");
+                submitBtn.disabled = false;
+            }, 3000);
+            
+        } catch (error) {
+            console.error("Erreur:", error);
+            submitBtn.innerText = "Erreur, réessayez";
+            submitBtn.classList.remove("bg-[#5a7030]", "hover:bg-[#6b8239]");
+            submitBtn.classList.add("bg-red-600");
+            
+            setTimeout(() => {
+                submitBtn.innerText = originalText;
+                submitBtn.classList.remove("bg-red-600");
+                submitBtn.classList.add("bg-[#5a7030]", "hover:bg-[#6b8239]");
+                submitBtn.disabled = false;
+            }, 3000);
+        }
+    });
+</script>
