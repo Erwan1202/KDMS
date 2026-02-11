@@ -173,7 +173,19 @@ import bgImage from "../assets/landing/bg.jpg";
                             Être recontacté
                         </p>
 
-                        <form class="space-y-3">
+                        <form 
+                            name="contact-landing" 
+                            method="POST" 
+                            action="/landing?success=true"
+                            data-netlify="true"
+                            netlify-honeypot="bot-field"
+                            class="space-y-3"
+                        >
+                            <input type="hidden" name="form-name" value="contact-landing" />
+                            <input type="hidden" name="subject" value="Nouveau contact KDMS - Demande de rappel" />
+                            <p class="hidden">
+                                <label>Ne pas remplir si vous êtes humain: <input name="bot-field" /></label>
+                            </p>
                             <div class="grid grid-cols-2 gap-3">
                                 <input
                                     type="text"
@@ -232,8 +244,28 @@ import bgImage from "../assets/landing/bg.jpg";
             </div>
 
             <p class="text-white/40 text-sm mt-6 text-center">
-                © 2025 KDMS - Tous droits réservés
+                © 2026 KDMS - Tous droits réservés
             </p>
         </div>
     </main>
 </Layout>
+
+<script>
+    // Afficher message de succès si retour de Netlify Forms
+    if (window.location.search.includes("success=true")) {
+        const form = document.querySelector("form");
+        if (form) {
+            form.innerHTML = `
+                <div class="text-center py-8">
+                    <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-500/20 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-green-400">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <p class="text-white text-lg font-semibold">Message envoyé !</p>
+                    <p class="text-white/60 text-sm mt-2">Nous vous recontacterons rapidement.</p>
+                </div>
+            `;
+        }
+    }
+</script>
