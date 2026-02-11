@@ -70,7 +70,7 @@ const expertiseItems = [
                 </p>
 
                 <a
-                    href="/savoir-faire"
+                    href="/expertise"
                     class="mt-6 xl:mt-8 group relative inline-flex items-center justify-center px-8 lg:px-12 xl:px-16 py-3 xl:py-4 overflow-hidden rounded-full bg-[#E07A1F] transition-all duration-300 hover:bg-[#C86618] hover:shadow-[0_8px_30px_rgba(224,122,31,0.4)] whitespace-nowrap no-underline"
                 >
                     <span
@@ -81,7 +81,6 @@ const expertiseItems = [
             </div>
         </div>
 
-        <!-- Version mobile/tablette portrait - visible jusqu'à lg -->
         <div
             class="flex flex-col gap-8 sm:gap-10 md:gap-12 px-4 sm:px-6 md:px-8 lg:hidden text-white pb-12 md:pb-20"
         >
@@ -100,7 +99,7 @@ const expertiseItems = [
                         {index === expertiseItems.length - 1 && (
                             <div class="flex justify-center mt-4">
                                 <a
-                                    href="/savoir-faire"
+                                    href="/expertise"
                                     class="group relative inline-flex items-center justify-center px-8 sm:px-10 md:px-12 py-3 overflow-hidden rounded-full bg-[#E07A1F] transition-all duration-300 hover:bg-[#C86618] hover:shadow-[0_8px_30px_rgba(224,122,31,0.4)] whitespace-nowrap no-underline"
                                 >
                                     <span class="relative text-white font-bold text-base sm:text-lg tracking-wider transition-colors">
@@ -122,7 +121,6 @@ const expertiseItems = [
 
     gsap.registerPlugin(ScrollTrigger);
 
-    // Expertise carousel logic (no GSAP dependency)
     const expertiseImages = document.querySelectorAll(".expertise-image");
     const expertiseTitle = document.getElementById("expertise-title");
     const expertiseText = document.getElementById("expertise-text");
@@ -138,18 +136,15 @@ const expertiseItems = [
     function expandImage(index: number) {
         expertiseImages.forEach((img, i) => {
             const element = img as HTMLElement;
-            // Récupère la largeur de la fenêtre pour adapter les tailles
             const screenWidth = window.innerWidth;
             let expandedWidth = "500px";
             let collapsedWidth = "140px";
 
             if (screenWidth < 1536) {
-                // xl
                 expandedWidth = "450px";
                 collapsedWidth = "120px";
             }
             if (screenWidth < 1280) {
-                // lg
                 expandedWidth = "400px";
                 collapsedWidth = "100px";
             }
