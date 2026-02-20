@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import consoleImage from "../../assets/accueil/hero-flight-case.png";
+import consoleImage from "../../assets/home/hero-flight-case.png";
 
 const realisations = [
     {
@@ -80,7 +80,6 @@ const realisations = [
                             {item.title}
                         </h3>
                         
-                        <!-- Precise Interaction Indicator -->
                         <div class="h-[1px] w-8 bg-[#E07A1F] mt-4 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center"></div>
                         
                         <span class="opacity-0 translate-y-4 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0 text-white/80 font-light text-sm mt-4 tracking-widest uppercase">
@@ -88,7 +87,6 @@ const realisations = [
                         </span>
                     </div>
                     
-                    <!-- Structural Border (Green) -> Active Border (Light Green) -->
                     <div class="absolute inset-0 border border-[#4A5D23]/30 rounded-2xl pointer-events-none transition-colors duration-300 group-hover:border-[#7FB255]/50" />
                 </a>
             ))
@@ -106,10 +104,6 @@ const realisations = [
         </a>
     </div>
 </section>
-
-<style>
-    /* No custom CSS needed for this version */
-</style>
 
 <script>
     import { gsap } from "gsap";

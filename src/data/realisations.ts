@@ -1,5 +1,3 @@
-// Types pour la page Réalisations
-
 export interface Category {
     id: string;
     label: string;

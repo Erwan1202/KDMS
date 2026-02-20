@@ -2,14 +2,15 @@
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/common/Navbar.astro";
 import Footer from "../components/common/Footer.astro";
-import ContactSection from "../components/AccueilSections/ContactSection.astro";
-import heroDesktop from "../assets/savoir-faire/hero-background.png";
-import heroMobile from "../assets/savoir-faire/hero-mobile.png";
+import ContactSection from "../components/sections/ContactSection.astro";
+import heroDesktop from "../assets/expertise/hero-background.jpg";
+import step01Image from "../assets/expertise/steps/step-01-ecoute.png";
 
 const steps = [
     {
         number: "01",
         title: "Écoute et Analyse des besoins",
+        image: step01Image,
         text: `Depuis notre atelier de 700m² situé à TIGERY aux portes de Paris nous supervisons l'ensemble des dossiers client. Chaque projet est unique et nécessite des prouesses de modélisation.
 
 La phase d'écoute est donc extrêmement importante pour réussir un flight aligné avec vos enjeux métiers. Et la connaissance de vos process et le dialogue avec vos équipes opérationnelles sont importants pour définir tous les points fonctionnels et technique de votre flight case.
@@ -40,7 +41,7 @@ Néanmoins nous restons très attaché à l'artisanat, et la précision du geste
         number: "04",
         title: "Assemblage",
         text: `L'assemblage du projet est confié à l'un de nos collaborateur qui en assure le montage tout en étant garant du contrôle qualité.
-Le bois, l'aluminium, le PVC et --les accessoires-- sont tous supervisés avant assemblage pour garantir une durabilité maximale.`,
+Les bois, les aluminiums, les PVC et les accessoires sont tous supervisés avant assemblage pour garantir une durabilité maximale.`,
     },
     {
         number: "05",
@@ -81,26 +82,14 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                 </p>
             </div>
 
-            <div
-                class="absolute right-0 top-1/2 -translate-y-1/2 z-0 h-[80vh] w-auto opacity-25 hidden md:block"
-            >
+            <div class="absolute inset-0 z-0">
                 <img
                     src={heroDesktop.src}
                     alt="Flight case KDMS"
-                    class="h-full w-auto object-contain"
+                    class="w-full h-full object-cover"
                     loading="eager"
                 />
-            </div>
-
-            <div
-                class="absolute right-0 top-1/2 -translate-y-1/2 z-0 h-[60vh] w-auto opacity-30 md:hidden"
-            >
-                <img
-                    src={heroMobile.src}
-                    alt="Flight case KDMS"
-                    class="h-full w-auto object-contain"
-                    loading="eager"
-                />
+                <div class="absolute inset-0 bg-black/60"></div>
             </div>
 
             <div
@@ -201,9 +190,13 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                                     </div>
                                 ) : (
                                     <div class="step-image aspect-video bg-[#1a1a1a] rounded-xl border border-white/10 overflow-hidden shadow-2xl">
-                                        <div class="w-full h-full flex items-center justify-center text-white/10 text-8xl font-black">
-                                            {step.number}
-                                        </div>
+                                        {step.image ? (
+                                            <img src={step.image.src} alt={step.title} class="w-full h-full object-cover" loading="lazy" />
+                                        ) : (
+                                            <div class="w-full h-full flex items-center justify-center text-white/10 text-8xl font-black">
+                                                {step.number}
+                                            </div>
+                                        )}
                                     </div>
                                 )}
                             </div>
@@ -221,9 +214,13 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                             >
                                 {index % 2 === 0 ? (
                                     <div class="step-image aspect-video bg-[#1a1a1a] rounded-xl border border-white/10 overflow-hidden shadow-2xl">
-                                        <div class="w-full h-full flex items-center justify-center text-white/10 text-8xl font-black">
-                                            {step.number}
-                                        </div>
+                                        {step.image ? (
+                                            <img src={step.image.src} alt={step.title} class="w-full h-full object-cover" loading="lazy" />
+                                        ) : (
+                                            <div class="w-full h-full flex items-center justify-center text-white/10 text-8xl font-black">
+                                                {step.number}
+                                            </div>
+                                        )}
                                     </div>
                                 ) : (
                                     <div class="step-content">
@@ -248,9 +245,13 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                                     {step.title}
                                 </h3>
                                 <div class="aspect-video bg-[#1a1a1a] rounded-lg border border-white/10 overflow-hidden shadow-xl mb-4">
-                                    <div class="w-full h-full flex items-center justify-center text-white/10 text-5xl font-black">
-                                        {step.number}
-                                    </div>
+                                    {step.image ? (
+                                        <img src={step.image.src} alt={step.title} class="w-full h-full object-cover" loading="lazy" />
+                                    ) : (
+                                        <div class="w-full h-full flex items-center justify-center text-white/10 text-5xl font-black">
+                                            {step.number}
+                                        </div>
+                                    )}
                                 </div>
                                 <p class="text-white/70 text-sm sm:text-base leading-relaxed whitespace-pre-line">
                                     {step.text}

@@ -2,11 +2,11 @@
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/common/Navbar.astro";
 import Footer from "../components/common/Footer.astro";
-import ContactSection from "../components/AccueilSections/ContactSection.astro";
+import ContactSection from "../components/sections/ContactSection.astro";
 import { Image } from "astro:assets";
 
 import { categories, projects, brandLogos } from "../data/realisations";
-import projectImage from "../assets/accueil/hero-flight-case.png";
+import projectImage from "../assets/home/hero-flight-case.png";
 ---
 
 <Layout title="Nos Réalisations - KDMS">
@@ -100,7 +100,6 @@ import projectImage from "../assets/accueil/hero-flight-case.png";
 
                             <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-200" />
 
-                            <!-- Contenu des cards adapté mobile -->
                             <div class="absolute bottom-0 left-0 w-full p-4 sm:p-5 md:p-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-300 ease-out will-change-transform">
                                 <span class="text-[#6b755a] text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-1.5 sm:mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
                                     {project.category}
@@ -158,7 +157,6 @@ import projectImage from "../assets/accueil/hero-flight-case.png";
 
             <div class="marquee-container relative overflow-hidden">
                 <div class="marquee-track flex items-center gap-8 sm:gap-10 md:gap-12 animate-marquee">
-                    {/* Premier set de logos */}
                     {
                         brandLogos.map((logo) => (
                             <div class="flex-shrink-0 w-16 sm:w-20 md:w-24 h-8 sm:h-10 md:h-12 flex items-center justify-center">
@@ -172,7 +170,6 @@ import projectImage from "../assets/accueil/hero-flight-case.png";
                             </div>
                         ))
                     }
-                    {/* Duplication pour boucle continue */}
                     {
                         brandLogos.map((logo) => (
                             <div class="flex-shrink-0 w-16 sm:w-20 md:w-24 h-8 sm:h-10 md:h-12 flex items-center justify-center">
@@ -213,13 +210,11 @@ import projectImage from "../assets/accueil/hero-flight-case.png";
     const dropdownActiveClasses = ["bg-[#4A5D23]", "text-white"];
     const dropdownInactiveClasses = ["text-white/70"];
 
-    // Récupérer la catégorie depuis l'URL
     function getCategoryFromURL(): string {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get('category') || 'all';
     }
 
-    // Trouver le label correspondant à une catégorie
     function getLabelForCategory(category: string): string {
         const btn = filterBtnsContainer?.querySelector<HTMLButtonElement>(`[data-category="${category}"]`);
         return btn?.textContent?.trim() || 'Tout voir';
@@ -298,7 +293,6 @@ import projectImage from "../assets/accueil/hero-flight-case.png";
         }
     }, { passive: true });
 
-    // Appliquer le filtre initial depuis l'URL au chargement de la page
     document.addEventListener('DOMContentLoaded', () => {
         const initialCategory = getCategoryFromURL();
         const initialLabel = getLabelForCategory(initialCategory);
