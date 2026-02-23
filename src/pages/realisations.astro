@@ -194,6 +194,32 @@ import projectImage from "../assets/home/hero-flight-case.png";
             <ContactSection />
             <Footer />
         </footer>
+        <!-- Modal Photo -->
+        <div
+            id="image-modal"
+            class="fixed inset-0 z-[100] hidden flex-col items-center justify-center bg-black/95 backdrop-blur-md opacity-0 transition-opacity duration-300"
+            aria-hidden="true"
+            role="dialog"
+        >
+            <button
+                id="close-modal-btn"
+                class="absolute top-4 right-4 sm:top-6 sm:right-6 text-white/70 hover:text-white transition-colors p-2 z-10"
+                aria-label="Fermer la modale"
+            >
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" class="w-8 h-8 sm:w-10 sm:h-10">
+                    <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <div class="relative w-full h-full flex flex-col items-center justify-center p-4 sm:p-8 modal-backdrop cursor-pointer">
+                <img
+                    id="modal-image"
+                    src=""
+                    alt="Image en plein écran"
+                    class="max-w-full max-h-[85vh] object-contain rounded-md shadow-2xl scale-95 transition-transform duration-300 cursor-default"
+                />
+                <p id="modal-caption" class="text-white text-lg sm:text-xl font-medium mt-4 text-center cursor-default"></p>
+            </div>
+        </div>
     </main>
 </Layout>
 
@@ -204,6 +230,12 @@ import projectImage from "../assets/home/hero-flight-case.png";
     const dropdownArrowEl = document.getElementById("dropdown-arrow");
     const selectedLabelEl = document.getElementById("selected-filter-label");
     const projectItems = document.querySelectorAll<HTMLElement>(".project-item");
+    
+    // Elements de la modale
+    const imageModal = document.getElementById("image-modal");
+    const modalImage = document.getElementById("modal-image") as HTMLImageElement;
+    const modalCaption = document.getElementById("modal-caption");
+    const closeModalBtn = document.getElementById("close-modal-btn");
     
     const activeClasses = ["bg-[#4A5D23]", "text-white"];
     const inactiveClasses = ["bg-transparent", "text-white/70"];
@@ -292,6 +324,62 @@ import projectImage from "../assets/home/hero-flight-case.png";
             closeDropdown();
         }
     }, { passive: true });
+
+    // Fonctions de la modale
+    function openModal(imgSrc: string, title: string) {
+        if (!imageModal || !modalImage) return;
+        modalImage.src = imgSrc;
+        if (modalCaption) modalCaption.textContent = title;
+        
+        imageModal.classList.remove("hidden");
+        // Forcer le recalcul du layout pour la transition CSS
+        void imageModal.offsetWidth;
+        
+        imageModal.classList.add("flex");
+        imageModal.classList.remove("opacity-0");
+        modalImage.classList.remove("scale-95");
+        modalImage.classList.add("scale-100");
+        document.body.style.overflow = "hidden"; // Empêche le défilement de la page
+    }
+
+    function closeModal() {
+        if (!imageModal || !modalImage) return;
+        imageModal.classList.add("opacity-0");
+        modalImage.classList.remove("scale-100");
+        modalImage.classList.add("scale-95");
+        document.body.style.overflow = "";
+
+        setTimeout(() => {
+            imageModal.classList.add("hidden");
+            imageModal.classList.remove("flex");
+            modalImage.src = "";
+        }, 300);
+    }
+
+    projectItems.forEach((item) => {
+        item.addEventListener("click", () => {
+            const imgEl = item.querySelector("img");
+            const titleEl = item.querySelector("h2");
+            if (imgEl && imgEl.src) {
+                const title = titleEl ? titleEl.textContent : "";
+                openModal(imgEl.src, title || "");
+            }
+        });
+    });
+
+    closeModalBtn?.addEventListener("click", closeModal);
+    imageModal?.addEventListener("click", (e) => {
+        const target = e.target as HTMLElement;
+        if (target === imageModal || target.classList.contains('modal-backdrop')) {
+            closeModal();
+        }
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !imageModal?.classList.contains("hidden")) {
+            closeModal();
+        }
+    });
 
     document.addEventListener('DOMContentLoaded', () => {
         const initialCategory = getCategoryFromURL();
