@@ -34,12 +34,11 @@ Instructions : Cochez [x] lorsque vous avez l'image, et notez son nom à côté 
 
 Catégorie "Meubles"
 [x] Bureau Mobile (Poste de travail déployable) -> bureau-mobile.png
-[ ] Kitchen Set (Cuisine mobile pour catering)
-[ ] Bar Événementiel (Station cocktail mobile)
+[x] Commode(Tiroirs) -> commode.png
 
 Catégorie "Spectacle"
 [x] Régie Tournée (Protection console grand format) -> regie-tournee.png
-[x] Commode Costumes (Tiroirs et penderie intégrée) -> commode-costumes.png
+
 
 
 Catégorie "Industrie"

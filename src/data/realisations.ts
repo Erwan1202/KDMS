@@ -18,7 +18,7 @@ export interface BrandLogo {
 
 import bureauMobile from "../assets/realisations/meubles/bureau-mobile.png";
 import regieTournee from "../assets/realisations/spectacle/regie-tournee.png";
-import commodeCostumes from "../assets/realisations/spectacle/commode-costumes.png";
+import commode from "../assets/realisations/meubles/commode.png";
 
 
 const RATIOS = [
@@ -55,19 +55,7 @@ export const categories: Category[] = [
 const projectsData: Project[] = [
     { title: "Bureau Mobile", category: "meubles", description: "Poste de travail déployable", image: bureauMobile },
     { title: "Régie Tournée", category: "spectacle", description: "Protection console grand format", image: regieTournee },
-    { title: "Valise Drone", category: "audiovisuel", description: "Calage haute précision" },
-    { title: "Armoire Serveur", category: "industrie", description: "Rack 19 pouces amorti" },
-    { title: "Commode Costumes", category: "spectacle", description: "Tiroirs et penderie intégrée", image: commodeCostumes },
-    { title: "Kitchen Set", category: "meubles", description: "Cuisine mobile pour catering" },
-    { title: "Lentilles Cinéma", category: "audiovisuel", description: "Set complet d'optiques" },
-    { title: "Moteur Avion", category: "industrie", description: "Transport sécurisé pièce critique" },
-    { title: "Backline Guitares", category: "spectacle", description: "Vault pour 6 guitares" },
-    { title: "Bar Evénementiel", category: "meubles", description: "Station cocktail mobile" },
-    { title: "Écran Géant LED", category: "spectacle", description: "Modules LED tiles" },
-    { title: "Station Médicale", category: "industrie", description: "Unité de soin projetable" },
-    { title: "Valise résine 1", category: "Valise résine", description: "Protection équipements" },
-    { title: "Valise résine 2", category: "Valise résine", description: "Protection équipements" },
-    { title: "Valise résine 3", category: "Valise résine", description: "Protection équipements" },
+    { title: "Commode Costumes", category: "spectacle", description: "Tiroirs et penderie intégrée", image: commode },
 ];
 
 export const projects = projectsData.map((p, i) => ({
