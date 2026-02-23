@@ -1,0 +1,51 @@
+Liste des images manquantes pour le site KDMS
+=============================================
+
+Instructions : Cochez [x] lorsque vous avez l'image, et notez son nom à côté pour qu'on puisse l'intégrer facilement.
+
+0. BANNIÈRES ET IMAGES GLOBALES (Fonds d'écran, En-têtes)
+-----------------------------------------------------------------------
+[ ] Bannière Accueil (hero-bg)
+[x] Bannière Contact (hero-banner)
+[x] Bannière Expertise (hero-background)
+
+1. PAGE EXPERTISE (Dimensions conseillées : format paysage 16:9 ou carré)
+-----------------------------------------------------------------------
+[x] Étape 01 : Conception et Design
+[ ] Étape 02 : Modélisation et Solution technique
+[ ] Étape 03 : Usinage et CN
+[ ] Étape 04 : Assemblage
+[ ] Étape 05 : Capitonnage et Finitions mousses
+[x] Étape 06 : Conditionnement et livraison (step-06-livraison.png)
+
+
+2. CATÉGORIES "NOS RÉALISATIONS" (Page d'accueil / Haut portfolio)
+------------------------------------------------------------------
+[x] Catégorie : Meubles (bureau-mobile.png)
+[ ] Catégorie : Événementiel
+[ ] Catégorie : Industrie
+[x] Catégorie : Spectacle (regie-tournee.png)
+[ ] Catégorie : Audiovisuel
+[ ] Catégorie : Valise résine
+
+
+3. PROJETS INDIVIDUELS (Portfolio détaillé)
+-------------------------------------------
+
+Catégorie "Meubles"
+[x] Bureau Mobile (Poste de travail déployable) -> bureau-mobile.png
+[ ] Kitchen Set (Cuisine mobile pour catering)
+[ ] Bar Événementiel (Station cocktail mobile)
+
+Catégorie "Spectacle"
+[x] Régie Tournée (Protection console grand format) -> regie-tournee.png
+[x] Commode Costumes (Tiroirs et penderie intégrée) -> commode-costumes.png
+
+
+Catégorie "Industrie"
+
+Catégorie "Audiovisuel"
+
+
+Catégorie "Valise résine"
+

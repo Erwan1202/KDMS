@@ -7,6 +7,7 @@ export interface Project {
     title: string;
     category: string;
     description: string;
+    image?: any;
 }
 
 export interface BrandLogo {
@@ -14,6 +15,11 @@ export interface BrandLogo {
     name: string;
     logo: ImageMetadata;
 }
+
+import bureauMobile from "../assets/realisations/meubles/bureau-mobile.png";
+import regieTournee from "../assets/realisations/spectacle/regie-tournee.png";
+import commodeCostumes from "../assets/realisations/spectacle/commode-costumes.png";
+
 
 const RATIOS = [
     "aspect-square",
@@ -47,11 +53,11 @@ export const categories: Category[] = [
 
 
 const projectsData: Project[] = [
-    { title: "Bureau Mobile", category: "meubles", description: "Poste de travail déployable" },
-    { title: "Régie Tournée", category: "spectacle", description: "Protection console grand format" },
+    { title: "Bureau Mobile", category: "meubles", description: "Poste de travail déployable", image: bureauMobile },
+    { title: "Régie Tournée", category: "spectacle", description: "Protection console grand format", image: regieTournee },
     { title: "Valise Drone", category: "audiovisuel", description: "Calage haute précision" },
     { title: "Armoire Serveur", category: "industrie", description: "Rack 19 pouces amorti" },
-    { title: "Commode Costumes", category: "spectacle", description: "Tiroirs et penderie intégrée" },
+    { title: "Commode Costumes", category: "spectacle", description: "Tiroirs et penderie intégrée", image: commodeCostumes },
     { title: "Kitchen Set", category: "meubles", description: "Cuisine mobile pour catering" },
     { title: "Lentilles Cinéma", category: "audiovisuel", description: "Set complet d'optiques" },
     { title: "Moteur Avion", category: "industrie", description: "Transport sécurisé pièce critique" },

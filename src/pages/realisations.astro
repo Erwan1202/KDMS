@@ -84,16 +84,16 @@ import projectImage from "../assets/home/hero-flight-case.png";
                 class="columns-2 md:columns-3 lg:columns-3 xl:columns-4 gap-2 sm:gap-3 md:gap-4 lg:gap-6 xl:gap-8 space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-6 xl:space-y-8"
             >
                 {
-                    projects.map((project) => (
+                    projects.filter(p => !!p.image).map((project) => (
                         <article
-                            class={`project-item break-inside-avoid relative group cursor-pointer overflow-hidden rounded-lg sm:rounded-xl ${project.color} ${project.ratio}`}
+                            class={`project-item break-inside-avoid relative group cursor-pointer overflow-hidden rounded-lg sm:rounded-xl bg-[#1A1A1A] ${project.ratio}`}
                             data-category={project.category}
                         >
-                            <div class="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-300 will-change-opacity">
+                            <div class="absolute inset-0 opacity-80 group-hover:opacity-100 transition-opacity duration-300 will-change-opacity">
                                 <Image
-                                    src={projectImage}
+                                    src={project.image}
                                     alt={project.title}
-                                    class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-[filter] duration-500"
+                                    class="w-full h-full object-cover transition-all duration-500"
                                     loading="lazy"
                                 />
                             </div>
