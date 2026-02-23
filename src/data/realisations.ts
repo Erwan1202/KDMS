@@ -19,7 +19,7 @@ export interface BrandLogo {
 import bureauMobile from "../assets/realisations/meubles/bureau-mobile.png";
 import regieTournee from "../assets/realisations/spectacle/regie-tournee.png";
 import commode from "../assets/realisations/meubles/commode.png";
-
+import borneArcade from "../assets/realisations/meubles/borne-arcade.png";
 
 const RATIOS = [
     "aspect-square",
@@ -53,9 +53,10 @@ export const categories: Category[] = [
 
 
 const projectsData: Project[] = [
-    { title: "Bureau Mobile", category: "meubles", description: "Poste de travail déployable", image: bureauMobile },
-    { title: "Régie Tournée", category: "spectacle", description: "Protection console grand format", image: regieTournee },
-    { title: "Commode Costumes", category: "spectacle", description: "Tiroirs et penderie intégrée", image: commode },
+    { title: "Vestiaire mobile", category: "meubles", description: "Vestiaire mobile personnalisé", image: bureauMobile },
+    { title: "Platine de mixage", category: "spectacle", description: "Platine de mixage personnalisée", image: regieTournee },
+    { title: "Meuble télévision", category: "meubles", description: "Meuble télévision personnalisé", image: commode },
+    { title: "Borne Arcade", category: "meubles", description: "Borne arcade personnalisée", image: borneArcade },
 ];
 
 export const projects = projectsData.map((p, i) => ({

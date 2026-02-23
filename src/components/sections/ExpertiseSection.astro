@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+
 const expertiseItems = [
     {
         title: "Notre histoire",
@@ -47,10 +49,18 @@ const expertiseItems = [
             {
                 expertiseItems.map((item) => (
                     <div
-                        class="expertise-image bg-[#262626] w-[100px] lg:w-[120px] xl:w-[140px] min-w-[100px] lg:min-w-[120px] xl:min-w-[140px] h-[350px] lg:h-[400px] xl:h-[450px] rounded-lg border border-[#4A5D23]/30 flex-shrink-0 transition-all duration-500 hover:w-[400px] lg:hover:w-[450px] xl:hover:w-[500px] hover:border-[#7FB255] hover:shadow-[0_0_30px_rgba(92,143,58,0.2)] cursor-pointer grayscale hover:grayscale-0"
+                        class="relative expertise-image bg-[#262626] w-[100px] lg:w-[120px] xl:w-[140px] min-w-[100px] lg:min-w-[120px] xl:min-w-[140px] h-[350px] lg:h-[400px] xl:h-[450px] rounded-lg border border-[#4A5D23]/30 flex-shrink-0 transition-all duration-500 hover:w-[400px] lg:hover:w-[450px] xl:hover:w-[500px] hover:border-[#7FB255] hover:shadow-[0_0_30px_rgba(92,143,58,0.2)] cursor-pointer grayscale hover:grayscale-0 overflow-hidden"
                         data-title={item.title}
                         data-text={item.text}
-                    />
+                    >
+                        {item.image && (
+                            <Image
+                                src={item.image}
+                                alt={item.title}
+                                class="w-full h-full object-cover"
+                            />
+                        )}
+                    </div>
                 ))
             }
 
@@ -87,7 +97,15 @@ const expertiseItems = [
             {
                 expertiseItems.map((item, index) => (
                     <div class="flex flex-col gap-4 sm:gap-6 items-center max-w-3xl mx-auto w-full">
-                        <div class="w-full h-48 sm:h-56 md:h-64 lg:h-72 rounded-lg border border-[#4A5D23]/30 overflow-hidden bg-[#262626] shadow-[inset_0_0_20px_rgba(255,255,255,0.1)]" />
+                        <div class="relative w-full h-48 sm:h-56 md:h-64 lg:h-72 rounded-lg border border-[#4A5D23]/30 overflow-hidden bg-[#262626] shadow-[inset_0_0_20px_rgba(255,255,255,0.1)]">
+                            {item.image && (
+                                <Image
+                                    src={item.image}
+                                    alt={item.title}
+                                    class="w-full h-full object-cover grayscale"
+                                />
+                            )}
+                        </div>
                         <div class="text-left sm:text-justify w-full">
                             <h3 class="text-xl sm:text-2xl md:text-3xl font-bold mb-2 sm:mb-3 tracking-tight">
                                 {item.title}
