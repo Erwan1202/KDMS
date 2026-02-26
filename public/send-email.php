@@ -65,9 +65,7 @@ Email : $email
 Téléphone : $phone
 
 -------------------------------------------
-Source : Landing Page Salon
 Date : " . date('d/m/Y à H:i') . "
-IP : " . $_SERVER['REMOTE_ADDR'] . "
 ===========================================
 ";
 

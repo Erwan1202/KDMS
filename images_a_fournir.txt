@@ -1,11 +1,9 @@
 Liste des images manquantes pour le site KDMS
 =============================================
 
-Instructions : Cochez [x] lorsque vous avez l'image, et notez son nom à côté pour qu'on puisse l'intégrer facilement.
-
 0. BANNIÈRES ET IMAGES GLOBALES (Fonds d'écran, En-têtes)
 -----------------------------------------------------------------------
-[ ] Bannière Accueil (hero-bg)
+[x] Bannière Accueil (hero-bg)
 [x] Bannière Contact (hero-banner)
 [x] Bannière Expertise (hero-background)
 
@@ -14,20 +12,18 @@ Instructions : Cochez [x] lorsque vous avez l'image, et notez son nom à côté 
 [x] Étape 01 : Conception et Design
 [ ] Étape 02 : Modélisation et Solution technique
 [ ] Étape 03 : Usinage et CN
-[ ] Étape 04 : Assemblage
+[x] Étape 04 : Assemblage
 [ ] Étape 05 : Capitonnage et Finitions mousses
 [x] Étape 06 : Conditionnement et livraison (step-06-livraison.png)
 
-
 2. CATÉGORIES "NOS RÉALISATIONS" (Page d'accueil / Haut portfolio)
 ------------------------------------------------------------------
-[x] Catégorie : Meubles (bureau-mobile.png)
-[ ] Catégorie : Événementiel
-[ ] Catégorie : Industrie
-[x] Catégorie : Spectacle (regie-tournee.png)
-[ ] Catégorie : Audiovisuel
-[ ] Catégorie : Valise résine
-
+[x] Catégorie : Meubles | Nombre : 3
+[ ] Catégorie : Événementiel | Nombre : 0
+[ ] Catégorie : Industrie | Nombre : 0
+[x] Catégorie : Spectacle | Nombre : 1
+[ ] Catégorie : Audiovisuel | Nombre : 0
+[ ] Catégorie : Valise résine | Nombre : 0
 
 3. PROJETS INDIVIDUELS (Portfolio détaillé)
 -------------------------------------------
@@ -39,12 +35,8 @@ Catégorie "Meubles"
 Catégorie "Spectacle"
 [x] Régie Tournée (Protection console grand format) -> regie-tournee.png
 
-
-
 Catégorie "Industrie"
 
 Catégorie "Audiovisuel"
 
-
 Catégorie "Valise résine"
-
