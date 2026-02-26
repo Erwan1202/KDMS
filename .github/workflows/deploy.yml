@@ -30,13 +30,12 @@ jobs:
         cp -r dist/* ftp_deploy/  
 
     - name: 📤 Sync files to IONOS
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      uses: appleboy/scp-action@v0.1.7
       with:
-        server: ${{ secrets.FTP_SERVER }}
+        host: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         port: 22
-        protocol: sftp
-        local-dir: ./ftp_deploy/   
-        server-dir: ./public/      
-        dry-run: false            
+        source: "./ftp_deploy/*"
+        target: "./public/"
+        strip_components: 1
