@@ -1,11 +1,11 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
-// import sitemap from '@astrojs/sitemap';
+import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://www.kdms.fr',
-  integrations: [/* sitemap() */],
+  site: 'https://www.k-dms.co',
+  integrations: [sitemap()],
   prefetch: {
     prefetchAll: true,
     defaultStrategy: 'viewport',
