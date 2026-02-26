@@ -42,7 +42,7 @@ jobs:
         script: |
           rm -rf ./public/*
 
-    - name: 📤 Sync files to IONOS
+    - name: Sync files to IONOS
       uses: appleboy/scp-action@v0.1.7
       with:
         host: ${{ secrets.FTP_SERVER }}
