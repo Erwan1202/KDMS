@@ -20,9 +20,9 @@ const jsonLd = JSON.stringify({
     "@type": "LocalBusiness",
     "name": "KDMS",
     "description": "Fabricant de flight cases sur mesure. Conception et fabrication personnalisées avec un suivi client dédié, entre artisanat et production industrielle.",
-    "url": "https://www.kdms.fr",
+    "url": "https://www.k-dms.co",
     "telephone": "+33169127210",
-    "email": "contact@kdms.fr",
+    "email": "contact@k-dms.co",
     "address": {
         "@type": "PostalAddress",
         "streetAddress": "8 Rue Camille Decauville",
@@ -47,6 +47,13 @@ const jsonLd = JSON.stringify({
         <meta name="description" content={description} />
 
         <link rel="canonical" href={canonicalURL.href} />
+
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={canonicalURL.href} />
+        <meta property="og:site_name" content="KDMS" />
+        <meta property="og:locale" content="fr_FR" />
 
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
