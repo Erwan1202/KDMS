@@ -27,7 +27,10 @@ jobs:
     - name: Prepare files for FTP
       run: |
         mkdir -p ftp_deploy
-        cp -r dist/* ftp_deploy/  
+        cp dist/landing/index.html ftp_deploy/index.html
+        cp -r dist/_astro ftp_deploy/
+        cp dist/favicon.* ftp_deploy/ 2>/dev/null || true
+        cp dist/send-email.php ftp_deploy/ 2>/dev/null || true
 
     - name: 📤 Sync files to IONOS
       uses: appleboy/scp-action@v0.1.7
