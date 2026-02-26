@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/common/Navbar.astro";
 import Footer from "../components/common/Footer.astro";
 import ContactSection from "../components/sections/ContactSection.astro";
+import { Image } from "astro:assets";
 import heroDesktop from "../assets/expertise/hero-background.jpg";
 import step01Image from "../assets/expertise/steps/step-01-ecoute.png";
 import step04Image from "../assets/expertise/steps/step-04-assemble.png";
@@ -87,11 +88,12 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
             </div>
 
             <div class="absolute inset-0 z-0">
-                <img
-                    src={heroDesktop.src}
+                <Image
+                    src={heroDesktop}
                     alt="Flight case KDMS"
                     class="w-full h-full object-cover"
                     loading="eager"
+                    quality="max"
                 />
                 <div class="absolute inset-0 bg-black/60"></div>
             </div>
@@ -195,7 +197,7 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                                 ) : (
                                     <div class="step-image aspect-video bg-[#1a1a1a] rounded-xl border border-white/10 overflow-hidden shadow-2xl">
                                         {step.image ? (
-                                            <img src={step.image.src} alt={step.title} class="w-full h-full object-cover" loading="lazy" />
+                                            <Image src={step.image} alt={step.title} class="w-full h-full object-cover" loading="lazy" />
                                         ) : (
                                             <div class="w-full h-full flex items-center justify-center text-white/10 text-8xl font-black">
                                                 {step.number}
@@ -219,7 +221,7 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                                 {index % 2 === 0 ? (
                                     <div class="step-image aspect-video bg-[#1a1a1a] rounded-xl border border-white/10 overflow-hidden shadow-2xl">
                                         {step.image ? (
-                                            <img src={step.image.src} alt={step.title} class="w-full h-full object-cover" loading="lazy" />
+                                            <Image src={step.image} alt={step.title} class="w-full h-full object-cover" loading="lazy" />
                                         ) : (
                                             <div class="w-full h-full flex items-center justify-center text-white/10 text-8xl font-black">
                                                 {step.number}
@@ -250,7 +252,7 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                                 </h3>
                                 <div class="aspect-video bg-[#1a1a1a] rounded-lg border border-white/10 overflow-hidden shadow-xl mb-4">
                                     {step.image ? (
-                                        <img src={step.image.src} alt={step.title} class="w-full h-full object-cover" loading="lazy" />
+                                        <Image src={step.image} alt={step.title} class="w-full h-full object-cover" loading="lazy" />
                                     ) : (
                                         <div class="w-full h-full flex items-center justify-center text-white/10 text-5xl font-black">
                                             {step.number}
