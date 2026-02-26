@@ -1,0 +1,42 @@
+name: Deploy to IONOS via SFTP
+
+on:
+  push:
+    branches:
+      - deploy-temp/landing
+
+jobs:
+  web-deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get latest code
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+        
+    - name: Install dependencies
+      run: npm ci || npm install
+
+    - name: Build Astro project
+      run: npm run build
+
+    - name: Prepare files for FTP
+      run: |
+        mkdir -p ftp_deploy
+        cp -r dist/* ftp_deploy/  
+
+    - name: 📤 Sync files to IONOS
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        port: 22
+        protocol: sftp
+        local-dir: ./ftp_deploy/   
+        server-dir: ./public/      
+        dry-run: false            
