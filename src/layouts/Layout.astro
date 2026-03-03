@@ -28,7 +28,6 @@ const jsonLd = JSON.stringify({
     "description": "Fabricant de flight cases sur mesure. Conception et fabrication personnalisées avec un suivi client dédié, entre artisanat et production industrielle.",
     "url": "https://www.k-dms.co",
     "telephone": "+33169127210",
-    "email": "contact@k-dms.co",
     "address": {
         "@type": "PostalAddress",
         "streetAddress": "8 Rue Camille Decauville",
@@ -41,7 +40,8 @@ const jsonLd = JSON.stringify({
         "latitude": 48.6365,
         "longitude": 2.5125
     },
-    "sameAs": []
+    "sameAs": [],
+    "knowsAbout": ["flight case sur mesure", "flight case custom", "fabrication flight case", "flight case événementiel", "flight case industriel", "flight case spectacle"]
 });
 ---
 
@@ -83,6 +83,11 @@ const jsonLd = JSON.stringify({
         <link
             href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
             rel="stylesheet"
+        />
+        <link
+            rel="preload"
+            href="https://fonts.googleapis.com/css2?family=Outfit:wght@700&display=swap"
+            as="style"
         />
 
         <title>{title}</title>

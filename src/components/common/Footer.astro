@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import logoWhite from "/src/assets/common/logo-white.png";
+import ProtectedEmail from "./ProtectedEmail.astro";
 
 const navigationLinks = [
     { label: "Accueil", href: "/" },
@@ -20,9 +21,7 @@ const contactInfo = [
         type: "link",
     },
     {
-        label: "contact@k-dms.co",
-        href: "mailto:contact@k-dms.co",
-        type: "link",
+        type: "email",
     },
 ];
 
@@ -85,6 +84,8 @@ const legalLinks = [
                                             </>
                                         ))}
                                     </span>
+                                ) : item.type === "email" ? (
+                                    <ProtectedEmail linkClass="footer-link" />
                                 ) : (
                                     <a href={item.href} class="footer-link">
                                         {item.label}

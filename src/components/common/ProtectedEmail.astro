@@ -1,0 +1,71 @@
+---
+interface Props {
+    class?: string;
+    linkClass?: string;
+}
+
+const { class: className = '', linkClass = '' } = Astro.props;
+
+const user = 'contact';
+const domain = 'k-dms';
+const tld = 'co';
+---
+
+<span class:list={["obfuscated-email", className]} data-u={user} data-d={domain} data-t={tld} data-lc={linkClass}>
+    <span class="email-placeholder">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="inline-block mr-1 opacity-50">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+        <span class="email-dots">•••••••@••••••</span>
+    </span>
+</span>
+
+<style>
+    .obfuscated-email {
+        display: inline;
+    }
+    .email-placeholder {
+        display: inline-flex;
+        align-items: center;
+        opacity: 0.5;
+        cursor: default;
+    }
+    .email-dots {
+        letter-spacing: 0.05em;
+    }
+    .obfuscated-email :global(a) {
+        text-decoration: none;
+    }
+</style>
+
+<script>
+    function initObfuscatedEmails() {
+        document.querySelectorAll('.obfuscated-email').forEach(el => {
+            if (el.getAttribute('data-init')) return;
+            el.setAttribute('data-init', '1');
+            
+            const u = el.getAttribute('data-u');
+            const d = el.getAttribute('data-d');
+            const t = el.getAttribute('data-t');
+            const lc = el.getAttribute('data-lc') || '';
+            
+            if (!u || !d || !t) return;
+            
+            const addr = `${u}@${d}.${t}`;
+            const link = document.createElement('a');
+            link.href = `mai` + `lto:${addr}`;
+            link.textContent = addr;
+            if (lc) link.className = lc;
+            
+            el.innerHTML = '';
+            el.appendChild(link);
+        });
+    }
+    
+    document.addEventListener('DOMContentLoaded', initObfuscatedEmails);
+    document.addEventListener('astro:page-load', initObfuscatedEmails);
+    if (document.readyState !== 'loading') {
+        initObfuscatedEmails();
+    }
+</script>

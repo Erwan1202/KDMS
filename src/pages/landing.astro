@@ -3,11 +3,12 @@ import Layout from "../layouts/Layout.astro";
 import { Image } from "astro:assets";
 import logoWhite from "../assets/common/logo-white.png";
 import bgImage from "../assets/landing/bg.jpg";
+import ProtectedEmail from "../components/common/ProtectedEmail.astro";
 ---
 
 <Layout
     title="KDMS — Le flight case 100% custom"
-    description="Fabricant français de flight cases entièrement sur mesure. Conception, fabrication et livraison personnalisées avec un suivi client dédié. Basé à Tigery (91), nous livrons partout en France."
+    description="KDMS, fabricant de flight cases sur mesure en Île-de-France. Conception, fabrication et livraison personnalisées pour l'événementiel, l'industrie et le spectacle."
 >
     <style>
         .logo-glow {
@@ -34,7 +35,7 @@ import bgImage from "../assets/landing/bg.jpg";
             <div class="text-center mb-6">
                 <Image
                     src={logoWhite}
-                    alt="KDMS"
+                    alt="KDMS — Fabricant de flight cases sur mesure"
                     class="w-24 md:w-28 mx-auto mb-3 logo-glow"
                     loading="eager"
                 />
@@ -44,7 +45,7 @@ import bgImage from "../assets/landing/bg.jpg";
                     >
                 </h1>
                 <p class="text-white/90 font-medium text-base mt-1 mb-5">
-                    Fabrication française sur mesure
+                    Fabricant de flight cases sur mesure
                 </p>
                 <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 backdrop-blur-md">
                     <span class="relative flex h-2 w-2">
@@ -102,10 +103,7 @@ import bgImage from "../assets/landing/bg.jpg";
                             </div>
                         </a>
 
-                        <a
-                            href="mailto:contact@k-dms.co"
-                            class="flex items-center gap-4 mb-5 group"
-                        >
+                        <div class="flex items-center gap-4 mb-5 group">
                             <div
                                 class="w-12 h-12 rounded-full bg-[#5a7030]/40 flex items-center justify-center flex-shrink-0"
                             >
@@ -132,11 +130,12 @@ import bgImage from "../assets/landing/bg.jpg";
                                     >Email</span
                                 >
                                 <span
-                                    class="text-white text-lg font-semibold block group-hover:text-[#8aad4a] transition-colors"
-                                    >contact@k-dms.co</span
+                                    class="text-white text-lg font-semibold block"
                                 >
+                                    <ProtectedEmail linkClass="text-white text-lg font-semibold hover:text-[#8aad4a] transition-colors" />
+                                </span>
                             </div>
-                        </a>
+                        </div>
 
                         <div class="flex items-center gap-4">
                             <div
