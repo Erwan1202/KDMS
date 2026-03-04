@@ -4,11 +4,12 @@ import Navbar from "../components/common/Navbar.astro";
 import Footer from "../components/common/Footer.astro";
 import { Image } from "astro:assets";
 import heroBanner from "../assets/contact/hero-banner.png";
+import ProtectedEmail from "../components/common/ProtectedEmail.astro";
 ---
 
 <Layout
-    title="Contact - KDMS"
-    description="Contactez KDMS pour vos projets de flight case sur mesure, menuiserie et agencement. Devis gratuit et fabrication personnalisée."
+    title="Contact — KDMS Flight Cases sur mesure | Tigery (91)"
+    description="Contactez KDMS pour vos projets de flight cases sur mesure. Devis gratuit, fabrication personnalisée. Basé à Tigery (91), nous livrons partout en France et à l'international."
 >
     <Navbar theme="dark" />
 
@@ -143,11 +144,7 @@ import heroBanner from "../assets/contact/hero-banner.png";
                                     class="text-white/50 text-[10px] uppercase tracking-wider block mb-0.5"
                                     >Email</span
                                 >
-                                <a
-                                    href="mailto:contact@k-dms.co"
-                                    class="text-white font-medium text-sm hover:text-[#4A5D23] transition-colors"
-                                    >contact@k-dms.co</a
-                                >
+                                <ProtectedEmail linkClass="text-white font-medium text-sm hover:text-[#4A5D23] transition-colors" />
                             </div>
                         </div>
 

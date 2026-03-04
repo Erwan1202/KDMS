@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/common/Navbar.astro";
 import Footer from "../components/common/Footer.astro";
 import ProtectedText from "../components/common/ProtectedText.astro";
+import ProtectedEmail from "../components/common/ProtectedEmail.astro";
 ---
 
 <Layout
@@ -286,11 +287,7 @@ import ProtectedText from "../components/common/ProtectedText.astro";
                         </ul>
                         <div class="bg-white/5 rounded-xl p-4 mt-4">
                             <p class="text-white/80">
-                                Pour exercer ces droits, contactez-nous à : <a
-                                    href="mailto:contact@k-dms.co"
-                                    class="text-[#6b755a] hover:underline font-medium"
-                                    >contact@k-dms.co</a
-                                >
+                                Pour exercer ces droits, contactez-nous à : <ProtectedEmail linkClass="text-[#6b755a] hover:underline font-medium" />
                             </p>
                         </div>
                     </div>

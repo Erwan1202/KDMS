@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/common/Navbar.astro";
 import Footer from "../components/common/Footer.astro";
 import ProtectedText from "../components/common/ProtectedText.astro";
+import ProtectedEmail from "../components/common/ProtectedEmail.astro";
 ---
 
 <Layout
@@ -94,15 +95,10 @@ import ProtectedText from "../components/common/ProtectedText.astro";
                             <span class="text-white">8 Rue Camille Décauville, 91250 Tigery</span>
                         </div>
                         <div>
-                            <span
-                                class="text-white/40 text-xs uppercase tracking-wider block mb-1"
+                            <span class="text-white/40 text-xs uppercase tracking-wider block mb-1"
                                 >Contact</span
                             >
-                            <a
-                                href="mailto:contact@k-dms.co"
-                                class="text-white hover:text-[#6b755a] transition-colors"
-                                >contact@k-dms.co</a
-                            >
+                            <ProtectedEmail linkClass="text-white hover:text-[#6b755a] transition-colors" />
                         </div>
                         <div class="sm:col-span-2">
                             <span
@@ -194,11 +190,7 @@ import ProtectedText from "../components/common/ProtectedText.astro";
                         traitées par IONOS SARL afin de répondre à vos demandes.
                         Conformément au RGPD, vous disposez d'un droit d'accès,
                         de rectification et de suppression de vos données
-                        personnelles. Contactez-nous à <a
-                            href="mailto:contact@k-dms.co"
-                            class="text-[#6b755a] hover:underline"
-                            >contact@k-dms.co</a
-                        >.
+                        personnelles. Contactez-nous à <ProtectedEmail linkClass="text-[#6b755a] hover:underline" />.
                     </p>
                 </article>
             </div>

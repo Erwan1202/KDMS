@@ -2,6 +2,7 @@
 interface Props {
     title: string;
     description?: string;
+    ogImage?: string;
 }
 
 import SpeedInsights from "@vercel/speed-insights/astro";
@@ -9,8 +10,13 @@ import "../styles/global.css";
 
 const {
     title,
-    description = "Fabricant français de flight cases et malles industrielles entièrement sur mesure. Conception, fabrication et livraison personnalisées avec un suivi client dédié. Basé à Tigery (91), nous livrons partout en France.",
+    description = "KDMS - Fabricant français de flight cases 100% sur mesure. Conception, fabrication et livraison personnalisées.",
+    ogImage,
 } = Astro.props;
+
+const ogImageURL = ogImage
+    ? new URL(ogImage, Astro.site ?? Astro.url.origin).href
+    : undefined;
 
 const isProd = import.meta.env.PROD;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
@@ -21,8 +27,8 @@ const jsonLd = JSON.stringify({
     "name": "KDMS",
     "description": "Fabricant de flight cases sur mesure. Conception et fabrication personnalisées avec un suivi client dédié, entre artisanat et production industrielle.",
     "url": "https://www.k-dms.co",
+    "logo": "https://www.k-dms.co/logo.png",
     "telephone": "+33169127210",
-    "email": "contact@k-dms.co",
     "address": {
         "@type": "PostalAddress",
         "streetAddress": "8 Rue Camille Decauville",
@@ -35,7 +41,64 @@ const jsonLd = JSON.stringify({
         "latitude": 48.6365,
         "longitude": 2.5125
     },
-    "sameAs": []
+    "sameAs": [],
+    "knowsAbout": [
+        "flight case",
+        "conception flight case",
+        "aménagement flight case",
+        "flight case haute protection",
+        "flight case technique",
+        "flight case sur mesure",
+        "flight case custom",
+        "flight case personnalisé",
+        "fabrication flight case",
+        "fabricant flight case",
+        "flight case professionnel",
+        "flight case événementiel",
+        "flight case industriel",
+        "flight case spectacle",
+        "flight case audiovisuel",
+        "flight case médical",
+        "flight case militaire",
+        "flight case tournée",
+        "flight case transport",
+        "flight case protection matériel",
+        "flight case mousse",
+        "flight case capitonné",
+        "flight case rack",
+        "flight case à roulettes",
+        "flight case empilable",
+        "flight case étanche",
+        "flight case robuste",
+        "flight case aluminium",
+        "flight case bois",
+        "flight case grande dimension",
+        "flight case série",
+        "flight case prototype",
+        "flight case France",
+        "flight case Île-de-France",
+        "flight case Essonne",
+        "flight case Paris",
+        "malette de transport sur mesure",
+        "caisse de transport professionnelle",
+        "valise technique sur mesure",
+        "conditionnement sur mesure",
+        "protection équipement",
+        "emballage professionnel",
+        "usinage CNC flight case",
+        "menuiserie flight case",
+        "agencement flight case",
+        "valise résine",
+        "valise résine sur mesure",
+        "pelicase",
+        "peli case",
+        "pelican case",
+        "valise étanche",
+        "valise de protection",
+        "valise technique résine",
+        "flight case sur mesure ile de france",
+        
+    ]
 });
 ---
 
@@ -46,6 +109,22 @@ const jsonLd = JSON.stringify({
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="title" content={title} />
         <meta name="description" content={description} />
+        <meta name="robots" content="noimageindex" />
+
+        <!-- Open Graph -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={canonicalURL.href} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:locale" content="fr_FR" />
+        <meta property="og:site_name" content="KDMS" />
+        {ogImageURL && <meta property="og:image" content={ogImageURL} />}
+
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        {ogImageURL && <meta name="twitter:image" content={ogImageURL} />}
 
         <link rel="canonical" href={canonicalURL.href} />
 
@@ -66,6 +145,8 @@ const jsonLd = JSON.stringify({
         <meta property="twitter:image" content="https://metatags.io/images/meta-tags.png" />
 
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/logo.png" />
+        <link rel="apple-touch-icon" href="/logo.png" />
 
         <script type="application/ld+json" set:html={jsonLd} />
         <link rel="dns-prefetch" href="https://maps.google.com" />
@@ -78,6 +159,11 @@ const jsonLd = JSON.stringify({
         <link
             href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
             rel="stylesheet"
+        />
+        <link
+            rel="preload"
+            href="https://fonts.googleapis.com/css2?family=Outfit:wght@700&display=swap"
+            as="style"
         />
 
         <title>{title}</title>
