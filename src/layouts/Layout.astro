@@ -24,81 +24,50 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)
 const jsonLd = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
+    "@id": "https://www.k-dms.co",
     "name": "KDMS",
-    "description": "Fabricant de flight cases sur mesure. Conception et fabrication personnalisées avec un suivi client dédié, entre artisanat et production industrielle.",
+    "alternateName": "K-DMS",
+    "description": "Fabricant français de flight cases 100% sur mesure. Conception, fabrication et livraison personnalisées pour l'industrie, l'événementiel et le spectacle.",
     "url": "https://www.k-dms.co",
-    "logo": "https://www.k-dms.co/logo.png",
-    "telephone": "+33169127210",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://www.k-dms.co/logo.png",
+        "width": 500,
+        "height": 500
+    },
+    "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.k-dms.co/logo.png",
+        "width": 500,
+        "height": 500
+    },
+    "telephone": "+33 1 69 12 72 10",
+    "email": "contact@k-dms.co",
     "address": {
         "@type": "PostalAddress",
         "streetAddress": "8 Rue Camille Decauville",
         "addressLocality": "Tigery",
         "postalCode": "91250",
-        "addressCountry": "FR"
+        "addressCountry": "FR",
+        "addressRegion": "Île-de-France"
     },
     "geo": {
         "@type": "GeoCoordinates",
         "latitude": 48.6365,
         "longitude": 2.5125
     },
+    "priceRange": "€€",
+    "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Service",
+        "telephone": "+33 1 69 12 72 10",
+        "url": "https://www.k-dms.co/contact"
+    },
     "sameAs": [],
-    "knowsAbout": [
-        "flight case",
-        "conception flight case",
-        "aménagement flight case",
-        "flight case haute protection",
-        "flight case technique",
-        "flight case sur mesure",
-        "flight case custom",
-        "flight case personnalisé",
-        "fabrication flight case",
-        "fabricant flight case",
-        "flight case professionnel",
-        "flight case événementiel",
-        "flight case industriel",
-        "flight case spectacle",
-        "flight case audiovisuel",
-        "flight case médical",
-        "flight case militaire",
-        "flight case tournée",
-        "flight case transport",
-        "flight case protection matériel",
-        "flight case mousse",
-        "flight case capitonné",
-        "flight case rack",
-        "flight case à roulettes",
-        "flight case empilable",
-        "flight case étanche",
-        "flight case robuste",
-        "flight case aluminium",
-        "flight case bois",
-        "flight case grande dimension",
-        "flight case série",
-        "flight case prototype",
-        "flight case France",
-        "flight case Île-de-France",
-        "flight case Essonne",
-        "flight case Paris",
-        "malette de transport sur mesure",
-        "caisse de transport professionnelle",
-        "valise technique sur mesure",
-        "conditionnement sur mesure",
-        "protection équipement",
-        "emballage professionnel",
-        "usinage CNC flight case",
-        "menuiserie flight case",
-        "agencement flight case",
-        "valise résine",
-        "valise résine sur mesure",
-        "pelicase",
-        "peli case",
-        "pelican case",
-        "valise étanche",
-        "valise de protection",
-        "valise technique résine",
-        "flight case sur mesure ile de france",
-        
-    ]
+    "areaServed": {
+        "@type": "Country",
+        "name": "FR"
+    }
 });
 ---
 
@@ -167,6 +136,9 @@ const jsonLd = JSON.stringify({
         />
 
         <title>{title}</title>
+
+        <!-- Schema.org JSON-LD -->
+        <script type="application/ld+json" set:html={jsonLd}></script>
 
         <!-- Model Viewer 3D -->
         <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
