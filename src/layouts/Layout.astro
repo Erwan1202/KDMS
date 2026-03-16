@@ -24,25 +24,50 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)
 const jsonLd = JSON.stringify({
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
+    "@id": "https://www.k-dms.co",
     "name": "KDMS",
-    "description": "Fabricant de flight cases sur mesure. Conception et fabrication personnalisées avec un suivi client dédié, entre artisanat et production industrielle.",
+    "alternateName": "K-DMS",
+    "description": "Fabricant français de flight cases 100% sur mesure. Conception, fabrication et livraison personnalisées pour l'industrie, l'événementiel et le spectacle.",
     "url": "https://www.k-dms.co",
-    "logo": "https://www.k-dms.co/logo.png",
-    "telephone": "+33169127210",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://www.k-dms.co/logo.png",
+        "width": 500,
+        "height": 500
+    },
+    "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.k-dms.co/logo.png",
+        "width": 500,
+        "height": 500
+    },
+    "telephone": "+33 1 69 12 72 10",
+    "email": "contact@k-dms.co",
     "address": {
         "@type": "PostalAddress",
         "streetAddress": "8 Rue Camille Decauville",
         "addressLocality": "Tigery",
         "postalCode": "91250",
-        "addressCountry": "FR"
+        "addressCountry": "FR",
+        "addressRegion": "Île-de-France"
     },
     "geo": {
         "@type": "GeoCoordinates",
         "latitude": 48.6365,
         "longitude": 2.5125
     },
+    "priceRange": "€€",
+    "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Service",
+        "telephone": "+33 1 69 12 72 10",
+        "url": "https://www.k-dms.co/contact"
+    },
     "sameAs": [],
-    "knowsAbout": [
+    "areaServed": {
+        "@type": "Country",
+        "name": "FR"
+    }
         "flight case",
         "conception flight case",
         "aménagement flight case",
@@ -96,9 +121,7 @@ const jsonLd = JSON.stringify({
         "valise étanche",
         "valise de protection",
         "valise technique résine",
-        "flight case sur mesure ile de france",
-        
-    ]
+    }
 });
 ---
 
@@ -150,6 +173,10 @@ const jsonLd = JSON.stringify({
         />
 
         <title>{title}</title>
+
+        <!-- Schema.org JSON-LD -->
+        <script type="application/ld+json" set:html={jsonLd}></script>
+
         <style>
             * {
                 margin: 0;
