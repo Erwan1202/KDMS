@@ -5,18 +5,22 @@ const expertiseItems = [
     {
         title: "Notre histoire",
         text: "Depuis 1997 nous sommes bien plus qu'un fournisseur pour les professionnels de l'industrie, de l'événementiel et du spectacle vivant. Nous sommes le partenaire de tous vos projets de conditionnement.",
+        alt: "Atelier historique de KDMS, conception de flight cases depuis 1997",
     },
     {
         title: "2 Pôles de production",
         text: "Situés en Île-de-France, à Tigery (91), et à Viana Do Castelo au Portugal, nous vous offrons une solide présence logistique et commerciale sur toute l'Europe.",
+        alt: "Fabrication européenne de flight cases à Tigery (France) et au Portugal",
     },
     {
         title: "Gestion des processus de bout en bout",
         text: "Au carrefour de l'artisanat et de l'industrie nous avons adapté nos gestes et outils de production pour défendre notre compétitivité, en supervisant notre chaîne de production de bout en bout.",
+        alt: "Processus industriel et artisanal de fabrication de flight cases sur mesure",
     },
     {
         title: "Une société à taille humaine",
         text: "Tous nos collaborateurs sont sensibles aux valeurs que nous défendons : le conseil, la proximité, la flexibilité et, enfin, l'engagement de service.",
+        alt: "Équipe KDMS, experts en solutions de conditionnement et flight cases de protection",
     },
 ];
 ---
@@ -32,14 +36,14 @@ const expertiseItems = [
             class="expertise-title w-full text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 mt-8 tracking-tight text-center mx-auto text-white"
             style="text-wrap: balance;"
         >
-            <span class="text-[#4A5D23]">20 ans</span> d'expertise
+            Fabricant français de <span class="text-[#4A5D23]">flight cases</span>
         </h2>
-        <p
+        <h3
             class="text-white/80 text-base sm:text-lg md:text-xl lg:text-2xl font-light leading-relaxed max-w-3xl mx-auto"
             style="text-wrap: balance;"
         >
-            Fabricant français de flight cases sur mesure
-        </p>
+            20 ans d'expertise sur mesure
+        </h3>
     </div>
 
     <div class="expertise-content w-full overflow-hidden">
@@ -49,14 +53,14 @@ const expertiseItems = [
             {
                 expertiseItems.map((item) => (
                     <div
-                        class="relative expertise-image bg-[#262626] w-[100px] lg:w-[120px] xl:w-[140px] min-w-[100px] lg:min-w-[120px] xl:min-w-[140px] h-[350px] lg:h-[400px] xl:h-[450px] rounded-lg border border-[#4A5D23]/30 flex-shrink-0 transition-all duration-500 hover:w-[400px] lg:hover:w-[450px] xl:hover:w-[500px] hover:border-[#7FB255] hover:shadow-[0_0_30px_rgba(92,143,58,0.2)] cursor-pointer grayscale hover:grayscale-0 overflow-hidden"
+                        class="relative expertise-image bg-[#262626] w-[100px] lg:w-[80px] xl:w-[140px] h-[350px] lg:h-[400px] xl:h-[450px] rounded-lg border border-[#4A5D23]/30 flex-shrink-0 transition-[width,box-shadow,border,transform,filter] duration-500 hover:border-[#7FB255] cursor-pointer grayscale hover:grayscale-0 overflow-hidden"
                         data-title={item.title}
                         data-text={item.text}
                     >
                         {item.image && (
                             <Image
                                 src={item.image}
-                                alt={item.title}
+                                alt={item.alt || item.title}
                                 class="w-full h-full object-cover"
                             />
                         )}
@@ -65,7 +69,7 @@ const expertiseItems = [
             }
 
             <div
-                class="pl-4 lg:pl-6 xl:pl-8 flex-shrink-0 flex flex-col items-center justify-center gap-4 min-w-[250px] lg:min-w-[280px] xl:min-w-[320px] max-w-[350px] lg:max-w-[400px] xl:max-w-[450px]"
+                class="pl-4 lg:pl-6 xl:pl-8 flex-1 flex flex-col items-center justify-center gap-4 min-w-[200px] lg:min-w-[240px] xl:min-w-[320px] max-w-[350px] lg:max-w-[400px] xl:max-w-[450px]"
             >
                 <h3
                     id="expertise-title"
@@ -101,7 +105,7 @@ const expertiseItems = [
                             {item.image && (
                                 <Image
                                     src={item.image}
-                                    alt={item.title}
+                                    alt={item.alt || item.title}
                                     class="w-full h-full object-cover grayscale"
                                 />
                             )}
@@ -163,8 +167,8 @@ const expertiseItems = [
                 collapsedWidth = "120px";
             }
             if (screenWidth < 1280) {
-                expandedWidth = "400px";
-                collapsedWidth = "100px";
+                expandedWidth = "340px";
+                collapsedWidth = "80px";
             }
 
             if (i === index) {
@@ -183,7 +187,7 @@ const expertiseItems = [
         let collapsedWidth = "140px";
 
         if (screenWidth < 1536) collapsedWidth = "120px";
-        if (screenWidth < 1280) collapsedWidth = "100px";
+        if (screenWidth < 1280) collapsedWidth = "80px";
 
         expertiseImages.forEach((img) => {
             const element = img as HTMLElement;

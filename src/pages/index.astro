@@ -11,8 +11,8 @@ import heroBg from "../assets/home/index-hero-bg.png";
 ---
 
 <Layout
-    title="KDMS"
-    description="KDMS — Fabricant de flight cases 100% sur mesure. Conception, fabrication et livraison personnalisées pour l'industrie, l'événementiel et le spectacle. Devis gratuit."
+    title="KDMS — Fabricant Français de Flight Cases Sur Mesure | Paris, Île-de-France"
+    description="KDMS conçoit et fabrique vos flight cases 100% sur mesure : industrie, événementiel, audiovisuel et médical. Solutions de protection professionnelles, made in France."
 >
     <Navbar />
 
@@ -53,7 +53,7 @@ import heroBg from "../assets/home/index-hero-bg.png";
                     </p>
                 </div>
 
-                <div class="flight-case-container relative w-full flex justify-center mt-2 md:-mt-8 mb-4 z-30 pointer-events-none">
+                <div class="flight-case-container relative w-full flex justify-center mt-12 md:-mt-8 mb-4 z-30 pointer-events-none px-4 md:px-0">
                     <model-viewer
                         id="flight-case-3d"
                         src="/models/Flight.glb"
@@ -63,9 +63,26 @@ import heroBg from "../assets/home/index-hero-bg.png";
                         environment-image="neutral"
                         exposure="1.2"
                         camera-orbit="0deg 90deg 20%"
-                        style="width: min(95vw, 1200px); height: clamp(400px, 60vh, 800px); background: transparent; --poster-color: transparent;"
+                        style="width: min(95vw, 1200px); height: clamp(200px, 40vh, 800px); background: transparent; --poster-color: transparent;"
                     ></model-viewer>
                 </div>
+                <script is:inline>
+                    // Exécuter l'ajustement de caméra au chargement initial et au redimensionnement
+                    function adjustCamera() {
+                        const flightCaseModel = document.getElementById('flight-case-3d');
+                        if (flightCaseModel) {
+                            if (window.innerWidth < 768) {
+                                // Sur mobile, on donne encore plus de recul avec un auto plus un cadrage large ou en forçant le format
+                                flightCaseModel.setAttribute('camera-orbit', '0deg 90deg 35%');
+                            } else {
+                                flightCaseModel.setAttribute('camera-orbit', '0deg 90deg 20%');
+                            }
+                        }
+                    }
+                    
+                    window.addEventListener('DOMContentLoaded', adjustCamera);
+                    window.addEventListener('resize', adjustCamera);
+                </script>
 
                 <div
                     class="scroll-indicator flex flex-col items-center gap-1 cursor-pointer animate-bounce"

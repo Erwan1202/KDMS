@@ -125,22 +125,33 @@ const jsonLd = JSON.stringify({
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        
+        <!-- Preload Fonts -->
+        <link
+            rel="preload"
+            href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+            as="style"
+        />
         <link
             href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
             rel="stylesheet"
+            media="print" 
+            onload="this.media='all'"
         />
-        <link
-            rel="preload"
-            href="https://fonts.googleapis.com/css2?family=Outfit:wght@700&display=swap"
-            as="style"
-        />
+        <noscript>
+            <link
+                href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+                rel="stylesheet"
+            />
+        </noscript>
 
         <title>{title}</title>
 
         <!-- Schema.org JSON-LD -->
         <script type="application/ld+json" set:html={jsonLd}></script>
 
-        <!-- Model Viewer 3D -->
+        <!-- Preload 3D Model Viewer for performance -->
+        <link rel="modulepreload" href="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
         <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
 
         <style>
