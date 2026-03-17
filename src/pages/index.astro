@@ -53,7 +53,7 @@ import heroBg from "../assets/home/index-hero-bg.png";
                     </p>
                 </div>
 
-                <div class="flight-case-container relative w-full flex justify-center mt-12 md:-mt-8 mb-4 z-30 pointer-events-none px-4 md:px-0">
+                <div class="flight-case-container relative w-full flex justify-center mt-12 md:-mt-2 lg:mt-4 mb-4 z-30 pointer-events-none px-4 md:px-0">
                     <model-viewer
                         id="flight-case-3d"
                         src="/models/Flight.glb"
@@ -63,7 +63,7 @@ import heroBg from "../assets/home/index-hero-bg.png";
                         environment-image="neutral"
                         exposure="1.2"
                         camera-orbit="0deg 90deg 20%"
-                        style="width: min(95vw, 1200px); height: clamp(200px, 40vh, 800px); background: transparent; --poster-color: transparent;"
+                        style="width: min(95vw, 1200px); height: clamp(200px, 45vh, 900px); background: transparent; --poster-color: transparent;"
                     ></model-viewer>
                 </div>
                 <script is:inline>
@@ -72,9 +72,10 @@ import heroBg from "../assets/home/index-hero-bg.png";
                         const flightCaseModel = document.getElementById('flight-case-3d');
                         if (flightCaseModel) {
                             if (window.innerWidth < 768) {
-                                // Sur mobile, on donne encore plus de recul avec un auto plus un cadrage large ou en forçant le format
-                                flightCaseModel.setAttribute('camera-orbit', '0deg 90deg 35%');
+                                // Sur mobile, le flight case étant très large, il faut reculer la caméra très loin (ex: 110%) pour le voir en entier
+                                flightCaseModel.setAttribute('camera-orbit', '0deg 90deg 110%');
                             } else {
+                                // Sur PC, on garde le plan rapproché très immersif (20%)
                                 flightCaseModel.setAttribute('camera-orbit', '0deg 90deg 20%');
                             }
                         }
@@ -231,16 +232,19 @@ import heroBg from "../assets/home/index-hero-bg.png";
         
         // Calcul du scale exact nécessaire pour que le container remplisse tout l'écran,
         // avec un fort multiplicateur (x30) pour rentrer au coeur de la texture noire.
-        const targetScale = (viewportSize / containerWidth) * 30;
+        const targetScale = (viewportSize / containerWidth) * (window.innerWidth < 768 ? 40 : 30);
+        const targetY = window.innerWidth < 768 ? "-20vh" : "0px";
 
         timeline.fromTo(
             flightCaseContainer,
             {
                 scale: 1,
                 opacity: 1,
+                y: 0,
             },
             {
                 scale: targetScale,
+                y: targetY,
                 transformOrigin: "center 60%",
                 ease: "power2.inOut",
                 duration: 1,
