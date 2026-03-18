@@ -574,13 +574,13 @@ import ProtectedEmail from "../components/common/ProtectedEmail.astro";
                     </div>
                 `;
             } else {
-                throw new Error(result.message || 'Erreur lors de l\\'envoi');
+                throw new Error(result.message || "Erreur lors de l'envoi");
             }
         } catch (error) {
             // Afficher l'erreur
             const errorDiv = document.createElement('div');
             errorDiv.className = 'form-error-msg bg-red-500/20 border border-red-500/50 rounded-lg p-3 text-red-300 text-sm mb-4';
-            errorDiv.textContent = error instanceof Error ? error.message : 'Erreur réseau lors de l\\'envoi. Veuillez réessayer.';
+            errorDiv.textContent = error instanceof Error ? error.message : "Erreur réseau lors de l'envoi. Veuillez réessayer.";
             
             // Supprimer l'ancienne erreur si présente
             form.querySelector('.form-error-msg')?.remove();

@@ -10,6 +10,8 @@ export interface Project {
     image?: any;
 }
 
+import type { ImageMetadata } from "astro";
+
 export interface BrandLogo {
     id: number;
     name: string;
