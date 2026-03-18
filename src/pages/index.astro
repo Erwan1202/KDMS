@@ -34,18 +34,18 @@ import heroBg from "../assets/home/index-hero-bg.png";
             </div>
 
             <div
-                class="relative z-20 w-full h-full flex flex-col items-center justify-center pt-16 sm:pt-20 lg:pt-24 pb-8 sm:pb-12"
+                class="relative z-20 w-full h-full flex flex-col items-center justify-center pt-8 sm:pt-20 lg:pt-24 pb-4 sm:pb-12"
             >
                 <div
-                    class="hero-text text-center w-full max-w-[90%] md:max-w-[70%] lg:max-w-[60%] mx-auto px-4"
+                    class="hero-text text-center w-full max-w-[95%] md:max-w-[80%] lg:max-w-[70%] mx-auto px-2"
                 >
                     <h1
-                        class="font-bold text-white tracking-tight text-[clamp(2.5rem,8vw,7rem)] leading-none"
+                        class="font-bold text-white tracking-tight text-[clamp(4rem,12vw,8rem)] leading-none"
                     >
                         K-DMS
                     </h1>
                     <p
-                        class="mt-1 uppercase tracking-[0.15em] md:tracking-[0.2em] font-medium px-2 md:px-4 text-[clamp(0.75rem,1.5vw,1.8rem)]"
+                        class="mt-2 sm:mt-1 uppercase text-balance tracking-[0.05em] sm:tracking-[0.15em] md:tracking-[0.2em] font-medium px-1 sm:px-4 text-[clamp(1.1rem,3.5vw,2rem)]"
                     >
                         <span class="text-[#B8B8B8]">Le flight case</span>
                         <span class="text-[#4A5D23] font-bold">100% custom</span
@@ -53,7 +53,7 @@ import heroBg from "../assets/home/index-hero-bg.png";
                     </p>
                 </div>
 
-                <div class="flight-case-container relative w-full flex justify-center mt-12 md:-mt-2 lg:mt-4 mb-4 z-30 pointer-events-none px-4 md:px-0">
+                <div class="flight-case-container relative w-full flex justify-center mt-6 sm:mt-8 md:-mt-2 lg:mt-4 mb-2 sm:mb-4 z-30 pointer-events-none px-4 md:px-0">
                     <model-viewer
                         id="flight-case-3d"
                         src="/models/Flight.glb"
@@ -64,18 +64,18 @@ import heroBg from "../assets/home/index-hero-bg.png";
                         exposure="1.2"
                         camera-orbit="0deg 90deg 20%"
                         style="width: min(95vw, 1200px); height: clamp(200px, 45vh, 900px); background: transparent; --poster-color: transparent;"
-                    ></model-viewer>
+                    >
+                        <div slot="progress-bar"></div>
+                    </model-viewer>
                 </div>
                 <script is:inline>
-                    // Exécuter l'ajustement de caméra au chargement initial et au redimensionnement
+                    const flightCaseModel = document.getElementById('flight-case-3d');
+
                     function adjustCamera() {
-                        const flightCaseModel = document.getElementById('flight-case-3d');
                         if (flightCaseModel) {
                             if (window.innerWidth < 768) {
-                                // Sur mobile, le flight case étant très large, il faut reculer la caméra très loin (ex: 110%) pour le voir en entier
                                 flightCaseModel.setAttribute('camera-orbit', '0deg 90deg 110%');
                             } else {
-                                // Sur PC, on garde le plan rapproché très immersif (20%)
                                 flightCaseModel.setAttribute('camera-orbit', '0deg 90deg 20%');
                             }
                         }
@@ -232,8 +232,11 @@ import heroBg from "../assets/home/index-hero-bg.png";
         
         // Calcul du scale exact nécessaire pour que le container remplisse tout l'écran,
         // avec un fort multiplicateur (x30) pour rentrer au coeur de la texture noire.
-        const targetScale = (viewportSize / containerWidth) * (window.innerWidth < 768 ? 40 : 30);
-        const targetY = window.innerWidth < 768 ? "-20vh" : "0px";
+        // Sur mobile, la caméra est beaucoup plus lointaine (110%), on compense par un zoom drastiquement plus grand.
+        const isMobile = window.innerWidth < 768;
+        const targetScale = (viewportSize / containerWidth) * (isMobile ? 120 : 30);
+        const targetY = isMobile ? "0px" : "0px";
+        const transformOrigin = isMobile ? "center 50%" : "center 60%";
 
         timeline.fromTo(
             flightCaseContainer,
@@ -245,7 +248,7 @@ import heroBg from "../assets/home/index-hero-bg.png";
             {
                 scale: targetScale,
                 y: targetY,
-                transformOrigin: "center 60%",
+                transformOrigin: transformOrigin,
                 ease: "power2.inOut",
                 duration: 1,
             },
