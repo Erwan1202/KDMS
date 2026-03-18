@@ -3,7 +3,20 @@ $to_email = "contact@k-dms.co";
 $subject_prefix = "[KDMS Landing] ";
 
 header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: *');
+$allowed_origins = [
+    'https://www.k-dms.co',
+    'https://k-dms.co',
+    'http://localhost:4321', // Local dev Astro
+    'http://localhost:3000'
+];
+
+$origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
+if (in_array($origin, $allowed_origins)) {
+    header("Access-Control-Allow-Origin: $origin");
+} else {
+    // Optionally default to the main domain if no origin or disallowed origin (it just blocks CORS)
+    header("Access-Control-Allow-Origin: https://www.k-dms.co");
+}
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
@@ -22,6 +35,14 @@ if (!empty($_POST['bot-field'])) {
     echo json_encode(['success' => true, 'message' => 'Message envoyé']);
     exit();
 }
+
+$form_time = isset($_POST['form-time']) ? (int)$_POST['form-time'] : 0;
+if ($form_time > 0) {
+    if (time() - $form_time < 3) {
+        echo json_encode(['success' => true, 'message' => 'Message envoyé']);
+        exit();
+    }
+} 
 
 $firstname = isset($_POST['firstname']) ? trim(strip_tags($_POST['firstname'])) : '';
 $lastname = isset($_POST['lastname']) ? trim(strip_tags($_POST['lastname'])) : '';
