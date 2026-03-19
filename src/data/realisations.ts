@@ -20,12 +20,24 @@ export interface BrandLogo {
     logo: ImageMetadata;
 }
 
-// Project Images
+// Project Images - Meubles
 import bureauMobile from "../assets/realisations/meubles/bureau-mobile.png";
-// import regieTournee from "../assets/realisations/spectacle/regie-tournee.png"; // MISSING FILE
-const regieTourneeFallback = bureauMobile; // Fallback for building
 import commode from "../assets/realisations/meubles/commode.png";
 import borneArcade from "../assets/realisations/meubles/borne-arcade.png";
+import meubleRedBull from "../assets/realisations/meubles/meuble-redbull-1.jpg";
+import redbullGym from "../assets/realisations/meubles/redbull-gym.jpg";
+
+// Project Images - Spectacle
+import grosseEnceinte from "../assets/realisations/spectacle/GrosseEnceinte.jpeg";
+import stationPioneer from "../assets/realisations/spectacle/station-pioneer-dj.jpg";
+
+// Project Images - Evenementiel
+import platineVinyl from "../assets/realisations/evenementiel/PlatineVinyl.jpeg";
+import evenementielWS from "../assets/realisations/evenementiel/WhatsApp Image 2026-03-07 at 11.04.50(2).jpeg";
+
+// Project Images - Autres
+import jsp1 from "../assets/realisations/autres/jsp1.jpg";
+import jsp2 from "../assets/realisations/autres/jsp2.jpg";
 
 const RATIOS = [
     "aspect-square",
@@ -49,19 +61,37 @@ const COLORS = [
 export const categories: Category[] = [
     { id: "all", label: "Tout Voir" },
     { id: "meubles", label: "Meubles", featured: true, gridClass: "md:col-span-2" },
-    { id: "spectacle", label: "Spectacle", featured: true, gridClass: "md:col-span-2" },
+    { id: "spectacle", label: "Spectacle", featured: true, gridClass: "md:col-span-1" },
     { id: "industrie", label: "Industrie", featured: true, gridClass: "md:col-span-1" },
     { id: "audiovisuel", label: "Audiovisuel", featured: true, gridClass: "md:col-span-2" },
-    { id: "evenementiel", label: "Evenementiel", featured: true, gridClass: "md:col-span-1" },
-    { id: "Valise résine", label: "Valise résine", featured: true, gridClass: "md:col-span-1" },
+    { id: "evenementiel", label: "Événementiel", featured: true, gridClass: "md:col-span-2" },
+    { id: "valise-resine", label: "Valise résine", featured: true, gridClass: "md:col-span-1" },
+    { id: "autres", label: "Autres", featured: true, gridClass: "md:col-span-1" },
 ];
 
+
+
 const projectsData: Project[] = [
-    { title: "Vestiaire mobile", category: "meubles", description: "Vestiaire mobile personnalisé", image: bureauMobile },
-    { title: "Platine de mixage", category: "spectacle", description: "Platine de mixage personnalisée", image: regieTourneeFallback },
-    { title: "Meuble télévision", category: "meubles", description: "Meuble télévision personnalisé", image: commode },
-    { title: "Borne Arcade", category: "meubles", description: "Borne arcade personnalisée", image: borneArcade },
+    // Meubles
+    { title: "Vestiaire mobile", category: "meubles", description: "Vestiaire mobile professionnel personnalisé", image: bureauMobile },
+    { title: "Meuble télévision", category: "meubles", description: "Meuble télévision sur mesure", image: commode },
+    { title: "Borne Arcade", category: "meubles", description: "Borne arcade rétro personnalisée", image: borneArcade },
+    { title: "Meuble Red Bull", category: "meubles", description: "Mobilier évènementiel Red Bull", image: meubleRedBull },
+    { title: "Équipement de sport", category: "meubles", description: "Flight case de rangement pour équipement sportif", image: redbullGym },
+    
+    // Spectacle
+    { title: "Protection Enceinte", category: "spectacle", description: "Flight case de protection pour enceinte acoustique", image: grosseEnceinte },
+    { title: "Station DJ Pioneer", category: "spectacle", description: "Régie DJ complète sur mesure", image: stationPioneer },
+    
+    // Evenementiel
+    { title: "Platine Vinyle", category: "evenementiel", description: "Flight case pour platine vinyle professionnelle", image: platineVinyl },
+    { title: "Flight case Évènementiel", category: "evenementiel", description: "Solution de transport pour matériel évènementiel", image: evenementielWS },
+    
+    // Autres
+    { title: "Projet Spécial 1", category: "autres", description: "Réalisation sur mesure pour besoins spécifiques", image: jsp1 },
+    { title: "Projet Spécial 2", category: "autres", description: "Solution de protection personnalisée", image: jsp2 },
 ];
+
 
 export const projects = projectsData.map((p, i) => ({
     id: i + 1,
@@ -92,3 +122,4 @@ export const brandLogos: BrandLogo[] = [
     { id: 8, name: "Allen & Heath", logo: allenHeathLogo },
     { id: 9, name: "Unilumin", logo: uniluminLogo },
 ];
+

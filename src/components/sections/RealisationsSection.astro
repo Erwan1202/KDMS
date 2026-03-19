@@ -7,6 +7,7 @@ const featuredRealisations = categories
     .map(cat => {
         // Find the first project in this category to use as the cover image
         const project = projects.find(p => p.category === cat.id);
+        
         return {
             title: cat.label,
             category: cat.id,
@@ -14,6 +15,8 @@ const featuredRealisations = categories
             image: project?.image,
         };
     });
+
+
 ---
 
 <section
@@ -31,7 +34,7 @@ const featuredRealisations = categories
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full px-4 md:px-8">
         {
-            featuredRealisations.map((item) => (
+            featuredRealisations.map((item, index) => (
                 <a 
                     href={`/realisations?category=${item.category}`}
                     class={`realisation-card group relative w-full overflow-hidden rounded-2xl bg-[#1A1A1A] cursor-pointer h-[280px] sm:h-[320px] md:h-[360px] lg:h-[400px] block no-underline ${item.gridClass}`}
@@ -40,7 +43,8 @@ const featuredRealisations = categories
                         <Image
                             src={item.image}
                             alt={item.title}
-                            loading="lazy"
+                            loading={index < 2 ? "eager" : "lazy"}
+                            fetchpriority={index === 0 ? "high" : "auto"}
                             decoding="async"
                             widths={[600, 1200]}
                             class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-50 transition-all"
