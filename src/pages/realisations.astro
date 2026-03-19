@@ -89,15 +89,18 @@ import projectImage from "../assets/home/hero-flight-case.png";
                 {
                     projects.filter(p => !!p.image).map((project) => (
                         <article
-                            class={`project-item break-inside-avoid relative group cursor-pointer overflow-hidden rounded-lg sm:rounded-xl bg-[#1A1A1A] ${project.ratio}`}
+                            class={`project-item break-inside-avoid relative group cursor-pointer overflow-hidden rounded-lg sm:rounded-xl bg-[#1A1A1A] transition-all duration-500 ease-in-out opacity-0 translate-y-4 scale-95 ${project.ratio}`}
                             data-category={project.category}
                         >
                             <div class="absolute inset-0 opacity-80 group-hover:opacity-100 transition-opacity duration-300 will-change-opacity">
                                 <Image
                                     src={project.image}
                                     alt={project.title}
+                                    widths={[400, 800]}
+                                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                                     class="w-full h-full object-cover transition-all duration-500"
                                     loading="lazy"
+                                    decoding="async"
                                 />
                             </div>
 
@@ -256,12 +259,24 @@ import projectImage from "../assets/home/hero-flight-case.png";
     }
 
     function filterProjects(category: string): void {
-        requestAnimationFrame(() => {
-            projectItems.forEach((item) => {
-                const show = category === "all" || item.dataset.category === category;
-                item.style.display = show ? "block" : "none";
-            });
-        });
+        projectItems.forEach((item) => {
+            const isVisible = category === "all" || item.dataset.category === category;
+            
+            if (isVisible) {
+                item.classList.remove("hidden-item");
+                // Force a relayout to trigger the transition
+                void item.offsetWidth;
+                item.classList.remove("opacity-0", "translate-y-4", "scale-95");
+            } else {
+                item.classList.add("opacity-0", "translate-y-4", "scale-95");
+                // Wait for the transition to finish before hiding
+                setTimeout(() => {
+                    if (item.classList.contains("opacity-0")) {
+                        item.classList.add("hidden-item");
+                    }
+                }, 300);
+            }
+        }); 
     }
     function updateButtonStates(activeCategory: string): void {
         const btns = filterBtnsContainer?.querySelectorAll<HTMLButtonElement>(".filter-btn");
@@ -392,6 +407,10 @@ import projectImage from "../assets/home/hero-flight-case.png";
 </script>
 
 <style>
+    .hidden-item {
+        display: none;
+    }
+
     @keyframes marquee {
         0% {
             transform: translateX(0);

@@ -1,16 +1,18 @@
+import type { ImageMetadata } from "astro";
+
 export interface Category {
     id: string;
     label: string;
+    featured?: boolean;
+    gridClass?: string;
 }
 
 export interface Project {
     title: string;
     category: string;
     description: string;
-    image?: any;
+    image: ImageMetadata;
 }
-
-import type { ImageMetadata } from "astro";
 
 export interface BrandLogo {
     id: number;
@@ -18,8 +20,10 @@ export interface BrandLogo {
     logo: ImageMetadata;
 }
 
+// Project Images
 import bureauMobile from "../assets/realisations/meubles/bureau-mobile.png";
-import regieTournee from "../assets/realisations/spectacle/regie-tournee.png";
+// import regieTournee from "../assets/realisations/spectacle/regie-tournee.png"; // MISSING FILE
+const regieTourneeFallback = bureauMobile; // Fallback for building
 import commode from "../assets/realisations/meubles/commode.png";
 import borneArcade from "../assets/realisations/meubles/borne-arcade.png";
 
@@ -42,21 +46,19 @@ const COLORS = [
     "bg-[#434c3b]",
 ] as const;
 
-
 export const categories: Category[] = [
     { id: "all", label: "Tout Voir" },
-    { id: "meubles", label: "Meubles" },
-    { id: "spectacle", label: "Spectacle" },
-    { id: "industrie", label: "Industrie" },
-    { id: "audiovisuel", label: "Audiovisuel" },
-    { id: "evenementiel", label: "Evenementiel" },
-    { id: "Valise résine", label: "Valise résine" },
+    { id: "meubles", label: "Meubles", featured: true, gridClass: "md:col-span-2" },
+    { id: "spectacle", label: "Spectacle", featured: true, gridClass: "md:col-span-2" },
+    { id: "industrie", label: "Industrie", featured: true, gridClass: "md:col-span-1" },
+    { id: "audiovisuel", label: "Audiovisuel", featured: true, gridClass: "md:col-span-2" },
+    { id: "evenementiel", label: "Evenementiel", featured: true, gridClass: "md:col-span-1" },
+    { id: "Valise résine", label: "Valise résine", featured: true, gridClass: "md:col-span-1" },
 ];
-
 
 const projectsData: Project[] = [
     { title: "Vestiaire mobile", category: "meubles", description: "Vestiaire mobile personnalisé", image: bureauMobile },
-    { title: "Platine de mixage", category: "spectacle", description: "Platine de mixage personnalisée", image: regieTournee },
+    { title: "Platine de mixage", category: "spectacle", description: "Platine de mixage personnalisée", image: regieTourneeFallback },
     { title: "Meuble télévision", category: "meubles", description: "Meuble télévision personnalisé", image: commode },
     { title: "Borne Arcade", category: "meubles", description: "Borne arcade personnalisée", image: borneArcade },
 ];
@@ -68,6 +70,7 @@ export const projects = projectsData.map((p, i) => ({
     color: COLORS[i % COLORS.length],
 }));
 
+// Brand Logos
 import sonyLogo from "../assets/brands/sony.png";
 import yamahaLogo from "../assets/brands/yamaha.png";
 import pioneerLogo from "../assets/brands/pioneer.png";
