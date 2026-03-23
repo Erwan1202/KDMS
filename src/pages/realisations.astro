@@ -11,7 +11,7 @@ import projectImage from "../assets/home/hero-flight-case.png";
 
 <Layout
     title="Nos réalisations de flight cases sur mesure — Galerie projets | KDMS"
-    description="Découvrez nos réalisations de flight cases sur mesure : meubles, événementiel, industrie, spectacle, audiovisuel. Chaque flight case est une solution unique."
+    description="Découvrez nos réalisations de flight cases sur mesure : meubles, événementiel, industrie, audiovisuel. Chaque flight case est une solution unique."
 >
     <Navbar theme="dark" />
 
@@ -80,71 +80,49 @@ import projectImage from "../assets/home/hero-flight-case.png";
         </nav>
 
         <section
-            class="px-3 sm:px-4 md:px-6 lg:px-12 pb-16 sm:pb-24 mx-auto max-w-[1920px]"
+            class="px-4 sm:px-6 md:px-10 lg:px-16 pb-20 sm:pb-32 mx-auto max-w-[1920px]"
             aria-label="Galerie de projets"
         >
             <div
-                class="columns-2 md:columns-3 lg:columns-3 xl:columns-4 gap-2 sm:gap-3 md:gap-4 lg:gap-6 xl:gap-8 space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-6 xl:space-y-8"
+                class="columns-2 md:columns-3 xl:columns-4 gap-4 sm:gap-6 lg:gap-8 space-y-4 sm:space-y-6 lg:space-y-8"
             >
                 {
                     projects.filter(p => !!p.image).map((project, index) => (
                         <article
-                            class={`project-item break-inside-avoid relative group cursor-pointer overflow-hidden rounded-lg sm:rounded-xl bg-[#1A1A1A] transition-all duration-500 ease-in-out opacity-0 translate-y-4 scale-95 ${project.ratio}`}
+                            class="project-item break-inside-avoid relative group cursor-pointer overflow-hidden rounded-xl bg-[#1A1A1A] transition-all duration-700 ease-in-out opacity-0 translate-y-8"
                             data-category={project.category}
                         >
-                            <div class="absolute inset-0 opacity-80 group-hover:opacity-100 transition-opacity duration-300 will-change-opacity">
+                            <div class="relative w-full overflow-hidden">
                                 <Image
                                     src={project.image}
-                                    alt={project.title}
-                                    widths={[400, 800]}
-                                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                                    class="w-full h-full object-cover transition-all duration-500"
-                                    loading={index < 4 ? "eager" : "lazy"}
-                                    fetchpriority={index === 0 ? "high" : "auto"}
+                                    alt={project.alt || `Réalisation ${project.title}`}
+                                    widths={[400, 800, 1200]}
+                                    sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 22vw"
+                                    class="w-full h-auto object-cover transition-all duration-1000 group-hover:scale-105"
+                                    loading={index < 8 ? "eager" : "lazy"}
+                                    fetchpriority={index < 2 ? "high" : "auto"}
                                     decoding="async"
                                 />
+                                
+
                             </div>
 
-                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-200" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
 
-                            <div class="absolute bottom-0 left-0 w-full p-4 sm:p-5 md:p-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-300 ease-out will-change-transform">
-                                <span class="text-[#6b755a] text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-1.5 sm:mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                                    {project.category}
-                                </span>
-                                <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-white mb-1.5 sm:mb-2 leading-tight">
-                                    {project.title}
-                                </h2>
-                                <p class="text-white/60 text-xs sm:text-sm font-light max-h-0 overflow-hidden opacity-0 group-hover:max-h-20 group-hover:opacity-100 transition-all duration-500 ease-in-out line-clamp-3">
-                                    {project.description}
-                                </p>
-                            </div>
-
-                            <div
-                                class="absolute top-3 right-3 sm:top-4 sm:right-4 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
-                                aria-hidden="true"
-                            >
-                                <svg
-                                    width="16"
-                                    height="16"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    class="text-white sm:w-5 sm:h-5"
-                                >
-                                    <path
-                                        d="M7 17L17 7"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    />
-                                    <path
-                                        d="M7 7H17V17"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    />
-                                </svg>
+                            <div class="absolute bottom-0 left-0 w-full p-4 sm:p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500 ease-out will-change-transform z-10">
+                                <div class="bg-black/30 backdrop-blur-xl border border-white/10 rounded-xl p-4 transform transition-all duration-500 group-hover:bg-black/40 shadow-2xl">
+                                    <span class="text-[#E07A1F] text-[10px] font-bold uppercase tracking-widest mb-1 block opacity-70">
+                                        {project.category.replace('-', ' ')}
+                                    </span>
+                                    <h2 class="text-base sm:text-lg font-bold text-white mb-1 leading-tight">
+                                        {project.title}
+                                    </h2>
+                                    {project.description && (
+                                        <p class="text-white/60 text-[10px] sm:text-xs font-light max-h-0 overflow-hidden opacity-0 group-hover:max-h-20 group-hover:opacity-100 transition-all duration-700 ease-in-out line-clamp-2 mt-1">
+                                            {project.description}
+                                        </p>
+                                    )}
+                                </div>
                             </div>
                         </article>
                     ))
@@ -223,6 +201,7 @@ import projectImage from "../assets/home/hero-flight-case.png";
                     src=""
                     alt="Image en plein écran"
                     class="max-w-full max-h-[85vh] object-contain rounded-md shadow-2xl scale-95 transition-transform duration-300 cursor-default"
+                    loading="lazy"
                 />
                 <p id="modal-caption" class="text-white text-lg sm:text-xl font-medium mt-4 text-center cursor-default"></p>
             </div>
@@ -260,22 +239,22 @@ import projectImage from "../assets/home/hero-flight-case.png";
     }
 
     function filterProjects(category: string): void {
-        projectItems.forEach((item) => {
+        projectItems.forEach((item, index) => {
             const isVisible = category === "all" || item.dataset.category === category;
             
             if (isVisible) {
                 item.classList.remove("hidden-item");
-                // Force a relayout to trigger the transition
-                void item.offsetWidth;
-                item.classList.remove("opacity-0", "translate-y-4", "scale-95");
+                // Staggered reveal
+                setTimeout(() => {
+                    item.classList.remove("opacity-0", "translate-y-8");
+                }, index * 30);
             } else {
-                item.classList.add("opacity-0", "translate-y-4", "scale-95");
-                // Wait for the transition to finish before hiding
+                item.classList.add("opacity-0", "translate-y-8");
                 setTimeout(() => {
                     if (item.classList.contains("opacity-0")) {
                         item.classList.add("hidden-item");
                     }
-                }, 300);
+                }, 500);
             }
         }); 
     }
