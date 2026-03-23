@@ -99,9 +99,11 @@ import projectImage from "../assets/home/hero-flight-case.png";
                                     widths={[400, 800, 1200]}
                                     sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 22vw"
                                     class="w-full h-auto object-cover transition-all duration-1000 group-hover:scale-105"
-                                    loading={index < 8 ? "eager" : "lazy"}
+                                    loading={index < 4 ? "eager" : "lazy"}
                                     fetchpriority={index < 2 ? "high" : "auto"}
                                     decoding="async"
+                                    format="webp"
+                                    quality={70}
                                 />
                                 
 

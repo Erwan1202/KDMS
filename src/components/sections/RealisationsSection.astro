@@ -48,12 +48,14 @@ const featuredRealisations = categories
                             fetchpriority={index === 0 ? "high" : "auto"}
                             decoding="async"
                             widths={[600, 1200]}
+                            format="webp"
+                            quality={70}
                             class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-70 group-hover:opacity-100 transition-all filter brightness-[0.8] group-hover:brightness-100"
                         />
                     ) : (
                         <div class="absolute inset-0 w-full h-full bg-gray-900/50 flex items-center justify-center">
                             <span class="text-white/20 font-bold uppercase tracking-widest">En cours...</span>
-                        </div>
+                        </div> 
                     )}
                     
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60 group-hover:opacity-20 transition-opacity duration-700" />
