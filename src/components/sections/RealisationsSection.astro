@@ -13,6 +13,7 @@ const featuredRealisations = categories
             category: cat.id,
             gridClass: cat.gridClass || "md:col-span-1",
             image: project?.image,
+            alt: project?.alt,
         };
     });
 
@@ -32,40 +33,43 @@ const featuredRealisations = categories
         </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full px-4 md:px-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 w-full px-4 md:px-8 auto-rows-min">
         {
-            featuredRealisations.map((item, index) => (
+            featuredRealisations.filter(item => !!item.image).map((item, index) => (
                 <a 
                     href={`/realisations?category=${item.category}`}
-                    class={`realisation-card group relative w-full overflow-hidden rounded-2xl bg-[#1A1A1A] cursor-pointer h-[280px] sm:h-[320px] md:h-[360px] lg:h-[400px] block no-underline ${item.gridClass}`}
+                    class={`realisation-card group relative w-full overflow-hidden rounded-2xl bg-[#1A1A1A] cursor-pointer block no-underline transition-all duration-700 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)] ${item.gridClass}`}
                 >
                     {item.image ? (
                         <Image
                             src={item.image}
-                            alt={item.title}
+                            alt={item.alt || item.title}
                             loading={index < 2 ? "eager" : "lazy"}
                             fetchpriority={index === 0 ? "high" : "auto"}
                             decoding="async"
                             widths={[600, 1200]}
-                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-50 transition-all"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-70 group-hover:opacity-100 transition-all filter brightness-[0.8] group-hover:brightness-100"
                         />
                     ) : (
-                        <div class="absolute inset-0 w-full h-full bg-gray-800" />
+                        <div class="absolute inset-0 w-full h-full bg-gray-900/50 flex items-center justify-center">
+                            <span class="text-white/20 font-bold uppercase tracking-widest">En cours...</span>
+                        </div>
                     )}
                     
-                    <div class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-                        <h3 class="text-2xl md:text-3xl font-bold text-white tracking-tight transform transition-all duration-500 group-hover:-translate-y-2 z-10">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60 group-hover:opacity-20 transition-opacity duration-700" />
+
+                    <div class="absolute bottom-0 left-0 w-full p-8 md:p-10 pointer-events-none">
+                        <span class="text-[#E07A1F] text-xs font-bold uppercase tracking-[0.2em] mb-3 block transform translate-y-4 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 italic">
+                            Secteur {item.title}
+                        </span>
+                        <h3 class="text-3xl md:text-5xl font-extrabold text-white tracking-tighter leading-none transform transition-all duration-700 group-hover:-translate-y-1">
                             {item.title}
                         </h3>
                         
-                        <div class="h-[1px] w-8 bg-[#E07A1F] mt-4 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center"></div>
-                        
-                        <span class="opacity-0 translate-y-4 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0 text-white/80 font-light text-sm mt-4 tracking-widest uppercase">
-                            Explorer
-                        </span>
+                        <div class="h-[2px] w-12 bg-white/40 mt-6 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"></div>
                     </div>
                     
-                    <div class="absolute inset-0 border border-[#4A5D23]/30 rounded-2xl pointer-events-none transition-colors duration-300 group-hover:border-[#7FB255]/50" />
+                    <div class="absolute inset-0 border border-white/5 rounded-2xl pointer-events-none transition-colors duration-500 group-hover:border-white/20" />
                 </a>
             ))
         }

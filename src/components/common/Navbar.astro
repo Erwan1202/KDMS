@@ -18,6 +18,7 @@ const currentPath = Astro.url.pathname;
             src={logoBlack}
             alt="KDMS"
             loading="eager"
+            fetchpriority="high"
             height={80}
             class="logo-black h-12 md:h-20 w-auto transition-opacity duration-300 opacity-0"
         />
@@ -25,6 +26,7 @@ const currentPath = Astro.url.pathname;
             src={logoWhite}
             alt="KDMS"
             loading="eager"
+            fetchpriority="high"
             height={80}
             class="logo-white h-12 md:h-20 w-auto transition-opacity duration-300 absolute left-0 top-0 opacity-100"
         />

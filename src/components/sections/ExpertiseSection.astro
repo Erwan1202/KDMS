@@ -4,7 +4,7 @@ import { Image } from "astro:assets";
 const expertiseItems = [
     {
         title: "Notre histoire",
-        text: "Depuis 1997 nous sommes bien plus qu'un fournisseur pour les professionnels de l'industrie, de l'événementiel et du spectacle vivant. Nous sommes le partenaire de tous vos projets de conditionnement.",
+        text: "Depuis 1997 nous sommes bien plus qu'un fournisseur pour les professionnels de l'industrie et de l'événementiel. Nous sommes le partenaire de tous vos projets de conditionnement.",
         alt: "Atelier historique de KDMS, conception de flight cases depuis 1997",
     },
     {
@@ -62,6 +62,7 @@ const expertiseItems = [
                                 src={item.image}
                                 alt={item.alt || item.title}
                                 class="w-full h-full object-cover"
+                                loading="lazy"
                             />
                         )}
                     </div>
@@ -107,6 +108,7 @@ const expertiseItems = [
                                     src={item.image}
                                     alt={item.alt || item.title}
                                     class="w-full h-full object-cover grayscale"
+                                    loading="lazy"
                                 />
                             )}
                         </div>

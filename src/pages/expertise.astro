@@ -96,6 +96,7 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                     alt="Atelier de fabrication de flight cases sur mesure KDMS"
                     class="w-full h-full object-cover"
                     loading="eager"
+                    fetchpriority="high"
                     quality="max"
                 />
                 <div class="absolute inset-0 bg-black/60"></div>
@@ -201,7 +202,7 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                                 ) : (
                                     <div class="step-image aspect-video bg-[#1a1a1a] rounded-xl border border-white/10 overflow-hidden shadow-2xl">
                                         {step.image ? (
-                                            <Image src={step.image} alt={step.title} class="w-full h-full object-cover" loading="lazy" />
+                                            <Image src={step.image} alt={step.title} class="w-full h-full object-cover" loading={index === 0 ? "eager" : "lazy"} />
                                         ) : (
                                             <div class="w-full h-full flex items-center justify-center text-white/10 text-8xl font-black">
                                                 {step.number}
@@ -225,7 +226,7 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                                 {index % 2 === 0 ? (
                                     <div class="step-image aspect-video bg-[#1a1a1a] rounded-xl border border-white/10 overflow-hidden shadow-2xl">
                                         {step.image ? (
-                                            <Image src={step.image} alt={step.title} class="w-full h-full object-cover" loading="lazy" />
+                                            <Image src={step.image} alt={step.title} class="w-full h-full object-cover" loading={index === 0 ? "eager" : "lazy"} />
                                         ) : (
                                             <div class="w-full h-full flex items-center justify-center text-white/10 text-8xl font-black">
                                                 {step.number}
