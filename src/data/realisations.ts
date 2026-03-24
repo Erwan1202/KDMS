@@ -96,12 +96,11 @@ const COLORS = [
 
 export const categories: Category[] = [
     { id: "all", label: "Tout Voir" },
-    { id: "evenementiel", label: "Événementiel", featured: true, gridClass: "md:col-span-2 md:row-span-2 h-[400px] md:h-[600px]" },
-    { id: "meubles", label: "Meubles", featured: true, gridClass: "md:col-span-2 md:row-span-1 h-[280px] md:h-[290px]" },
-    { id: "audiovisuel", label: "Audiovisuel", featured: true, gridClass: "md:col-span-1 md:row-span-1 h-[280px] md:h-[290px]" },
-    { id: "valise-resine", label: "Valise résine", featured: true, gridClass: "md:col-span-1 md:row-span-1 h-[280px] md:h-[290px]" },
-    { id: "industrie", label: "Industrie", featured: true, gridClass: "md:col-span-1 md:row-span-1 h-[280px] md:h-[290px]" },
-    { id: "autres", label: "Autres", featured: true, gridClass: "md:col-span-1 md:row-span-1 h-[280px] md:h-[290px]" },
+    { id: "evenementiel", label: "Événementiel", featured: true, gridClass: "lg:col-span-1 h-[280px] lg:h-[400px]" },
+    { id: "meubles", label: "Meubles", featured: true, gridClass: "lg:col-span-1 h-[280px] lg:h-[400px]" },
+    { id: "audiovisuel", label: "Audiovisuel", featured: true, gridClass: "lg:col-span-1 h-[280px] lg:h-[400px]" },
+    { id: "valise-resine", label: "Valise résine", featured: true, gridClass: "lg:col-span-1 h-[280px] lg:h-[400px]" },
+    { id: "industrie", label: "Industrie", featured: true, gridClass: "lg:col-span-1 h-[280px] lg:h-[400px]" },
 ];
 
 const AI_DISCLAIMER = "Décor généré par IA à titre illustratif";
@@ -142,7 +141,7 @@ const projectsData: Project[] = [
     { title: "Flight ampli AGUILAR Basse on stage", category: "evenementiel", description: "", image: e_11, alt: "Flight ampli AGUILAR Basse on stage" },
     { title: "Rack ampli audio D&B", category: "evenementiel", description: "", image: e_12, alt: "Rack ampli audio D&B" },
     { title: "Kit structure scénique & RIG", category: "evenementiel", description: "", image: e_13, alt: "Kit structure scénique & RIG" },
-    { title: "Flight piano Nord Stage 3 zones", category: "evenementiel", description: "", image: e_14, alt: "Flight piano Nord Stage 3 zones" },
+    { title: "Flight piano", category: "evenementiel", description: "", image: e_14, alt: "Flight piano" },
     { title: "Kit enceintes LAcoustic Wide", category: "evenementiel", description: "", image: e_15, alt: "Kit enceintes LAcoustic Wide" },
     { title: "Flight ampli Gallien Krueger Basse on stage", category: "evenementiel", description: "", image: e_16, alt: "Flight ampli Gallien Krueger Basse on stage" },
     { title: "Flight ampli Basse on stage vue Connectique", category: "evenementiel", description: "", image: e_17, alt: "Flight ampli Basse on stage vue Connectique" },
@@ -157,9 +156,9 @@ const projectsData: Project[] = [
     { title: "2", category: "valise-resine", description: `Protection étanche et antichoc. ${AI_DISCLAIMER}`, image: valise_2, alt: `Protection étanche et antichoc. ${AI_DISCLAIMER}` },
     { title: "3", category: "valise-resine", description: "Protection pour matériel sensible.", image: valise_3, alt: `Protection pour matériel sensible.` },
 
-    // Autres
-    { title: "Réalisation sur mesure pour besoins spécifiques", category: "autres", description: "", image: jsp1 },
-    { title: "2", category: "autres", description: `Solution de protection personnalisée. ${AI_DISCLAIMER}`, image: autre_2, alt: `Solution de protection personnalisée. ${AI_DISCLAIMER}` },
+    // Autres -> fusionnés dans Industrie
+    { title: "Réalisation sur mesure pour besoins spécifiques", category: "industrie", description: "", image: jsp1 },
+    { title: "2", category: "industrie", description: `Solution de protection personnalisée. ${AI_DISCLAIMER}`, image: autre_2, alt: `Solution de protection personnalisée. ${AI_DISCLAIMER}` },
 ];
 
 export const projects = projectsData.map((p, i) => ({
