@@ -27,7 +27,7 @@
    </darktable:masks_history>
    <darktable:history>
     <rdf:Seq>
-     <rdf:li
+      <rdf:li
       darktable:num="0"
       darktable:operation="colorin"
       darktable:enabled="1"

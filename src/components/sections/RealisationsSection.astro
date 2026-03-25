@@ -44,8 +44,7 @@ const featuredRealisations = categories
                         <Image
                             src={item.image}
                             alt={item.alt || item.title}
-                            loading={index < 2 ? "eager" : "lazy"}
-                            fetchpriority={index === 0 ? "high" : "auto"}
+                            loading="lazy"
                             decoding="async"
                             widths={[600, 1200]}
                             format="webp"
