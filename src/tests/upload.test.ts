@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { validateUpload, ALLOWED_MIME, MAX_SIZE } from './upload';
+import { validateUpload, ALLOWED_MIME, MAX_SIZE } from '../pages/api/upload';
 
 describe('validateUpload', () => {
   it('accepte un fichier JPEG valide', () => {
