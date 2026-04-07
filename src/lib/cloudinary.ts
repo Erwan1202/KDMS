@@ -16,6 +16,13 @@ export interface GalleryImage {
   created_at: string;
 }
 
+interface CloudinaryResource {
+  public_id: string;
+  secure_url: string;
+  created_at: string;
+  context?: { custom?: { title?: string; category?: string } };
+}
+
 export async function fetchGalleryImages(): Promise<GalleryImage[]> {
   const result = await cloudinary.search
     .expression('folder:kdms/gallery')
@@ -24,8 +31,7 @@ export async function fetchGalleryImages(): Promise<GalleryImage[]> {
     .max_results(100)
     .execute();
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return result.resources.map((r: any) => ({
+  return (result.resources as CloudinaryResource[]).map((r) => ({
     public_id: r.public_id,
     secure_url: r.secure_url,
     title: r.context?.custom?.title ?? '',
