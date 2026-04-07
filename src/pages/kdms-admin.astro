@@ -1,0 +1,240 @@
+---
+export const prerender = false;
+
+import { verifySession } from '../lib/auth';
+
+const token = Astro.cookies.get('kdms_session')?.value ?? '';
+const isAuthenticated = !!verifySession(token);
+
+const categories = [
+  { id: 'evenementiel', label: 'Événementiel' },
+  { id: 'meubles', label: 'Meubles' },
+  { id: 'audiovisuel', label: 'Audiovisuel' },
+  { id: 'valise-resine', label: 'Valise résine' },
+  { id: 'industrie', label: 'Industrie' },
+];
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Admin — KDMS</title>
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      body { background: #0e0e0e; color: #fff; font-family: system-ui, sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+      .card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 16px; padding: 36px 32px; width: 100%; max-width: 480px; }
+      .logo { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 28px; }
+      .logo-icon { width: 44px; height: 44px; background: #4A5D23; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+      .logo-title { font-weight: 700; font-size: 1.1em; letter-spacing: 0.12em; }
+      .logo-sub { color: #555; font-size: 0.72em; text-transform: uppercase; letter-spacing: 0.18em; }
+      label { display: block; color: #888; font-size: 0.72em; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 6px; }
+      input[type="password"], input[type="text"] { width: 100%; background: #111; border: 1px solid #333; border-radius: 8px; padding: 10px 14px; color: #fff; font-size: 0.95em; outline: none; transition: border-color 0.2s; }
+      input:focus { border-color: #4A5D23; }
+      .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; background: #E07A1F; color: #fff; font-weight: 700; font-size: 0.85em; letter-spacing: 0.12em; cursor: pointer; transition: background 0.2s; margin-top: 4px; }
+      .btn:hover { background: #c86618; }
+      .btn:disabled { background: #444; cursor: not-allowed; }
+      .error-msg { background: rgba(220,50,50,0.1); border: 1px solid rgba(220,50,50,0.3); border-radius: 6px; padding: 8px 12px; color: #f87171; font-size: 0.82em; margin-top: 12px; display: none; }
+      .warning-box { background: rgba(224,122,31,0.08); border: 1px solid rgba(224,122,31,0.2); border-radius: 6px; padding: 8px 12px; color: #e07a1f; font-size: 0.75em; margin-top: 14px; }
+      .gap { display: flex; flex-direction: column; gap: 16px; }
+      .status-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+      .connected { color: #7fb255; font-size: 0.82em; font-weight: 600; }
+      .logout-btn { background: none; border: 1px solid #333; color: #888; border-radius: 20px; padding: 4px 12px; font-size: 0.75em; cursor: pointer; transition: all 0.2s; }
+      .logout-btn:hover { border-color: #555; color: #ccc; }
+      .drop-zone { border: 2px dashed #333; border-radius: 10px; padding: 32px; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+      .drop-zone:hover, .drop-zone.drag-over { border-color: #4A5D23; background: rgba(74,93,35,0.05); }
+      .drop-icon { font-size: 28px; margin-bottom: 8px; }
+      .drop-label { color: #ccc; font-size: 0.9em; font-weight: 500; }
+      .drop-hint { color: #555; font-size: 0.75em; margin-top: 4px; }
+      .preview-box { background: #111; border: 1px solid #2a2a2a; border-radius: 8px; padding: 10px; display: none; align-items: center; gap: 12px; }
+      .preview-thumb { width: 56px; height: 56px; object-fit: cover; border-radius: 6px; flex-shrink: 0; }
+      .preview-name { color: #ccc; font-size: 0.82em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .preview-ok { color: #7fb255; font-size: 0.75em; margin-left: auto; flex-shrink: 0; }
+      .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+      .chip { background: #111; color: #888; border: 1px solid #333; padding: 5px 14px; border-radius: 20px; font-size: 0.8em; cursor: pointer; transition: all 0.15s; user-select: none; }
+      .chip.selected { background: #4A5D23; color: #fff; border-color: #4A5D23; font-weight: 600; }
+      .success-msg { background: rgba(74,93,35,0.15); border: 1px solid rgba(74,93,35,0.4); border-radius: 6px; padding: 10px 14px; color: #7fb255; font-size: 0.85em; display: none; text-align: center; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="logo">
+        <div class="logo-icon">🔐</div>
+        <span class="logo-title">KDMS Admin</span>
+        <span class="logo-sub">Espace réservé</span>
+      </div>
+
+      {!isAuthenticated ? (
+        <form id="login-form" class="gap">
+          <div>
+            <label for="password">Mot de passe</label>
+            <input type="password" id="password" name="password" autocomplete="current-password" required />
+          </div>
+          <button type="submit" class="btn">ACCÉDER</button>
+          <div id="login-error" class="error-msg"></div>
+          <div class="warning-box">⚠ 5 tentatives max · Blocage 15 min en cas d'échec</div>
+        </form>
+      ) : (
+        <div>
+          <div class="status-bar">
+            <span class="connected">● Connecté</span>
+            <button class="logout-btn" id="logout-btn">Déconnexion</button>
+          </div>
+
+          <form id="upload-form" class="gap">
+            <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" style="display:none" />
+            <div class="drop-zone" id="drop-zone">
+              <div class="drop-icon">📁</div>
+              <div class="drop-label">Glisser-déposer une photo</div>
+              <div class="drop-hint">ou cliquer pour parcourir · JPG, PNG, WebP · Max 10 Mo</div>
+            </div>
+
+            <div class="preview-box" id="preview-box">
+              <img class="preview-thumb" id="preview-thumb" src="" alt="Aperçu" />
+              <span class="preview-name" id="preview-name"></span>
+              <span class="preview-ok">✓ Prête</span>
+            </div>
+
+            <div>
+              <label for="title-input">Titre de la réalisation</label>
+              <input type="text" id="title-input" name="title" placeholder="ex: Rack console son Yamaha" maxlength="120" required />
+            </div>
+
+            <div>
+              <label>Catégorie</label>
+              <div class="chips" id="chips">
+                {categories.map(cat => (
+                  <span class="chip" data-value={cat.id}>{cat.label}</span>
+                ))}
+              </div>
+              <input type="hidden" id="category-input" name="category" />
+            </div>
+
+            <div id="upload-error" class="error-msg"></div>
+            <div id="upload-success" class="success-msg">✓ Photo publiée dans la galerie !</div>
+
+            <button type="submit" class="btn" id="submit-btn" disabled>PUBLIER DANS LA GALERIE →</button>
+          </form>
+        </div>
+      )}
+    </div>
+
+    <script>
+      // LOGIN
+      const loginForm = document.getElementById('login-form');
+      if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const btn = loginForm.querySelector('button');
+          const errorEl = document.getElementById('login-error');
+          btn.textContent = 'Connexion...';
+          btn.disabled = true;
+          const fd = new FormData(loginForm);
+          const res = await fetch('/api/auth', { method: 'POST', body: fd });
+          const data = await res.json();
+          if (res.ok) {
+            window.location.reload();
+          } else {
+            errorEl.textContent = data.error ?? 'Erreur inconnue.';
+            errorEl.style.display = 'block';
+            btn.textContent = 'ACCÉDER';
+            btn.disabled = false;
+          }
+        });
+      }
+
+      // LOGOUT
+      const logoutBtn = document.getElementById('logout-btn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+          await fetch('/api/logout', { method: 'POST' });
+          window.location.reload();
+        });
+      }
+
+      // UPLOAD
+      const uploadForm = document.getElementById('upload-form');
+      if (uploadForm) {
+        const fileInput = document.getElementById('file-input');
+        const dropZone = document.getElementById('drop-zone');
+        const previewBox = document.getElementById('preview-box');
+        const previewThumb = document.getElementById('preview-thumb');
+        const previewName = document.getElementById('preview-name');
+        const titleInput = document.getElementById('title-input');
+        const categoryInput = document.getElementById('category-input');
+        const submitBtn = document.getElementById('submit-btn');
+        const errorEl = document.getElementById('upload-error');
+        const successEl = document.getElementById('upload-success');
+        let selectedFile = null;
+
+        function checkForm() {
+          submitBtn.disabled = !(selectedFile && titleInput.value.trim() && categoryInput.value);
+        }
+
+        function showPreview(file) {
+          selectedFile = file;
+          previewThumb.src = URL.createObjectURL(file);
+          previewName.textContent = file.name;
+          previewBox.style.display = 'flex';
+          checkForm();
+        }
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', () => {
+          if (fileInput.files[0]) showPreview(fileInput.files[0]);
+        });
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+        dropZone.addEventListener('drop', (e) => {
+          e.preventDefault();
+          dropZone.classList.remove('drag-over');
+          const file = e.dataTransfer?.files[0];
+          if (file) showPreview(file);
+        });
+
+        titleInput.addEventListener('input', checkForm);
+
+        document.getElementById('chips').addEventListener('click', (e) => {
+          const chip = e.target.closest('.chip');
+          if (!chip) return;
+          document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+          chip.classList.add('selected');
+          categoryInput.value = chip.dataset.value;
+          checkForm();
+        });
+
+        uploadForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          if (!selectedFile) return;
+          submitBtn.textContent = 'Publication...';
+          submitBtn.disabled = true;
+          errorEl.style.display = 'none';
+          successEl.style.display = 'none';
+          const fd = new FormData();
+          fd.append('photo', selectedFile);
+          fd.append('title', titleInput.value.trim());
+          fd.append('category', categoryInput.value);
+          const res = await fetch('/api/upload', { method: 'POST', body: fd });
+          const data = await res.json();
+          if (res.ok) {
+            successEl.style.display = 'block';
+            selectedFile = null;
+            previewBox.style.display = 'none';
+            previewThumb.src = '';
+            titleInput.value = '';
+            categoryInput.value = '';
+            document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+            fileInput.value = '';
+          } else {
+            errorEl.textContent = data.error ?? 'Erreur lors de la publication.';
+            errorEl.style.display = 'block';
+          }
+          submitBtn.textContent = 'PUBLIER DANS LA GALERIE →';
+          checkForm();
+        });
+      }
+    </script>
+  </body>
+</html>
