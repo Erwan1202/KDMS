@@ -2,8 +2,11 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
+import node from '@astrojs/node';
 
 export default defineConfig({
+  output: 'static',
+  adapter: node({ mode: 'standalone' }),
   site: 'https://www.k-dms.co',
   integrations: [sitemap()],
   prefetch: {
@@ -28,13 +31,7 @@ export default defineConfig({
           drop_debugger: true,
         },
       },
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            gsap: ['gsap', 'gsap/ScrollTrigger', 'gsap/ScrollToPlugin'],
-          },
-        },
-      },
+      rollupOptions: {},
     },
   },
 });
