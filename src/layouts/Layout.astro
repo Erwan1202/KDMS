@@ -57,16 +57,47 @@ const jsonLd = JSON.stringify({
         "longitude": 2.5125
     },
     "priceRange": "€€",
+    "openingHoursSpecification": [{
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "08:00",
+        "closes": "17:00"
+    }],
     "contactPoint": {
         "@type": "ContactPoint",
         "contactType": "Customer Service",
         "telephone": "+33 1 69 12 72 10",
         "url": "https://www.k-dms.co/contact"
     },
+    "service": [{
+        "@type": "Service",
+        "name": "Flight case sur mesure",
+        "description": "Conception et fabrication de flight cases 100% personnalisés"
+    }, {
+        "@type": "Service",
+        "name": "Flight case audiovisuel",
+        "description": "Solutions de protection pour équipements audiovisuel et événementiel"
+    }, {
+        "@type": "Service",
+        "name": "Flight case industrie",
+        "description": "Boîtiers de transport robustes pour matériel industriel"
+    }, {
+        "@type": "Service",
+        "name": "Meuble sur mesure",
+        "description": "Mobilier personnalisé avec solutions de rangement intégrées"
+    }],
     "sameAs": [],
-    "areaServed": {
+    "areaServed": [{
         "@type": "Country",
         "name": "FR"
+    }, {
+        "@type": "Country",
+        "name": "EU"
+    }],
+    "foundingDate": "2004",
+    "founder": {
+        "@type": "Person",
+        "name": "KDMS"
     }
 });
 ---
