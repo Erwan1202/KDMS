@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+export const prerender = false;
 import bcrypt from 'bcryptjs';
 import { loginLimiter } from '../../lib/rateLimit';
 import { createSessionToken } from '../../lib/auth';
@@ -27,7 +28,6 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       { status: 400, headers: { 'Content-Type': 'application/json' } }
     );
   }
-
   if (!password) {
     return new Response(
       JSON.stringify({ error: 'Mot de passe requis.' }),

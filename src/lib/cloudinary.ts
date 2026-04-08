@@ -24,18 +24,20 @@ interface CloudinaryResource {
 }
 
 export async function fetchGalleryImages(): Promise<GalleryImage[]> {
-  const result = await cloudinary.search
-    .expression('folder:kdms/gallery')
-    .with_field('context')
-    .sort_by('created_at', 'desc')
-    .max_results(100)
-    .execute();
+  const result = await cloudinary.api.resources({
+    type: 'upload',
+    prefix: 'kdms/gallery',
+    context: true,
+    max_results: 500,
+  });
 
-  return (result.resources as CloudinaryResource[]).map((r) => ({
-    public_id: r.public_id,
-    secure_url: r.secure_url,
-    title: r.context?.custom?.title ?? '',
-    category: r.context?.custom?.category ?? '',
-    created_at: r.created_at,
-  }));
+  return (result.resources as CloudinaryResource[])
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+    .map((r) => ({
+      public_id: r.public_id,
+      secure_url: r.secure_url,
+      title: r.context?.custom?.title ?? '',
+      category: r.context?.custom?.category ?? '',
+      created_at: r.created_at,
+    }));
 }

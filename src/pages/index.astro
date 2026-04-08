@@ -1,4 +1,6 @@
 ---
+export const prerender = false;
+
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/common/Navbar.astro";
 import ExpertiseSection from "../components/sections/ExpertiseSection.astro";
@@ -7,7 +9,18 @@ import ContactSection from "../components/sections/ContactSection.astro";
 import Footer from "../components/common/Footer.astro";
 import { Image } from "astro:assets";
 import heroBg from "../assets/home/index-hero-bg.png";
+import { fetchGalleryImages } from "../lib/cloudinary";
+import { categories } from "../data/realisations";
 
+// Une image de couverture par catégorie pour la section réalisations
+let coverImages: Record<string, string> = {};
+try {
+  const images = await fetchGalleryImages();
+  for (const cat of categories.filter(c => c.id !== 'all')) {
+    const found = images.find(img => img.category === cat.id);
+    if (found) coverImages[cat.id] = found.secure_url;
+  }
+} catch {}
 ---
 
 <Layout
@@ -70,7 +83,7 @@ import heroBg from "../assets/home/index-hero-bg.png";
                 </div>
                 <script is:inline>
                     let resizeHandler;
-                    
+
                     document.addEventListener('astro:page-load', () => {
                         const flightCaseModel = document.getElementById('flight-case-3d');
                         if (!flightCaseModel) return;
@@ -82,26 +95,12 @@ import heroBg from "../assets/home/index-hero-bg.png";
                                 flightCaseModel.setAttribute('camera-orbit', '0deg 90deg 20%');
                             }
                         }
-                        
+
                         adjustCamera();
+                        if (resizeHandler) window.removeEventListener('resize', resizeHandler);
                         resizeHandler = adjustCamera;
                         window.addEventListener('resize', resizeHandler);
                     });
-                    
-                    // For initial load without ViewTransitions hook wrapper (if ViewTransitions is off)
-                    const flightCaseModelInitial = document.getElementById('flight-case-3d');
-                    if (flightCaseModelInitial) {
-                        function adjustCameraInitial() {
-                            if (window.innerWidth < 768) {
-                                flightCaseModelInitial.setAttribute('camera-orbit', '0deg 90deg 110%');
-                            } else {
-                                flightCaseModelInitial.setAttribute('camera-orbit', '0deg 90deg 20%');
-                            }
-                        }
-                        window.addEventListener('DOMContentLoaded', adjustCameraInitial);
-                        window.addEventListener('resize', adjustCameraInitial);
-                        resizeHandler = adjustCameraInitial;
-                    }
 
                     document.addEventListener('astro:before-preparation', () => {
                         if (resizeHandler) window.removeEventListener('resize', resizeHandler);
@@ -145,7 +144,7 @@ import heroBg from "../assets/home/index-hero-bg.png";
         class="bg-black text-white min-h-screen relative z-20"
     >
         <ExpertiseSection />
-        <RealisationsSection />
+        <RealisationsSection coverImages={coverImages} />
         <ContactSection />
         <Footer />
     </section>

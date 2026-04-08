@@ -2,9 +2,17 @@
 export const prerender = false;
 
 import { verifySession } from '../lib/auth';
+import { fetchGalleryImages } from '../lib/cloudinary';
 
 const token = Astro.cookies.get('kdms_session')?.value ?? '';
 const isAuthenticated = !!verifySession(token);
+
+let galleryImages: { public_id: string; secure_url: string; title: string; category: string }[] = [];
+if (isAuthenticated) {
+  try {
+    galleryImages = await fetchGalleryImages();
+  } catch {}
+}
 
 const categories = [
   { id: 'evenementiel', label: 'Événementiel' },
@@ -26,6 +34,21 @@ const categories = [
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
       body { background: #0e0e0e; color: #fff; font-family: system-ui, sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
       .card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 16px; padding: 36px 32px; width: 100%; max-width: 480px; }
+      .card.wide { max-width: 960px; }
+      .admin-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+      @media (max-width: 700px) { .admin-layout { grid-template-columns: 1fr; } }
+      .section-title { color: #888; font-size: 0.72em; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 14px; }
+      .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; max-height: 480px; overflow-y: auto; }
+      .gallery-item { position: relative; border-radius: 8px; overflow: hidden; background: #111; aspect-ratio: 1; }
+      .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .gallery-item-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0); display: flex; align-items: flex-end; transition: background 0.2s; }
+      .gallery-item:hover .gallery-item-overlay { background: rgba(0,0,0,0.55); }
+      .gallery-item-info { padding: 6px 8px; font-size: 0.68em; color: #fff; opacity: 0; transition: opacity 0.2s; line-height: 1.3; }
+      .gallery-item:hover .gallery-item-info { opacity: 1; }
+      .delete-btn { position: absolute; top: 6px; right: 6px; background: rgba(220,50,50,0.85); border: none; color: #fff; border-radius: 50%; width: 26px; height: 26px; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; }
+      .gallery-item:hover .delete-btn { opacity: 1; }
+      .delete-btn:hover { background: #dc2626; }
+      .gallery-empty { color: #444; font-size: 0.85em; text-align: center; padding: 24px 0; }
       .logo { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 28px; }
       .logo-icon { width: 44px; height: 44px; background: #4A5D23; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
       .logo-title { font-weight: 700; font-size: 1.1em; letter-spacing: 0.12em; }
@@ -59,7 +82,7 @@ const categories = [
     </style>
   </head>
   <body>
-    <div class="card">
+    <div class={isAuthenticated ? "card wide" : "card"}>
       <div class="logo">
         <div class="logo-icon">🔐</div>
         <span class="logo-title">KDMS Admin</span>
@@ -83,40 +106,66 @@ const categories = [
             <button class="logout-btn" id="logout-btn">Déconnexion</button>
           </div>
 
-          <form id="upload-form" class="gap">
-            <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" style="display:none" />
-            <div class="drop-zone" id="drop-zone">
-              <div class="drop-icon">📁</div>
-              <div class="drop-label">Glisser-déposer une photo</div>
-              <div class="drop-hint">ou cliquer pour parcourir · JPG, PNG, WebP · Max 10 Mo</div>
-            </div>
-
-            <div class="preview-box" id="preview-box">
-              <img class="preview-thumb" id="preview-thumb" src="" alt="Aperçu" />
-              <span class="preview-name" id="preview-name"></span>
-              <span class="preview-ok">✓ Prête</span>
-            </div>
-
+          <div class="admin-layout">
+            <!-- Upload -->
             <div>
-              <label for="title-input">Titre de la réalisation</label>
-              <input type="text" id="title-input" name="title" placeholder="ex: Rack console son Yamaha" maxlength="120" required />
+              <div class="section-title">Ajouter une photo</div>
+              <form id="upload-form" class="gap">
+                <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" style="display:none" />
+                <div class="drop-zone" id="drop-zone">
+                  <div class="drop-icon">📁</div>
+                  <div class="drop-label">Glisser-déposer une photo</div>
+                  <div class="drop-hint">ou cliquer pour parcourir · JPG, PNG, WebP · Max 10 Mo</div>
+                </div>
+
+                <div class="preview-box" id="preview-box">
+                  <img class="preview-thumb" id="preview-thumb" src="" alt="Aperçu" />
+                  <span class="preview-name" id="preview-name"></span>
+                  <span class="preview-ok">✓ Prête</span>
+                </div>
+
+                <div>
+                  <label for="title-input">Titre de la réalisation</label>
+                  <input type="text" id="title-input" name="title" placeholder="ex: Rack console son Yamaha" maxlength="120" required />
+                </div>
+
+                <div>
+                  <label>Catégorie</label>
+                  <div class="chips" id="chips">
+                    {categories.map(cat => (
+                      <span class="chip" data-value={cat.id}>{cat.label}</span>
+                    ))}
+                  </div>
+                  <input type="hidden" id="category-input" name="category" />
+                </div>
+
+                <div id="upload-error" class="error-msg"></div>
+                <div id="upload-success" class="success-msg">✓ Photo publiée dans la galerie !</div>
+
+                <button type="submit" class="btn" id="submit-btn" disabled>PUBLIER DANS LA GALERIE →</button>
+              </form>
             </div>
 
+            <!-- Galerie -->
             <div>
-              <label>Catégorie</label>
-              <div class="chips" id="chips">
-                {categories.map(cat => (
-                  <span class="chip" data-value={cat.id}>{cat.label}</span>
-                ))}
-              </div>
-              <input type="hidden" id="category-input" name="category" />
+              <div class="section-title">Galerie ({galleryImages.length} photos)</div>
+              {galleryImages.length === 0 ? (
+                <div class="gallery-empty">Aucune photo pour l'instant.</div>
+              ) : (
+                <div class="gallery-grid" id="gallery-grid">
+                  {galleryImages.map(img => (
+                    <div class="gallery-item" data-public-id={img.public_id}>
+                      <img src={img.secure_url} alt={img.title} loading="lazy" />
+                      <div class="gallery-item-overlay">
+                        <div class="gallery-item-info">{img.title}</div>
+                      </div>
+                      <button class="delete-btn" aria-label="Supprimer">✕</button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-
-            <div id="upload-error" class="error-msg"></div>
-            <div id="upload-success" class="success-msg">✓ Photo publiée dans la galerie !</div>
-
-            <button type="submit" class="btn" id="submit-btn" disabled>PUBLIER DANS LA GALERIE →</button>
-          </form>
+          </div>
         </div>
       )}
     </div>
@@ -153,6 +202,26 @@ const categories = [
           window.location.reload();
         });
       }
+
+      // DELETE
+      document.getElementById('gallery-grid')?.addEventListener('click', async (e) => {
+        const btn = (e.target as HTMLElement).closest('.delete-btn');
+        if (!btn) return;
+        const item = btn.closest<HTMLElement>('.gallery-item');
+        if (!item) return;
+        const publicId = item.dataset.publicId;
+        if (!publicId || !confirm('Supprimer cette photo de la galerie ?')) return;
+        btn.textContent = '…';
+        const fd = new FormData();
+        fd.append('public_id', publicId);
+        const res = await fetch('/api/delete', { method: 'POST', body: fd });
+        if (res.ok) {
+          item.remove();
+        } else {
+          btn.textContent = '✕';
+          alert('Erreur lors de la suppression.');
+        }
+      });
 
       // UPLOAD
       const uploadForm = document.getElementById('upload-form');

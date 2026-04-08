@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+export const prerender = false;
 import sharp from 'sharp';
 import cloudinary from '../../lib/cloudinary';
 import { verifySession } from '../../lib/auth';
