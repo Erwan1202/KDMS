@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 import node from '@astrojs/node';
 
 export default defineConfig({
-  output: 'static',
+  output: 'hybrid',
   adapter: node({ mode: 'standalone' }),
   site: 'https://www.k-dms.co',
   integrations: [sitemap()],
