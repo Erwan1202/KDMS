@@ -1,4 +1,6 @@
 ---
+export const prerender = false;
+
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/common/Navbar.astro";
 import ExpertiseSection from "../components/sections/ExpertiseSection.astro";
@@ -7,12 +9,23 @@ import ContactSection from "../components/sections/ContactSection.astro";
 import Footer from "../components/common/Footer.astro";
 import { Image } from "astro:assets";
 import heroBg from "../assets/home/index-hero-bg.png";
-import heroFlightCase from "../assets/home/index-flight-case.png";
+import { fetchGalleryImages } from "../lib/cloudinary";
+import { categories } from "../data/realisations";
+
+// Une image de couverture par catégorie pour la section réalisations
+let coverImages: Record<string, string> = {};
+try {
+  const images = await fetchGalleryImages();
+  for (const cat of categories.filter(c => c.id !== 'all')) {
+    const found = images.find(img => img.category === cat.id);
+    if (found) coverImages[cat.id] = found.secure_url;
+  }
+} catch {}
 ---
 
 <Layout
-    title="KDMS"
-    description="KDMS — Fabricant de flight cases 100% sur mesure. Conception, fabrication et livraison personnalisées pour l'industrie, l'événementiel et le spectacle. Devis gratuit."
+    title="KDMS — Fabricant Français de Flight Cases Sur Mesure | Tigery, Paris"
+    description="KDMS fabrique vos flight cases sur mesure 100% custom. Île-de-France, Tigery (91250). Audio, événementiel, industrie, meubles. Devis gratuit. 20 ans expertise. Made in France."
 >
     <Navbar />
 
@@ -27,25 +40,25 @@ import heroFlightCase from "../assets/home/index-flight-case.png";
                 alt="Atelier de fabrication de flight cases sur mesure KDMS"
                 loading="eager"
                 fetchpriority="high"
-                class="absolute inset-0 w-full h-full object-cover object-center z-0 brightness-[0.5]"
+                class="absolute inset-0 w-full h-full object-cover object-center z-0 brightness-[0.5] blur-[3px]"
                 decoding="async"
             />
-            <div class="absolute inset-0 bg-black/20 z-[1] pointer-events-none">
+            <div class="absolute inset-0 bg-black/20 z-1 pointer-events-none">
             </div>
 
             <div
-                class="relative z-20 w-full h-full flex flex-col items-center justify-center pt-16 sm:pt-20 lg:pt-24 pb-8 sm:pb-12"
+                class="relative z-20 w-full h-full flex flex-col items-center justify-center pt-8 sm:pt-20 lg:pt-24 pb-4 sm:pb-12"
             >
                 <div
-                    class="hero-text text-center w-full max-w-[90%] md:max-w-[70%] lg:max-w-[60%] mx-auto px-4"
+                    class="hero-text text-center w-full max-w-[95%] md:max-w-[80%] lg:max-w-[70%] mx-auto px-2"
                 >
                     <h1
-                        class="font-bold text-white tracking-tight text-[clamp(2.5rem,8vw,7rem)] leading-none"
+                        class="font-bold text-white tracking-tight text-[clamp(4rem,12vw,8rem)] leading-none"
                     >
                         K-DMS
                     </h1>
                     <p
-                        class="mt-1 uppercase tracking-[0.15em] md:tracking-[0.2em] font-medium px-2 md:px-4 text-[clamp(0.75rem,1.5vw,1.8rem)]"
+                        class="mt-2 sm:mt-1 uppercase text-balance tracking-[0.05em] sm:tracking-[0.15em] md:tracking-[0.2em] font-medium px-1 sm:px-4 text-[clamp(1.1rem,3.5vw,2rem)]"
                     >
                         <span class="text-[#B8B8B8]">Le flight case</span>
                         <span class="text-[#4A5D23] font-bold">100% custom</span
@@ -53,14 +66,46 @@ import heroFlightCase from "../assets/home/index-flight-case.png";
                     </p>
                 </div>
 
-                <Image
-                    src={heroFlightCase}
-                    alt="Flight case sur mesure KDMS — fabrication 100% custom"
-                    loading="eager"
-                    fetchpriority="high"
-                    class="flight-case w-auto h-[clamp(200px,42vh,450px)] max-w-[95vw] object-contain block my-4"
-                    decoding="async"
-                />
+                <div class="flight-case-container relative w-full flex justify-center mt-6 sm:mt-8 md:-mt-2 lg:mt-4 mb-2 sm:mb-4 z-30 pointer-events-none px-4 md:px-0">
+                    <model-viewer
+                        id="flight-case-3d"
+                        src="/models/Flight.glb"
+                        alt="Flight case sur mesure KDMS — modèle 3D"
+                        interaction-prompt="none"
+                        shadow-intensity="0.5"
+                        environment-image="neutral"
+                        exposure="1.2"
+                        camera-orbit="0deg 90deg 20%"
+                        style="width: min(95vw, 1200px); height: clamp(200px, 45vh, 900px); background: transparent; --poster-color: transparent;"
+                    >
+                        <div slot="progress-bar"></div>
+                    </model-viewer>
+                </div>
+                <script is:inline>
+                    let resizeHandler;
+
+                    document.addEventListener('astro:page-load', () => {
+                        const flightCaseModel = document.getElementById('flight-case-3d');
+                        if (!flightCaseModel) return;
+
+                        function adjustCamera() {
+                            if (window.innerWidth < 768) {
+                                flightCaseModel.setAttribute('camera-orbit', '0deg 90deg 110%');
+                            } else {
+                                flightCaseModel.setAttribute('camera-orbit', '0deg 90deg 20%');
+                            }
+                        }
+
+                        adjustCamera();
+                        if (resizeHandler) window.removeEventListener('resize', resizeHandler);
+                        resizeHandler = adjustCamera;
+                        window.addEventListener('resize', resizeHandler);
+                    });
+
+                    document.addEventListener('astro:before-preparation', () => {
+                        if (resizeHandler) window.removeEventListener('resize', resizeHandler);
+                    });
+                </script>
 
                 <div
                     class="scroll-indicator flex flex-col items-center gap-1 cursor-pointer animate-bounce"
@@ -99,8 +144,15 @@ import heroFlightCase from "../assets/home/index-flight-case.png";
         class="bg-black text-white min-h-screen relative z-20"
     >
         <ExpertiseSection />
-        <RealisationsSection />
+        <RealisationsSection coverImages={coverImages} />
         <ContactSection />
+        
+        <!-- SEO Content: Hidden for search engines -->
+        <div class="hidden" role="region" aria-label="Flight cases keywords">
+            <p>KDMS fabrique flight cases sur mesure à Tigery en Île-de-France depuis 2004. Spécialistes en flight case audiovisuel, équipements événementiel, protection industrie et meubles personnalisés. Solutions 100% custom fabriquées en France.</p>
+            <p>Nos flight cases protègent vos équipements audio, vidéo, instruments de musique et matériel professionnel. Service de devis gratuit. Livraison France et international.</p>
+        </div>
+        
         <Footer />
     </section>
 </Layout>
@@ -113,13 +165,13 @@ import heroFlightCase from "../assets/home/index-flight-case.png";
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
     const heroSection = document.querySelector("#hero-section");
-    const flightCase = document.querySelector(".flight-case");
+    const flightCaseContainer = document.querySelector(".flight-case-container");
     const logoBlack = document.querySelector(".logo-black");
     const logoWhite = document.querySelector(".logo-white");
     const navLinks = document.querySelectorAll(".nav-link");
     const heroText = document.querySelector(".hero-text");
 
-    if (heroSection && flightCase) {
+    if (heroSection && flightCaseContainer) {
         const navbarBg = document.querySelector(".navbar-bg") as HTMLElement;
         const scrollSpan = document.querySelector(".scroll-indicator span");
         const scrollSvg = document.querySelector(".scroll-indicator svg");
@@ -151,11 +203,11 @@ import heroFlightCase from "../assets/home/index-flight-case.png";
                 heroBg,
                 {
                     y: 0,
-                    filter: "blur(0px) brightness(0.8)",
+                    filter: "blur(3px) brightness(0.8)",
                 },
                 {
                     y: "10%",
-                    filter: "blur(4px) brightness(0.8)",
+                    filter: "blur(8px) brightness(0.5)",
                     ease: "none",
                     duration: 1,
                 },
@@ -202,21 +254,30 @@ import heroFlightCase from "../assets/home/index-flight-case.png";
         }
 
         const viewportSize = Math.max(window.innerWidth, window.innerHeight);
-        const imageWidth =
+        const containerWidth =
             window.innerWidth >= 768
-                ? window.innerWidth * 0.5
-                : window.innerWidth * 0.75;
-        const targetScale = (viewportSize / imageWidth) * 25;
+                ? Math.min(window.innerWidth * 0.95, 1200)
+                : window.innerWidth * 0.95;
+        
+        // Calcul du scale exact nécessaire pour que le container remplisse tout l'écran,
+        // avec un fort multiplicateur (x30) pour rentrer au coeur de la texture noire.
+        // Sur mobile, la caméra est beaucoup plus lointaine (110%), on compense par un zoom drastiquement plus grand.
+        const isMobile = window.innerWidth < 768;
+        const targetScale = (viewportSize / containerWidth) * (isMobile ? 120 : 30);
+        const targetY = isMobile ? "0px" : "0px";
+        const transformOrigin = isMobile ? "center 50%" : "center 60%";
 
         timeline.fromTo(
-            flightCase,
+            flightCaseContainer,
             {
                 scale: 1,
                 opacity: 1,
+                y: 0,
             },
             {
                 scale: targetScale,
-                transformOrigin: "center 60%",
+                y: targetY,
+                transformOrigin: transformOrigin,
                 ease: "power2.inOut",
                 duration: 1,
             },
@@ -275,4 +336,9 @@ import heroFlightCase from "../assets/home/index-flight-case.png";
             0.9,
         );
     }
+
+    // Cleanup GSAP ScrollTriggers on Astro ViewTransitions navigation
+    document.addEventListener('astro:before-preparation', () => {
+        ScrollTrigger.getAll().forEach(t => t.kill());
+    });
 </script>

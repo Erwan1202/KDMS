@@ -8,28 +8,29 @@ import ProtectedEmail from "../components/common/ProtectedEmail.astro";
 ---
 
 <Layout
-    title="Contact — KDMS Flight Cases sur mesure | Tigery (91)"
-    description="Contactez KDMS pour vos projets de flight cases sur mesure. Devis gratuit, fabrication personnalisée. Basé à Tigery (91), nous livrons partout en France et à l'international."
+    title="Contact KDMS — Devis gratuit flight case sur mesure Tigery"
+    description="Contactez KDMS à Tigery (91) pour vos projets flight case. Devis gratuit, fabrication personnalisée, livraison France & international. Feedback rapide."
 >
     <Navbar theme="dark" />
 
     <main class="bg-black text-white min-h-screen">
-        <section class="relative h-[clamp(350px,50vh,500px)] lg:h-[clamp(550px,85vh,900px)] overflow-hidden">
-            <div class="absolute inset-0">
+        <section class="relative min-h-[auto] lg:h-[clamp(550px,85vh,900px)] overflow-hidden">
+            <div class="absolute inset-0 hidden lg:block">
                 <Image
                     src={heroBanner}
                     alt="Atelier K-DMS - Flight cases sur mesure"
                     class="w-full h-full object-cover scale-[1]"
                     loading="eager"
+                    fetchpriority="high"
                     quality="max"
                 />
             </div>
 
             <div
-                class="absolute inset-0 z-20 flex items-center lg:items-end justify-start w-full max-w-7xl mx-auto px-6 md:px-8 pt-28 pb-6 pointer-events-none"
+                class="relative lg:absolute inset-0 z-20 flex items-center lg:items-end justify-start w-full max-w-7xl mx-auto px-6 md:px-8 pt-24 lg:pt-28 pb-6 pointer-events-none"
             >
                 <div
-                    class="bg-black/90 backdrop-blur-md rounded-xl border border-white/10 p-3 lg:p-5 space-y-1.5 lg:space-y-3 animate-info max-w-[320px] lg:max-w-xs w-full overflow-hidden pointer-events-auto shadow-2xl text-xs lg:text-sm"
+                    class="p-3 lg:p-5 space-y-1.5 lg:space-y-3 animate-info max-w-none lg:max-w-xs w-full overflow-hidden pointer-events-auto text-xs lg:text-sm lg:bg-black/90 lg:backdrop-blur-md lg:rounded-xl lg:border lg:border-white/10 lg:shadow-2xl"
                 >
                     <div class="mb-0.5">
                         <h1
@@ -182,8 +183,7 @@ import ProtectedEmail from "../components/common/ProtectedEmail.astro";
                                     France
                                 </p>
                             </div>
-                        </div>
-
+                        </div> 
                         <div
                             class="pt-3 border-t border-white/10 animate-fade-content opacity-0"
                         >
@@ -243,7 +243,9 @@ import ProtectedEmail from "../components/common/ProtectedEmail.astro";
                 id="callback-form"
                 class="bg-white/10 p-6 md:p-8 lg:p-10 rounded-2xl border border-white/20 animate-form opacity-0 shadow-[0_8px_32px_rgba(0,0,0,0.4)] scroll-mt-24"
             >
-                <form class="flex flex-col gap-6">
+                <form id="contact-page-form" class="flex flex-col gap-6">
+                    <!-- Honeypot anti-spam -->
+                    <input type="text" name="bot-field" class="hidden" tabindex="-1" autocomplete="off" />
                     <div
                         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
                     >
@@ -525,6 +527,78 @@ import ProtectedEmail from "../components/common/ProtectedEmail.astro";
                 transition: background-color 5000s ease-in-out 0s;
             }
         </style>
+        
+        <!-- SEO Content: Hidden for search engines -->
+        <section class="hidden" role="region" aria-label="Contact keywords">
+            <p>Contactez KDMS pour vos projets de flight case sur mesure. Fabrication personnalisée à Tigery (91), livraison France et international.</p>
+        </section>
+        
         <Footer />
     </main>
 </Layout>
+
+<script>
+    const form = document.getElementById('contact-page-form') as HTMLFormElement;
+    const submitBtn = form?.querySelector('button[type="submit"]') as HTMLButtonElement;
+    
+    form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Désactiver le bouton pendant l'envoi
+        const originalText = submitBtn.textContent || 'Envoyer le message';
+        submitBtn.disabled = true;
+        
+        // Modify button content while keeping the style span
+        submitBtn.innerHTML = `
+            <span class="relative text-white font-bold text-lg tracking-wider">
+                Envoi en cours...
+            </span>
+        `;
+        
+        try {
+            const formData = new FormData(form);
+            formData.append('form-time', Math.floor(Date.now() / 1000).toString());
+            
+            const response = await fetch('/send-email.php', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                // Afficher le message de succès
+                form.innerHTML = `
+                    <div class="text-center py-8">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-500/20 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-green-400">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                        <p class="text-white text-lg font-semibold">Message envoyé !</p>
+                        <p class="text-white/60 text-sm mt-2">Nous vous recontacterons rapidement.</p>
+                    </div>
+                `;
+            } else {
+                throw new Error(result.message || "Erreur lors de l'envoi");
+            }
+        } catch (error) {
+            // Afficher l'erreur
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'form-error-msg bg-red-500/20 border border-red-500/50 rounded-lg p-3 text-red-300 text-sm mb-4';
+            errorDiv.textContent = error instanceof Error ? error.message : "Erreur réseau lors de l'envoi. Veuillez réessayer.";
+            
+            // Supprimer l'ancienne erreur si présente
+            form.querySelector('.form-error-msg')?.remove();
+            form.insertBefore(errorDiv, form.firstChild);
+            
+            // Réactiver le bouton
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `
+                <span class="relative text-white font-bold text-lg tracking-wider">
+                    ${originalText.trim()}
+                </span>
+            `;
+        }
+    });
+</script>

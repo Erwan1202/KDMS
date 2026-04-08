@@ -1,17 +1,32 @@
 ---
+export const prerender = false;
+
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/common/Navbar.astro";
 import Footer from "../components/common/Footer.astro";
 import ContactSection from "../components/sections/ContactSection.astro";
 import { Image } from "astro:assets";
 
-import { categories, projects, brandLogos } from "../data/realisations";
-import projectImage from "../assets/home/hero-flight-case.png";
+import { categories, brandLogos } from "../data/realisations";
+import { fetchGalleryImages } from "../lib/cloudinary";
+
+let allProjects: { id: number; title: string; category: string; cloudinaryUrl: string }[] = [];
+try {
+  const images = await fetchGalleryImages();
+  allProjects = images.map((img, i) => ({
+    id: i + 1,
+    title: img.title,
+    category: img.category,
+    cloudinaryUrl: img.secure_url,
+  }));
+} catch (e) {
+  console.error('Cloudinary fetch failed:', e);
+}
 ---
 
 <Layout
-    title="Nos réalisations de flight cases sur mesure — Galerie projets | KDMS"
-    description="Découvrez nos réalisations de flight cases sur mesure : meubles, événementiel, industrie, spectacle, audiovisuel. Chaque flight case est une solution unique."
+    title="Réalisations flight cases — Audiovisuel, événementiel, industrie "
+    description="Galerie réalisations: flight cases audiovisuel, meubles sur mesure, équipements événementiel, protection industrie. 45+ réalisations. Solutions personnalisées."
 >
     <Navbar theme="dark" />
 
@@ -80,67 +95,42 @@ import projectImage from "../assets/home/hero-flight-case.png";
         </nav>
 
         <section
-            class="px-3 sm:px-4 md:px-6 lg:px-12 pb-16 sm:pb-24 mx-auto max-w-[1920px]"
+            class="px-4 sm:px-6 md:px-10 lg:px-16 pb-20 sm:pb-32 mx-auto max-w-[1920px]"
             aria-label="Galerie de projets"
         >
             <div
-                class="columns-2 md:columns-3 lg:columns-3 xl:columns-4 gap-2 sm:gap-3 md:gap-4 lg:gap-6 xl:gap-8 space-y-2 sm:space-y-3 md:space-y-4 lg:space-y-6 xl:space-y-8"
+                id="masonry-grid"
+                class="columns-2 md:columns-3 xl:columns-4 gap-4 sm:gap-6 lg:gap-8 space-y-4 sm:space-y-6 lg:space-y-8"
             >
                 {
-                    projects.filter(p => !!p.image).map((project) => (
+                    allProjects.map((project, index) => (
                         <article
-                            class={`project-item break-inside-avoid relative group cursor-pointer overflow-hidden rounded-lg sm:rounded-xl bg-[#1A1A1A] ${project.ratio}`}
+                            class="project-item break-inside-avoid relative group cursor-pointer overflow-hidden rounded-xl bg-[#1A1A1A] transition-all duration-700 ease-in-out opacity-0 translate-y-8"
                             data-category={project.category}
                         >
-                            <div class="absolute inset-0 opacity-80 group-hover:opacity-100 transition-opacity duration-300 will-change-opacity">
-                                <Image
-                                    src={project.image}
-                                    alt={project.title}
-                                    class="w-full h-full object-cover transition-all duration-500"
-                                    loading="lazy"
+                            <div class="relative w-full overflow-hidden">
+                                <img
+                                    src={project.cloudinaryUrl}
+                                    alt={`Réalisation ${project.title}`}
+                                    class="w-full h-auto object-cover transition-all duration-1000 group-hover:scale-105"
+                                    loading={index < 4 ? "eager" : "lazy"}
+                                    decoding="async"
                                 />
+                                
+
                             </div>
 
-                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-200" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
 
-                            <div class="absolute bottom-0 left-0 w-full p-4 sm:p-5 md:p-6 translate-y-4 group-hover:translate-y-0 transition-transform duration-300 ease-out will-change-transform">
-                                <span class="text-[#6b755a] text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-1.5 sm:mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                                    {project.category}
-                                </span>
-                                <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-white mb-1.5 sm:mb-2 leading-tight">
-                                    {project.title}
-                                </h2>
-                                <p class="text-white/60 text-xs sm:text-sm font-light max-h-0 overflow-hidden opacity-0 group-hover:max-h-20 group-hover:opacity-100 transition-all duration-500 ease-in-out line-clamp-3">
-                                    {project.description}
-                                </p>
-                            </div>
-
-                            <div
-                                class="absolute top-3 right-3 sm:top-4 sm:right-4 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
-                                aria-hidden="true"
-                            >
-                                <svg
-                                    width="16"
-                                    height="16"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    class="text-white sm:w-5 sm:h-5"
-                                >
-                                    <path
-                                        d="M7 17L17 7"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    />
-                                    <path
-                                        d="M7 7H17V17"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    />
-                                </svg>
+                            <div class="absolute bottom-0 left-0 w-full p-2 sm:p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500 ease-out will-change-transform z-10">
+                                <div class="bg-black/30 backdrop-blur-xl border border-white/10 rounded-lg sm:rounded-xl p-2 sm:p-4 transform transition-all duration-500 group-hover:bg-black/40 shadow-2xl">
+                                    <span class="text-[#E07A1F] text-[9px] sm:text-[10px] font-bold uppercase tracking-widest mb-0.5 sm:mb-1 block opacity-70">
+                                        {project.category.replace('-', ' ')}
+                                    </span>
+                                    <h2 class="text-sm sm:text-lg font-bold text-white mb-0.5 sm:mb-1 leading-tight">
+                                        {project.title}
+                                    </h2>
+                                </div>
                             </div>
                         </article>
                     ))
@@ -194,6 +184,11 @@ import projectImage from "../assets/home/hero-flight-case.png";
             id="footer-section"
             class="bg-black relative z-50 border-t border-white/10"
         >
+            <!-- SEO Content: Hidden for search engines -->
+            <section class="hidden" role="region" aria-label="Réalisations keywords">
+                <p>Réalisations de flight cases audiovisuel: enceintes, amplis, écrans. Flight cases événementiel: son, lumière, équipements scène. Flight cases industrie: protection matériel sensible, transport sécurisé. Meubles sur mesure avec rangements intégrés. Valises résine transportables.</p>
+            </section>
+            
             <ContactSection />
             <Footer />
         </footer>
@@ -219,6 +214,7 @@ import projectImage from "../assets/home/hero-flight-case.png";
                     src=""
                     alt="Image en plein écran"
                     class="max-w-full max-h-[85vh] object-contain rounded-md shadow-2xl scale-95 transition-transform duration-300 cursor-default"
+                    loading="lazy"
                 />
                 <p id="modal-caption" class="text-white text-lg sm:text-xl font-medium mt-4 text-center cursor-default"></p>
             </div>
@@ -232,7 +228,8 @@ import projectImage from "../assets/home/hero-flight-case.png";
     const dropdownBtnEl = document.getElementById("filter-dropdown-btn");
     const dropdownArrowEl = document.getElementById("dropdown-arrow");
     const selectedLabelEl = document.getElementById("selected-filter-label");
-    const projectItems = document.querySelectorAll<HTMLElement>(".project-item");
+    const projectItems = Array.from(document.querySelectorAll<HTMLElement>(".project-item"));
+    const masonryGrid = document.getElementById("masonry-grid");
     
     // Elements de la modale
     const imageModal = document.getElementById("image-modal");
@@ -255,13 +252,94 @@ import projectImage from "../assets/home/hero-flight-case.png";
         return btn?.textContent?.trim() || 'Tout voir';
     }
 
-    function filterProjects(category: string): void {
-        requestAnimationFrame(() => {
-            projectItems.forEach((item) => {
-                const show = category === "all" || item.dataset.category === category;
-                item.style.display = show ? "block" : "none";
-            });
+    let currentCategory = 'all';
+
+    function buildMasonryColumns(category: string, animate = true): void {
+        if (!masonryGrid) return;
+        currentCategory = category;
+        
+        const numCols = window.innerWidth >= 1280 ? 4 : window.innerWidth >= 768 ? 3 : 2;
+        const visibleItems = projectItems.filter(item => category === 'all' || item.dataset.category === category);
+        
+        // Reset container to grid layout
+        masonryGrid.className = `grid gap-4 sm:gap-6 lg:gap-8 items-stretch pt-2 pb-4 ${
+            numCols === 4 ? 'grid-cols-4' : numCols === 3 ? 'grid-cols-3' : 'grid-cols-1 sm:grid-cols-2'
+        }`;
+        
+        masonryGrid.innerHTML = '';
+        
+        const columns = Array.from({ length: numCols }, () => {
+            const col = document.createElement('div');
+            col.className = 'flex flex-col gap-4 sm:gap-6 lg:gap-8 min-h-full';
+            return col;
         });
+        
+        // Setup initially
+        visibleItems.forEach((item, index) => {
+            item.classList.remove("hidden-item", "flex-grow", "flex", "flex-col");
+            if (animate) {
+                item.classList.add("opacity-0", "translate-y-8");
+            } else {
+                item.classList.remove("opacity-0", "translate-y-8");
+            }
+            
+            const imgContainer = item.querySelector('.relative.w-full');
+            if (imgContainer) {
+                imgContainer.classList.remove("h-full", "flex-grow");
+                const img = imgContainer.querySelector('img');
+                if (img) img.classList.remove("h-full", "object-cover");
+            }
+            
+            columns[index % numCols].appendChild(item);
+        });
+        
+        columns.forEach(col => {
+            const lastItem = col.lastElementChild;
+            if (lastItem) {
+                lastItem.classList.add("flex-grow", "flex", "flex-col");
+                const imgContainer = lastItem.querySelector('.relative.w-full');
+                if (imgContainer) {
+                    imgContainer.classList.add("h-full", "flex-grow");
+                    const img = imgContainer.querySelector('img');
+                    if (img) img.classList.add("h-full", "object-cover");
+                }
+            }
+            masonryGrid.appendChild(col);
+        });
+        
+        if (animate) {
+            visibleItems.forEach((item, index) => {
+                setTimeout(() => {
+                    item.classList.remove("hidden-item", "opacity-0", "translate-y-8");
+                }, index * 30 + 10);
+            });
+        }
+    }
+
+    let resizeTimer: ReturnType<typeof setTimeout>;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            buildMasonryColumns(currentCategory, false);
+        }, 150);
+    });
+
+    function filterProjects(category: string): void {
+        const disappearingItems = projectItems.filter(item => 
+            !item.classList.contains("hidden-item") && 
+            category !== "all" && item.dataset.category !== category
+        );
+        
+        if (disappearingItems.length > 0) {
+            disappearingItems.forEach(item => {
+                item.classList.add("opacity-0", "translate-y-8");
+            });
+            setTimeout(() => {
+                buildMasonryColumns(category, true);
+            }, 300);
+        } else {
+            buildMasonryColumns(category, true);
+        }
     }
     function updateButtonStates(activeCategory: string): void {
         const btns = filterBtnsContainer?.querySelectorAll<HTMLButtonElement>(".filter-btn");
@@ -387,11 +465,17 @@ import projectImage from "../assets/home/hero-flight-case.png";
     document.addEventListener('DOMContentLoaded', () => {
         const initialCategory = getCategoryFromURL();
         const initialLabel = getLabelForCategory(initialCategory);
-        handleFilterSelect(initialCategory, initialLabel);
+        buildMasonryColumns(initialCategory, false); // Initialize layout
+        updateButtonStates(initialCategory);
+        updateDropdownStates(initialCategory, initialLabel);
     });
 </script>
 
 <style>
+    .hidden-item {
+        display: none;
+    }
+
     @keyframes marquee {
         0% {
             transform: translateX(0);

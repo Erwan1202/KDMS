@@ -1,7 +1,34 @@
+# Robots.txt - KDMS Flight Cases
+# Ce fichier indique aux moteurs de recherche comment crawler le site
+
+# Règles pour TOUS les robots
 User-agent: *
 Allow: /
+Crawl-delay: 1
 
+# Disallow les pages admin et API (données sensibles)
+Disallow: /kdms-admin
+Disallow: /api/
+Disallow: /.vercel/
+Disallow: /.git/
+Disallow: /node_modules/
+
+# Disallow les fichiers inutiles
+Disallow: /*.json$
+Disallow: /*.env$
+Disallow: /src/
+
+# Decline les images dynamiques pour Google Images
 User-agent: Googlebot-Image
 Disallow: /
 
+# Priorités de crawl pour les gros moteurs
+User-agent: Googlebot
+Crawl-delay: 0.5
+
+User-agent: Bingbot
+Crawl-delay: 1
+
+# Sitemaps - Google les crawlera automatiquement
 Sitemap: https://www.k-dms.co/sitemap-index.xml
+Sitemap: https://www.k-dms.co/sitemap-0.xml

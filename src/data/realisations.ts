@@ -1,13 +1,10 @@
+import type { ImageMetadata } from "astro";
+
 export interface Category {
     id: string;
     label: string;
-}
-
-export interface Project {
-    title: string;
-    category: string;
-    description: string;
-    image?: any;
+    featured?: boolean;
+    gridClass?: string;
 }
 
 export interface BrandLogo {
@@ -16,56 +13,16 @@ export interface BrandLogo {
     logo: ImageMetadata;
 }
 
-import bureauMobile from "../assets/realisations/meubles/bureau-mobile.png";
-import regieTournee from "../assets/realisations/spectacle/regie-tournee.png";
-import commode from "../assets/realisations/meubles/commode.png";
-import borneArcade from "../assets/realisations/meubles/borne-arcade.png";
-
-const RATIOS = [
-    "aspect-square",
-    "aspect-[3/4]",
-    "aspect-[4/5]",
-    "aspect-[16/9]",
-    "aspect-[4/3]",
-] as const;
-
-const COLORS = [
-    "bg-[#6b755a]",
-    "bg-[#5c6650]",
-    "bg-[#4d5744]",
-    "bg-[#3e4838]",
-    "bg-[#7a846a]",
-    "bg-[#89937a]",
-    "bg-[#525b47]",
-    "bg-[#434c3b]",
-] as const;
-
-
 export const categories: Category[] = [
     { id: "all", label: "Tout Voir" },
-    { id: "meubles", label: "Meubles" },
-    { id: "spectacle", label: "Spectacle" },
-    { id: "industrie", label: "Industrie" },
-    { id: "audiovisuel", label: "Audiovisuel" },
-    { id: "evenementiel", label: "Evenementiel" },
-    { id: "Valise résine", label: "Valise résine" },
+    { id: "evenementiel", label: "Événementiel", featured: true, gridClass: "lg:col-span-1 h-[280px] lg:h-[400px]" },
+    { id: "meubles", label: "Meubles", featured: true, gridClass: "lg:col-span-1 h-[280px] lg:h-[400px]" },
+    { id: "audiovisuel", label: "Audiovisuel", featured: true, gridClass: "lg:col-span-1 h-[280px] lg:h-[400px]" },
+    { id: "valise-resine", label: "Valise résine", featured: true, gridClass: "lg:col-span-1 h-[280px] lg:h-[400px]" },
+    { id: "industrie", label: "Industrie", featured: true, gridClass: "lg:col-span-1 h-[280px] lg:h-[400px]" },
 ];
 
-
-const projectsData: Project[] = [
-    { title: "Vestiaire mobile", category: "meubles", description: "Vestiaire mobile personnalisé", image: bureauMobile },
-    { title: "Platine de mixage", category: "spectacle", description: "Platine de mixage personnalisée", image: regieTournee },
-    { title: "Meuble télévision", category: "meubles", description: "Meuble télévision personnalisé", image: commode },
-    { title: "Borne Arcade", category: "meubles", description: "Borne arcade personnalisée", image: borneArcade },
-];
-
-export const projects = projectsData.map((p, i) => ({
-    id: i + 1,
-    ...p,
-    ratio: RATIOS[i % RATIOS.length],
-    color: COLORS[i % COLORS.length],
-}));
-
+// Brand Logos
 import sonyLogo from "../assets/brands/sony.png";
 import yamahaLogo from "../assets/brands/yamaha.png";
 import pioneerLogo from "../assets/brands/pioneer.png";
@@ -75,6 +32,17 @@ import fenderLogo from "../assets/brands/fender.png";
 import midasLogo from "../assets/brands/midas.png";
 import allenHeathLogo from "../assets/brands/allen-heath.png";
 import uniluminLogo from "../assets/brands/unilumin.png";
+import redbullLogo from "../assets/brands/redbull.png";
+import mieleLogo from "../assets/brands/miele.png";
+import lacousticsLogo from "../assets/brands/l-acoustics.png";
+import abletonLogo from "../assets/brands/ableton.png";
+import samsungLogo from "../assets/brands/samsung.png";
+import ampegLogo from "../assets/brands/ampeg.png";
+import moogLogo from "../assets/brands/moog.png";
+import godoxLogo from "../assets/brands/godox.png";
+import malightingLogo from "../assets/brands/ma-lighting.png";
+import laneyLogo from "../assets/brands/laney.png";
+import gkLogo from "../assets/brands/gallien-krueger.png";
 
 export const brandLogos: BrandLogo[] = [
     { id: 1, name: "Sony", logo: sonyLogo },
@@ -86,4 +54,15 @@ export const brandLogos: BrandLogo[] = [
     { id: 7, name: "Midas", logo: midasLogo },
     { id: 8, name: "Allen & Heath", logo: allenHeathLogo },
     { id: 9, name: "Unilumin", logo: uniluminLogo },
+    { id: 10, name: "Red Bull", logo: redbullLogo },
+    { id: 11, name: "Miele", logo: mieleLogo },
+    { id: 12, name: "L-Acoustics", logo: lacousticsLogo },
+    { id: 13, name: "Ableton", logo: abletonLogo },
+    { id: 14, name: "Samsung", logo: samsungLogo },
+    { id: 15, name: "Ampeg", logo: ampegLogo },
+    { id: 16, name: "Moog", logo: moogLogo },
+    { id: 17, name: "Godox", logo: godoxLogo },
+    { id: 18, name: "MA Lighting", logo: malightingLogo },
+    { id: 19, name: "Laney", logo: laneyLogo },
+    { id: 20, name: "Gallien Krueger", logo: gkLogo },
 ];

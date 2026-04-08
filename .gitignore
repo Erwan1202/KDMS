@@ -29,3 +29,9 @@ pnpm-debug.log*
 # vscode
 *.vscode
 .vercel
+
+# brainstorming visual companion
+.superpowers/
+
+# git worktrees
+.worktrees/

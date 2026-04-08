@@ -1,44 +1,20 @@
 ---
-import { Image } from "astro:assets";
-import consoleImage from "../../assets/home/hero-flight-case.png";
-import bureauMobile from "../../assets/realisations/meubles/bureau-mobile.png";
-import regieTournee from "../../assets/realisations/spectacle/regie-tournee.png";
-import borneArcade from "../../assets/realisations/meubles/borne-arcade.png";
+import { categories } from "../../data/realisations";
 
-const realisations = [
-    {
-        title: "Meubles",
-        category: "meubles",
-        gridClass: "md:col-span-2",
-        image: bureauMobile,
-    },
-    {
-        title: "Evénementiel",
-        category: "evenementiel",
-        gridClass: "md:col-span-1",
-    },
-    {
-        title: "Industrie",
-        category: "industrie",
-        gridClass: "md:col-span-1",
-    },
-    {
-        title: "Spectacle",
-        category: "spectacle",
-        gridClass: "md:col-span-2",
-        image: regieTournee,
-    },
-    {
-        title: "Audiovisuel",
-        category: "audiovisuel",
-        gridClass: "md:col-span-2",
-    },
-    {
-        title: "Valise résine",
-        category: "Valise résine",
-        gridClass: "md:col-span-1",
-    },
-];
+interface Props {
+  coverImages: Record<string, string>;
+}
+
+const { coverImages } = Astro.props;
+
+const featuredCategories = categories
+  .filter(cat => cat.featured)
+  .map(cat => ({
+    title: cat.label,
+    category: cat.id,
+    gridClass: cat.gridClass || "md:col-span-1",
+    imageUrl: coverImages[cat.id] ?? null,
+  }));
 ---
 
 <section
@@ -54,39 +30,41 @@ const realisations = [
         </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full px-4 md:px-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 w-full px-4 md:px-8 auto-rows-min">
         {
-            realisations.map((item) => (
-                <a 
+            featuredCategories.map((item) => (
+                <a
                     href={`/realisations?category=${item.category}`}
-                    class={`realisation-card group relative w-full overflow-hidden rounded-2xl bg-[#1A1A1A] cursor-pointer h-[280px] sm:h-[320px] md:h-[360px] lg:h-[400px] block no-underline ${item.gridClass}`}
+                    class={`realisation-card group relative w-full overflow-hidden rounded-2xl bg-[#1A1A1A] cursor-pointer block no-underline transition-all duration-700 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)] ${item.gridClass}`}
                 >
-                    {item.image ? (
-                        <Image
-                            src={item.image}
+                    {item.imageUrl ? (
+                        <img
+                            src={item.imageUrl}
                             alt={item.title}
                             loading="lazy"
                             decoding="async"
-                            widths={[600, 1200]}
-                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-70 group-hover:opacity-50 transition-all"
+                            class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-70 group-hover:opacity-100 transition-all filter brightness-[0.8] group-hover:brightness-100"
                         />
                     ) : (
-                        <div class="absolute inset-0 w-full h-full bg-gray-800" />
+                        <div class="absolute inset-0 w-full h-full bg-gray-900/50 flex items-center justify-center">
+                            <span class="text-white/20 font-bold uppercase tracking-widest">En cours...</span>
+                        </div>
                     )}
-                    
-                    <div class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-                        <h3 class="text-2xl md:text-3xl font-bold text-white tracking-tight transform transition-all duration-500 group-hover:-translate-y-2 z-10">
+
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60 group-hover:opacity-20 transition-opacity duration-700" />
+
+                    <div class="absolute bottom-0 left-0 w-full p-4 sm:p-6 md:p-10 pointer-events-none">
+                        <span class="text-[#E07A1F] text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] mb-1 sm:mb-3 block transform translate-y-4 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 italic">
+                            Secteur {item.title}
+                        </span>
+                        <h3 class="text-xl sm:text-2xl md:text-5xl font-extrabold text-white tracking-tighter leading-none transform transition-all duration-700 group-hover:-translate-y-1">
                             {item.title}
                         </h3>
-                        
-                        <div class="h-[1px] w-8 bg-[#E07A1F] mt-4 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center"></div>
-                        
-                        <span class="opacity-0 translate-y-4 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0 text-white/80 font-light text-sm mt-4 tracking-widest uppercase">
-                            Explorer
-                        </span>
+
+                        <div class="h-[2px] w-8 sm:w-12 bg-white/40 mt-3 sm:mt-6 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"></div>
                     </div>
-                    
-                    <div class="absolute inset-0 border border-[#4A5D23]/30 rounded-2xl pointer-events-none transition-colors duration-300 group-hover:border-[#7FB255]/50" />
+
+                    <div class="absolute inset-0 border border-white/5 rounded-2xl pointer-events-none transition-colors duration-500 group-hover:border-white/20" />
                 </a>
             ))
         }
@@ -95,10 +73,13 @@ const realisations = [
     <div class="w-full flex justify-center mt-10 md:mt-16">
         <a
             href="/realisations"
-            class="cta-button group relative inline-flex items-center justify-center px-10 sm:px-12 md:px-16 py-4 overflow-hidden rounded-full bg-[#E07A1F] transition-all duration-300 hover:bg-[#C86618] hover:shadow-[0_0_30px_rgba(224,122,31,0.4)] whitespace-nowrap no-underline"
+            class="cta-button group relative inline-flex items-center justify-center px-8 sm:px-10 py-3 md:py-4 overflow-hidden rounded-full bg-[#E07A1F] transition-all duration-300 hover:bg-[#C86618] hover:shadow-[0_0_30px_rgba(224,122,31,0.4)] whitespace-nowrap no-underline"
         >
-            <span class="relative text-white font-medium text-sm tracking-[0.2em] uppercase transition-colors">
-                Voir toutes les réalisations
+            <span class="relative flex items-center gap-3 text-white font-medium text-sm tracking-[0.15em] uppercase transition-colors">
+                En voir plus
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transform transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
             </span>
         </a>
     </div>

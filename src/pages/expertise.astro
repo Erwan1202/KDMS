@@ -65,8 +65,8 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
 ---
 
 <Layout
-    title="Fabrication de flight cases sur mesure — Notre expertise | KDMS"
-    description="Découvrez notre processus de fabrication de flight cases sur mesure : écoute, modélisation, usinage CN, assemblage et livraison. 20 ans d'expertise, made in France."
+    title="Processus de fabrication flight case sur mesure — KDMS Tigery"
+    description="20 ans expertise fabrication flight case sur mesure. Processus: modélisation, usinage CN, assemblage, capitonnage. Protection matériel professionnel. Tigery (91). Made in France."
 >
     <Navbar theme="dark" />
 
@@ -96,13 +96,15 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                     alt="Atelier de fabrication de flight cases sur mesure KDMS"
                     class="w-full h-full object-cover"
                     loading="eager"
+                    fetchpriority="high"
                     quality="max"
                 />
                 <div class="absolute inset-0 bg-black/60"></div>
+                <div class="absolute bottom-0 left-0 right-0 h-32 sm:h-48 md:h-64 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
             </div>
 
             <div
-                class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce"
+                class="absolute bottom-1 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce"
             >
                 <button
                     id="scroll-to-process"
@@ -200,7 +202,7 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                                 ) : (
                                     <div class="step-image aspect-video bg-[#1a1a1a] rounded-xl border border-white/10 overflow-hidden shadow-2xl">
                                         {step.image ? (
-                                            <Image src={step.image} alt={step.title} class="w-full h-full object-cover" loading="lazy" />
+                                            <Image src={step.image} alt={step.title} class="w-full h-full object-cover" loading={index === 0 ? "eager" : "lazy"} />
                                         ) : (
                                             <div class="w-full h-full flex items-center justify-center text-white/10 text-8xl font-black">
                                                 {step.number}
@@ -224,7 +226,7 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                                 {index % 2 === 0 ? (
                                     <div class="step-image aspect-video bg-[#1a1a1a] rounded-xl border border-white/10 overflow-hidden shadow-2xl">
                                         {step.image ? (
-                                            <Image src={step.image} alt={step.title} class="w-full h-full object-cover" loading="lazy" />
+                                            <Image src={step.image} alt={step.title} class="w-full h-full object-cover" loading={index === 0 ? "eager" : "lazy"} />
                                         ) : (
                                             <div class="w-full h-full flex items-center justify-center text-white/10 text-8xl font-black">
                                                 {step.number}
@@ -291,6 +293,10 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
 
         <ContactSection />
         <Footer />
+        <!-- SEO Content: Hidden for search engines -->
+        <section class="hidden" role="region" aria-label="Expertise keywords">
+            <p>Notre expertise en fabrication de flight case sur mesure: modélisation 3D, usinage CN de précision, assemblage professionnel, capitonnage mousse haute densité, conditionnement sécurisé. 20 ans de savoir-faire dans la conception de solution de protection d'équipements.</p>
+        </section>
     </main>
 </Layout>
 

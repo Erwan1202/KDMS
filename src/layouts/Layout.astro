@@ -27,7 +27,7 @@ const jsonLd = JSON.stringify({
     "@id": "https://www.k-dms.co",
     "name": "KDMS",
     "alternateName": "K-DMS",
-    "description": "Fabricant français de flight cases 100% sur mesure. Conception, fabrication et livraison personnalisées pour l'industrie, l'événementiel et le spectacle.",
+    "description": "Fabricant français de flight cases 100% sur mesure. Conception, fabrication et livraison personnalisées pour l'industrie et l'événementiel.",
     "url": "https://www.k-dms.co",
     "image": {
         "@type": "ImageObject",
@@ -57,17 +57,48 @@ const jsonLd = JSON.stringify({
         "longitude": 2.5125
     },
     "priceRange": "€€",
+    "openingHoursSpecification": [{
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "08:00",
+        "closes": "17:00"
+    }],
     "contactPoint": {
         "@type": "ContactPoint",
         "contactType": "Customer Service",
         "telephone": "+33 1 69 12 72 10",
         "url": "https://www.k-dms.co/contact"
     },
+    "service": [{
+        "@type": "Service",
+        "name": "Flight case sur mesure",
+        "description": "Conception et fabrication de flight cases 100% personnalisés"
+    }, {
+        "@type": "Service",
+        "name": "Flight case audiovisuel",
+        "description": "Solutions de protection pour équipements audiovisuel et événementiel"
+    }, {
+        "@type": "Service",
+        "name": "Flight case industrie",
+        "description": "Boîtiers de transport robustes pour matériel industriel"
+    }, {
+        "@type": "Service",
+        "name": "Meuble sur mesure",
+        "description": "Mobilier personnalisé avec solutions de rangement intégrées"
+    }],
     "sameAs": [],
-    "areaServed": {
+    "areaServed": [{
         "@type": "Country",
         "name": "FR"
-        }
+    }, {
+        "@type": "Country",
+        "name": "EU"
+    }],
+    "foundingDate": "2004",
+    "founder": {
+        "@type": "Person",
+        "name": "KDMS"
+    }
 });
 ---
 
@@ -76,6 +107,7 @@ const jsonLd = JSON.stringify({
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="title" content={title} />
         <meta name="description" content={description} />
         <meta name="robots" content="noimageindex" />
 
@@ -96,6 +128,22 @@ const jsonLd = JSON.stringify({
 
         <link rel="canonical" href={canonicalURL.href} />
 
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={canonicalURL.href} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content="https://metatags.io/images/meta-tags.png" />
+        <meta property="og:site_name" content="KDMS" />
+        <meta property="og:locale" content="fr_FR" />
+
+        <!-- X (Twitter) -->
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={canonicalURL.href} />
+        <meta property="twitter:title" content={title} />
+        <meta property="twitter:description" content={description} />
+        <meta property="twitter:image" content="https://metatags.io/images/meta-tags.png" />
+
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" type="image/png" sizes="192x192" href="/logo.png" />
         <link rel="apple-touch-icon" href="/logo.png" />
@@ -108,20 +156,34 @@ const jsonLd = JSON.stringify({
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        
+        <!-- Preload Fonts -->
+        <link
+            rel="preload"
+            href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+            as="style"
+        />
         <link
             href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
             rel="stylesheet"
+            media="print" 
+            onload="this.media='all'"
         />
-        <link
-            rel="preload"
-            href="https://fonts.googleapis.com/css2?family=Outfit:wght@700&display=swap"
-            as="style"
-        />
+        <noscript>
+            <link
+                href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+                rel="stylesheet"
+            />
+        </noscript>
 
         <title>{title}</title>
 
         <!-- Schema.org JSON-LD -->
         <script type="application/ld+json" set:html={jsonLd}></script>
+
+        <!-- Preload 3D Model Viewer for performance -->
+        <link rel="modulepreload" href="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
+        <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
 
         <style>
             * {
@@ -169,31 +231,5 @@ const jsonLd = JSON.stringify({
     </head>
     <body class="bg-white scrollbar-hide overflow-x-hidden">
         <slot />
-        {isProd && <SpeedInsights />}
-        
-        <script is:inline>
-            document.addEventListener('contextmenu', function(e) {
-                if (e.target.tagName === 'IMG' || e.target.closest('.img-protect')) {
-                    e.preventDefault();
-                    return false;
-                }
-            });
-            
-            document.addEventListener('dragstart', function(e) {
-                if (e.target.tagName === 'IMG') {
-                    e.preventDefault();
-                    return false;
-                }
-            });
-            
-            document.addEventListener('keydown', function(e) {
-                if (e.target.tagName === 'IMG') {
-                    if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) {
-                        e.preventDefault();
-                        return false;
-                    }
-                }
-            });
-        </script>
     </body>
 </html>

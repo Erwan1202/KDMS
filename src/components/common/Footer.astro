@@ -13,7 +13,8 @@ const navigationLinks = [
 const contactInfo = [
     {
         lines: ["8 Rue Camille Décauville", "91250 Tigery", "France"],
-        type: "text",
+        href: "https://www.google.com/maps/search/?api=1&query=8+Rue+Camille+Décauville+91250+Tigery+France",
+        type: "address",
     },
     {
         label: "01 69 12 72 10",
@@ -42,6 +43,7 @@ const legalLinks = [
                         src={logoWhite}
                         alt="KDMS"
                         height={72}
+                        loading="lazy"
                         class="h-[72px] w-auto transition-transform hover:scale-105"
                     />
                 </a>
@@ -79,11 +81,29 @@ const legalLinks = [
                                             <>
                                                 {line}
                                                 {index <
-                                                    (item.lines?.length || 0) -
+                                                    (item.lines?.length ||
+                                                        0) -
                                                         1 && <br />}
                                             </>
                                         ))}
                                     </span>
+                                ) : item.type === "address" ? (
+                                    <a
+                                        href={item.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="footer-link block"
+                                    >
+                                        {item.lines?.map((line, index) => (
+                                            <>
+                                                {line}
+                                                {index <
+                                                    (item.lines?.length ||
+                                                        0) -
+                                                        1 && <br />}
+                                            </>
+                                        ))}
+                                    </a>
                                 ) : item.type === "email" ? (
                                     <ProtectedEmail linkClass="footer-link" />
                                 ) : (
