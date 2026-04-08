@@ -34,7 +34,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       { status: 400, headers: { 'Content-Type': 'application/json' } }
     );
   }
-
+  
   const hash = process.env.ADMIN_PASSWORD_HASH ?? import.meta.env?.ADMIN_PASSWORD_HASH ?? '';
   const valid = await bcrypt.compare(password, hash);
 
