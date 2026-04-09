@@ -534,71 +534,70 @@ import ProtectedEmail from "../components/common/ProtectedEmail.astro";
         </section>
         
         <Footer />
+        <script>
+            const form = document.getElementById('contact-page-form') as HTMLFormElement;
+            const submitBtn = form?.querySelector('button[type="submit"]') as HTMLButtonElement;
+            
+            form?.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // Désactiver le bouton pendant l'envoi
+                const originalText = submitBtn.textContent || 'Envoyer le message';
+                submitBtn.disabled = true;
+                
+                // Modify button content while keeping the style span
+                submitBtn.innerHTML = `
+                    <span class="relative text-white font-bold text-lg tracking-wider">
+                        Envoi en cours...
+                    </span>
+                `;
+                
+                try {
+                    const formData = new FormData(form);
+                    formData.append('form-time', Math.floor(Date.now() / 1000).toString());
+                    
+                    const response = await fetch('/send-email.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        // Afficher le message de succès
+                        form.innerHTML = `
+                            <div class="text-center py-8">
+                                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-500/20 flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-green-400">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </div>
+                                <p class="text-white text-lg font-semibold">Message envoyé !</p>
+                                <p class="text-white/60 text-sm mt-2">Nous vous recontacterons rapidement.</p>
+                            </div>
+                        `;
+                    } else {
+                        throw new Error(result.message || "Erreur lors de l'envoi");
+                    }
+                } catch (error) {
+                    // Afficher l'erreur
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'form-error-msg bg-red-500/20 border border-red-500/50 rounded-lg p-3 text-red-300 text-sm mb-4';
+                    errorDiv.textContent = error instanceof Error ? error.message : "Erreur réseau lors de l'envoi. Veuillez réessayer.";
+                    
+                    // Supprimer l'ancienne erreur si présente
+                    form.querySelector('.form-error-msg')?.remove();
+                    form.insertBefore(errorDiv, form.firstChild);
+                    
+                    // Réactiver le bouton
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `
+                        <span class="relative text-white font-bold text-lg tracking-wider">
+                            ${originalText.trim()}
+                        </span>
+                    `;
+                }
+            });
+        </script>
     </main>
 </Layout>
-
-<script>
-    const form = document.getElementById('contact-page-form') as HTMLFormElement;
-    const submitBtn = form?.querySelector('button[type="submit"]') as HTMLButtonElement;
-    
-    form?.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        // Désactiver le bouton pendant l'envoi
-        const originalText = submitBtn.textContent || 'Envoyer le message';
-        submitBtn.disabled = true;
-        
-        // Modify button content while keeping the style span
-        submitBtn.innerHTML = `
-            <span class="relative text-white font-bold text-lg tracking-wider">
-                Envoi en cours...
-            </span>
-        `;
-        
-        try {
-            const formData = new FormData(form);
-            formData.append('form-time', Math.floor(Date.now() / 1000).toString());
-            
-            const response = await fetch('/send-email.php', {
-                method: 'POST',
-                body: formData
-            });
-            
-            const result = await response.json();
-            
-            if (result.success) {
-                // Afficher le message de succès
-                form.innerHTML = `
-                    <div class="text-center py-8">
-                        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-500/20 flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-green-400">
-                                <polyline points="20 6 9 17 4 12"></polyline>
-                            </svg>
-                        </div>
-                        <p class="text-white text-lg font-semibold">Message envoyé !</p>
-                        <p class="text-white/60 text-sm mt-2">Nous vous recontacterons rapidement.</p>
-                    </div>
-                `;
-            } else {
-                throw new Error(result.message || "Erreur lors de l'envoi");
-            }
-        } catch (error) {
-            // Afficher l'erreur
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'form-error-msg bg-red-500/20 border border-red-500/50 rounded-lg p-3 text-red-300 text-sm mb-4';
-            errorDiv.textContent = error instanceof Error ? error.message : "Erreur réseau lors de l'envoi. Veuillez réessayer.";
-            
-            // Supprimer l'ancienne erreur si présente
-            form.querySelector('.form-error-msg')?.remove();
-            form.insertBefore(errorDiv, form.firstChild);
-            
-            // Réactiver le bouton
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = `
-                <span class="relative text-white font-bold text-lg tracking-wider">
-                    ${originalText.trim()}
-                </span>
-            `;
-        }
-    });
-</script>
