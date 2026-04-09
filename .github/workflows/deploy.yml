@@ -27,10 +27,10 @@ jobs:
     - name: Prepare files for FTP
       run: |
         mkdir -p ftp_deploy
-        cp dist/landing/index.html ftp_deploy/index.html
-        cp -r dist/_astro ftp_deploy/
-        cp dist/favicon.* ftp_deploy/ 2>/dev/null || true
-        cp dist/send-email.php ftp_deploy/ 2>/dev/null || true
+        cp dist/client/landing/index.html ftp_deploy/index.html
+        cp -r dist/client/_astro ftp_deploy/
+        cp dist/client/favicon.* ftp_deploy/ 2>/dev/null || true
+        cp dist/client/send-email.php ftp_deploy/ 2>/dev/null || true
 
     - name: Clean server directory
       uses: appleboy/ssh-action@v1.0.3
