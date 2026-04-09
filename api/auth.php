@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($isValid) {
-        $_SESSION['admin_logged_in'] = true;
+        login_admin();
         echo json_encode(['ok' => true]);
         exit;
     }
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Vérification de session via GET
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
+    if (is_admin_logged_in()) {
         echo json_encode(['ok' => true]);
         exit;
     }

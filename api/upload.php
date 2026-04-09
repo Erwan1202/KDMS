@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit(json_encode(['error' => 'Method Not Allowed']));
 }
 
-if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+if (!is_admin_logged_in()) {
     http_response_code(401);
     exit(json_encode(['error' => 'Non autorisé. Veuillez vous reconnecter.']));
 }

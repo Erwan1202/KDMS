@@ -1,5 +1,6 @@
 <?php
-session_start();
+// Pas de session_start() car Serverless Vercel n'a pas accès au système de fichiers persistant de sessions (/tmp isolé)
+// Utilisez ce système basé sur un Cookie sécurisé (qui marchera sur Vercel ET sur Ionos parfaitement).
 
 function get_env_var($key) {
     if (getenv($key)) return getenv($key);
@@ -22,5 +23,25 @@ function get_env_var($key) {
         }
     }
     return null;
+}
+
+function is_admin_logged_in() {
+    // Génère le token espéré basé sur la config serveur (invisible côté client)
+    $secret = get_env_var('ADMIN_PASSWORD_HASH') ?: get_env_var('ADMIN_PASSWORD');
+    if (!$secret) return false;
+    $expected_token = hash('sha256', 'kdms_secure_' . $secret);
+    
+    return isset($_COOKIE['kdms_auth_token']) && $_COOKIE['kdms_auth_token'] === $expected_token;
+}
+
+function login_admin() {
+    $secret = get_env_var('ADMIN_PASSWORD_HASH') ?: get_env_var('ADMIN_PASSWORD');
+    $token = hash('sha256', 'kdms_secure_' . $secret);
+    // Cookie sécurisé: / (tout le site), HttpOnly (true)
+    setcookie('kdms_auth_token', $token, time() + 86400, '/', '', false, true);
+}
+
+function logout_admin() {
+    setcookie('kdms_auth_token', '', time() - 3600, '/', '', false, true);
 }
 ?>

@@ -1,6 +1,6 @@
 <?php
 require_once 'init.php';
-session_destroy();
+logout_admin();
 header('Content-Type: application/json');
-echo json_encode(['ok' => true]);
+echo json_encode(["message" => "Logged out successfully"]);
 ?>
