@@ -15,7 +15,11 @@ const categories = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex, nofollow" />
     <title>Admin — KDMS</title>
-    <style>
+    <!-- Cropper.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js" is:inline></script>
+    <style is:global>
+
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
       body { background: #0e0e0e; color: #fff; font-family: system-ui, sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; transition: opacity 0.2s;}
       .card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 16px; padding: 36px 32px; width: 100%; max-width: 480px; }
@@ -64,6 +68,12 @@ const categories = [
       .chip { background: #111; color: #888; border: 1px solid #333; padding: 5px 14px; border-radius: 20px; font-size: 0.8em; cursor: pointer; transition: all 0.15s; user-select: none; }
       .chip.selected { background: #4A5D23; color: #fff; border-color: #4A5D23; font-weight: 600; }
       .success-msg { background: rgba(74,93,35,0.15); border: 1px solid rgba(74,93,35,0.4); border-radius: 6px; padding: 10px 14px; color: #7fb255; font-size: 0.85em; display: none; text-align: center; }
+      .ia-badge { position: absolute; top: 6px; left: 6px; background: rgba(74,93,35,0.9); color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.6em; font-weight: bold; letter-spacing: 0.05em; text-transform: uppercase; z-index: 5; pointer-events: none; }
+      .cropper-container-wrapper { background: #111; border: 1px solid #2a2a2a; border-radius: 8px; padding: 10px; display: none; flex-direction: column; gap: 12px; }
+      .cropper-image-wrapper { width: 100%; max-height: 400px; display: flex; justify-content: center; background: #000; overflow: hidden; border-radius: 4px; }
+      .cropper-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+      .cropper-btn { background: #333; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8em; transition: 0.2s; }
+      .cropper-btn:hover { background: #444; }
 
       [data-view="login"] { display: none; }
       [data-view="admin"] { display: none; }
@@ -107,19 +117,34 @@ const categories = [
               <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" style="display:none" />
               <div class="drop-zone" id="drop-zone">
                 <div class="drop-icon">📁</div>
-                <div class="drop-label">Glisser-déposer une photo</div>
-                <div class="drop-hint">ou cliquer pour parcourir · JPG, PNG, WebP</div>
+                <div class="drop-label">Sélectionner ou glisser une photo</div>
+                <div class="drop-hint">JPG, PNG, WebP</div>
               </div>
 
-              <div class="preview-box" id="preview-box">
-                <img class="preview-thumb" id="preview-thumb" src="" alt="Aperçu" />
-                <span class="preview-name" id="preview-name"></span>
-                <span class="preview-ok">✓ Prête</span>
+              <!-- Éditeur d'image (CropperJS) -->
+              <div class="cropper-container-wrapper" id="editor-box">
+                <div class="cropper-image-wrapper">
+                  <img id="image-to-crop" style="max-width: 100%; display: block;" />
+                </div>
+                <div class="cropper-actions">
+                  <button type="button" class="cropper-btn" id="btn-rotate-left">↺ 90°</button>
+                  <button type="button" class="cropper-btn" id="btn-rotate-right">↻ 90°</button>
+                  <button type="button" class="cropper-btn" id="btn-reset">Réinitialiser</button>
+                  <button type="button" class="cropper-btn" style="background:#dc2626;" id="btn-cancel">Annuler</button>
+                </div>
               </div>
 
               <div>
                 <label for="title-input">Titre de la réalisation</label>
                 <input type="text" id="title-input" name="title" placeholder="ex: Rack console son Yamaha" maxlength="120" required />
+              </div>
+
+              <div>
+                <label>Options liées à la photo</label>
+                <label style="display:flex; align-items:center; gap: 8px; cursor:pointer; color:#ccc; text-transform:none; font-size:0.85em; font-weight:500;">
+                  <input type="checkbox" id="ia-input" style="width:auto; transform: scale(1.2);" />
+                  Générée par Intelligence Artificielle (IA)
+                </label>
               </div>
 
               <div>
@@ -152,18 +177,70 @@ const categories = [
       const root = document.getElementById('root');
       const card = document.getElementById('main-card');
       
+      // GALLERY - Move before checkAuth() so it's defined when called
+      const galleryContainer = document.getElementById('gallery-container');
+      async function loadGallery() {
+        try {
+          galleryContainer.innerHTML = 'Chargement de la galerie...';
+          const res = await fetch('/api/gallery.php');
+          const text = await res.text();
+          let data;
+          try {
+            data = JSON.parse(text);
+          } catch (e) {
+            console.error('Réponse API non-JSON (probablement du code PHP brut) :', text);
+            if (text.startsWith('<?php') || text.includes('<?php')) {
+               galleryContainer.innerHTML = '<div class="warning-box">Note: en développement local, les scripts PHP ne s\'exécutent pas (Vite ne gère pas PHP). Déployez ou utilisez un serveur PHP local.</div>';
+               return;
+            }
+            throw new Error('API format invalide');
+          }
+          if (!data.images || data.images.length === 0) {
+            galleryContainer.innerHTML = '<div class="gallery-empty">Aucune photo pour l\'instant.</div>';
+            return;
+          }
+          const html = data.images.map(img => {
+            const thumbUrl = img.secure_url.replace('/upload/', '/upload/c_fill,w_300,h_300/');
+            const iaBadge = img.ia === 'true' ? '<div class="ia-badge">IA</div>' : '';
+            return `
+            <div class="gallery-item" data-public-id="${img.public_id}">
+              ${iaBadge}
+              <img src="${thumbUrl}" alt="${img.title}" loading="lazy" />
+              <div class="gallery-item-overlay">
+                <div class="gallery-item-info">${img.title} (${img.category})</div>
+              </div>
+              <button class="delete-btn" aria-label="Supprimer">✕</button>
+            </div>
+            `;
+          }).join('');
+          galleryContainer.innerHTML = `<div class="gallery-grid">${html}</div>`;
+        } catch(e) {
+          galleryContainer.innerHTML = '<div class="error-msg" style="display:block">Erreur de chargement.</div>';
+        }
+      }
+      
       async function checkAuth() {
         try {
           const res = await fetch('/api/auth.php');
-          if (res.ok) {
-            root.classList.add('view-admin');
-            card.classList.add('wide');
-            loadGallery();
+          const contentType = res.headers.get('content-type');
+          if (res.ok && contentType && contentType.includes('application/json')) {
+            const data = await res.json();
+            if (data.ok) {
+              root.classList.add('view-admin');
+              card.classList.add('wide');
+              loadGallery();
+            } else {
+              root.classList.add('view-login');
+              card.classList.remove('wide');
+            }
           } else {
+            // Probably serving raw PHP file in local dev
+            console.warn('Authentication API returned non-JSON. Fallback to login view.');
             root.classList.add('view-login');
             card.classList.remove('wide');
           }
         } catch(e) {
+          console.error(e);
           root.classList.add('view-login');
         }
         root.style.opacity = '1';
@@ -182,11 +259,16 @@ const categories = [
           try {
             const formData = new FormData(loginForm);
             const res = await fetch('/api/auth.php', { method: 'POST', body: formData });
-            if (res.ok) {
-              window.location.reload();
-            } else {
+            const contentType = res.headers.get('content-type');
+            if (res.ok && contentType && contentType.includes('application/json')) {
               const data = await res.json();
-              throw new Error(data.error || 'Erreur');
+              if (data.ok) {
+                window.location.reload();
+              } else {
+                throw new Error(data.error || 'Erreur');
+              }
+            } else {
+              throw new Error('Erreur réseau ou code PHP brut');
             }
           } catch (err) {
             errorEl.textContent = err.message;
@@ -206,32 +288,6 @@ const categories = [
         });
       }
 
-      // GALLERY
-      const galleryContainer = document.getElementById('gallery-container');
-      async function loadGallery() {
-        try {
-          galleryContainer.innerHTML = 'Chargement de la galerie...';
-          const res = await fetch('/api/gallery.php');
-          const data = await res.json();
-          if (!data.images || data.images.length === 0) {
-            galleryContainer.innerHTML = '<div class="gallery-empty">Aucune photo pour l\'instant.</div>';
-            return;
-          }
-          const html = data.images.map(img => `
-            <div class="gallery-item" data-public-id="${img.public_id}">
-              <img src="${img.secure_url}" alt="${img.title}" loading="lazy" />
-              <div class="gallery-item-overlay">
-                <div class="gallery-item-info">${img.title} (${img.category})</div>
-              </div>
-              <button class="delete-btn" aria-label="Supprimer">✕</button>
-            </div>
-          `).join('');
-          galleryContainer.innerHTML = `<div class="gallery-grid">${html}</div>`;
-        } catch(e) {
-          galleryContainer.innerHTML = '<div class="error-msg" style="display:block">Erreur de chargement.</div>';
-        }
-      }
-
       // DELETE
       document.addEventListener('click', async (e) => {
         const target = e.target;
@@ -247,10 +303,16 @@ const categories = [
           const fd = new FormData();
           fd.append('public_id', publicId);
           const res = await fetch('/api/delete.php', { method: 'POST', body: fd });
-          if (res.ok) {
-            item.remove();
+          const contentType = res.headers.get('content-type');
+          if (res.ok && contentType && contentType.includes('application/json')) {
+            const data = await res.json();
+            if (data.ok) {
+              item.remove();
+            } else {
+              throw new Error(data.error);
+            }
           } else {
-            throw new Error();
+            throw new Error('Erreur API (PHP brut ?)');
           }
         } catch(err) {
           btn.textContent = '✕';
@@ -263,38 +325,66 @@ const categories = [
       if (uploadForm) {
         const fileInput = document.getElementById('file-input');
         const dropZone = document.getElementById('drop-zone');
-        const previewBox = document.getElementById('preview-box');
-        const previewThumb = document.getElementById('preview-thumb');
-        const previewName = document.getElementById('preview-name');
+        const editorBox = document.getElementById('editor-box');
+        const imageToCrop = document.getElementById('image-to-crop');
         const titleInput = document.getElementById('title-input');
         const categoryInput = document.getElementById('category-input');
+        const iaInput = document.getElementById('ia-input');
         const submitBtn = document.getElementById('submit-btn');
         const errorEl = document.getElementById('upload-error');
         const successEl = document.getElementById('upload-success');
-        let selectedFile = null;
+        
+        let cropper = null;
+        let selectedFileName = '';
 
         function checkForm() {
-          submitBtn.disabled = !(selectedFile && titleInput.value.trim() && categoryInput.value);
+          submitBtn.disabled = !(cropper && titleInput.value.trim() && categoryInput.value);
         }
 
-        function showPreview(file) {
-          selectedFile = file;
-          previewThumb.src = URL.createObjectURL(file);
-          previewName.textContent = file.name;
-          previewBox.style.display = 'flex';
+        function destroyCropper() {
+          if (cropper) {
+            cropper.destroy();
+            cropper = null;
+          }
+          editorBox.style.display = 'none';
+          dropZone.style.display = 'block';
+          fileInput.value = '';
           checkForm();
         }
 
+        function showEditor(file) {
+          selectedFileName = file.name;
+          const url = URL.createObjectURL(file);
+          imageToCrop.src = url;
+          dropZone.style.display = 'none';
+          editorBox.style.display = 'flex';
+          
+          if (cropper) { cropper.destroy(); }
+          cropper = new Cropper(imageToCrop, {
+            viewMode: 1,
+            autoCropArea: 1,
+            responsive: true,
+            rotatable: true
+          });
+          
+          checkForm();
+        }
+
+        document.getElementById('btn-rotate-left').addEventListener('click', () => { if (cropper) { cropper.rotate(-90); } });
+        document.getElementById('btn-rotate-right').addEventListener('click', () => { if (cropper) { cropper.rotate(90); } });
+        document.getElementById('btn-reset').addEventListener('click', () => { if (cropper) { cropper.reset(); } });
+        document.getElementById('btn-cancel').addEventListener('click', destroyCropper);
+
         dropZone.addEventListener('click', () => fileInput.click());
         fileInput.addEventListener('change', () => {
-          if (fileInput.files[0]) showPreview(fileInput.files[0]);
+          if (fileInput.files[0]) showEditor(fileInput.files[0]);
         });
         dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
         dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
         dropZone.addEventListener('drop', (e) => {
           e.preventDefault();
           dropZone.classList.remove('drag-over');
-          if (e.dataTransfer && e.dataTransfer.files[0]) showPreview(e.dataTransfer.files[0]);
+          if (e.dataTransfer && e.dataTransfer.files[0]) showEditor(e.dataTransfer.files[0]);
         });
 
         titleInput.addEventListener('input', checkForm);
@@ -310,36 +400,46 @@ const categories = [
 
         uploadForm.addEventListener('submit', async (e) => {
           e.preventDefault();
-          if (!selectedFile) return;
+          if (!cropper) return;
           submitBtn.textContent = 'Publication...';
           submitBtn.disabled = true;
           errorEl.style.display = 'none';
           successEl.style.display = 'none';
-          try {
-            const fd = new FormData();
-            fd.append('photo', selectedFile);
-            fd.append('title', titleInput.value.trim());
-            fd.append('category', categoryInput.value);
-            const res = await fetch('/api/upload.php', { method: 'POST', body: fd });
-            if (res.ok) {
-              successEl.style.display = 'block';
-              selectedFile = null;
-              previewBox.style.display = 'none';
-              titleInput.value = '';
-              categoryInput.value = '';
-              document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
-              fileInput.value = '';
-              loadGallery();
-            } else {
-              const data = await res.json();
-              throw new Error(data.error || 'Erreur');
+          
+          cropper.getCroppedCanvas({ maxWidth: 2000, maxHeight: 2000 }).toBlob(async (blob) => {
+            try {
+              const fd = new FormData();
+              fd.append('photo', blob, selectedFileName);
+              fd.append('title', titleInput.value.trim());
+              fd.append('category', categoryInput.value);
+              fd.append('is_ia', iaInput.checked ? 'true' : 'false');
+              
+              const res = await fetch('/api/upload.php', { method: 'POST', body: fd });
+              const contentType = res.headers.get('content-type');
+              
+              if (res.ok && contentType && contentType.includes('application/json')) {
+                const data = await res.json();
+                if (data.ok) {
+                  successEl.style.display = 'block';
+                  destroyCropper();
+                  titleInput.value = '';
+                  categoryInput.value = '';
+                  iaInput.checked = false;
+                  document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+                  loadGallery();
+                } else {
+                  throw new Error(data.error || 'Erreur inconnue');
+                }
+              } else {
+                throw new Error('API non valide (PHP non supporté en local?)');
+              }
+            } catch(err) {
+              errorEl.textContent = err.message;
+              errorEl.style.display = 'block';
             }
-          } catch(err) {
-            errorEl.textContent = err.message;
-            errorEl.style.display = 'block';
-          }
-          submitBtn.textContent = 'PUBLIER DANS LA GALERIE →';
-          checkForm();
+            submitBtn.textContent = 'PUBLIER DANS LA GALERIE →';
+            checkForm();
+          }, 'image/webp', 0.9);
         });
       }
     </script>

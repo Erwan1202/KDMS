@@ -16,6 +16,7 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
 $file = $_FILES['photo'] ?? null;
 $title = trim($_POST['title'] ?? '');
 $category = $_POST['category'] ?? '';
+$is_ia = $_POST['is_ia'] ?? 'false';
 
 if (!$file || $file['error'] !== UPLOAD_ERR_OK) {
     http_response_code(400);
@@ -36,8 +37,8 @@ if (!in_array($fileMime, $allowedMime)) {
 }
 
 // Variables Cloudinary
-$cloud_name = get_env_var('PUBLIC_CLOUDINARY_CLOUD_NAME');
-$api_key = get_env_var('PUBLIC_CLOUDINARY_API_KEY');
+$cloud_name = get_env_var('PUBLIC_CLOUDINARY_CLOUD_NAME') ?: get_env_var('CLOUDINARY_CLOUD_NAME');
+$api_key = get_env_var('PUBLIC_CLOUDINARY_API_KEY') ?: get_env_var('CLOUDINARY_API_KEY');
 $api_secret = get_env_var('CLOUDINARY_API_SECRET');
 
 if (!$cloud_name || !$api_key || !$api_secret) {
@@ -47,7 +48,7 @@ if (!$cloud_name || !$api_key || !$api_secret) {
 
 $timestamp = time();
 $folder = 'kdms/gallery';
-$context = "title=$title|category=$category";
+$context = "title=$title|category=$category|ia=$is_ia";
 
 // Génération de la signature sécurisée Cloudinary
 $paramsToSign = "context=$context&folder=$folder&timestamp=$timestamp" . $api_secret;

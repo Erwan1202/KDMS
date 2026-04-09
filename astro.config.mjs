@@ -19,6 +19,14 @@ export default defineConfig({
     },
   },
   vite: {
+    server: {
+      proxy: {
+        '/api': {
+          target: 'http://localhost:8080',
+          changeOrigin: true
+        }
+      }
+    },
     plugins: [tailwindcss()],
     build: {
       minify: 'terser',

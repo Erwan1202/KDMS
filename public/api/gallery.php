@@ -6,8 +6,8 @@ header('Content-Type: application/json');
 // Autoriser la lecture publique de la galerie pour l'affichage dynamique
 
 
-$cloud_name = get_env_var('PUBLIC_CLOUDINARY_CLOUD_NAME');
-$api_key = get_env_var('PUBLIC_CLOUDINARY_API_KEY');
+$cloud_name = get_env_var('PUBLIC_CLOUDINARY_CLOUD_NAME') ?: get_env_var('CLOUDINARY_CLOUD_NAME');
+$api_key = get_env_var('PUBLIC_CLOUDINARY_API_KEY') ?: get_env_var('CLOUDINARY_API_KEY');
 $api_secret = get_env_var('CLOUDINARY_API_SECRET');
 
 if (!$cloud_name || !$api_key || !$api_secret) {
@@ -35,6 +35,7 @@ if ($http_code === 200) {
             'secure_url' => $res['secure_url'],
             'title' => $context['title'] ?? 'Sans titre',
             'category' => $context['category'] ?? 'autre',
+            'ia' => $context['ia'] ?? 'false',
             'created_at' => $res['created_at']
         ];
     }

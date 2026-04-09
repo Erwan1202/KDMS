@@ -20,8 +20,8 @@ if (empty($public_id)) {
     exit(json_encode(['error' => 'public_id requis']));
 }
 
-$cloud_name = get_env_var('PUBLIC_CLOUDINARY_CLOUD_NAME');
-$api_key = get_env_var('PUBLIC_CLOUDINARY_API_KEY');
+$cloud_name = get_env_var('PUBLIC_CLOUDINARY_CLOUD_NAME') ?: get_env_var('CLOUDINARY_CLOUD_NAME');
+$api_key = get_env_var('PUBLIC_CLOUDINARY_API_KEY') ?: get_env_var('CLOUDINARY_API_KEY');
 $api_secret = get_env_var('CLOUDINARY_API_SECRET');
 
 if (!$cloud_name || !$api_key || !$api_secret) {
