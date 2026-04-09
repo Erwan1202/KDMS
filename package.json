@@ -23,7 +23,6 @@
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
-    "@astrojs/vercel": "^10.0.4",
     "@types/bcryptjs": "^2.4.6",
     "terser": "^5.44.1",
     "vitest": "^4.1.2"

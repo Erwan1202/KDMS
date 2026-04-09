@@ -1,0 +1,11 @@
+# Interdire l'accès direct aux fichiers sensibles depuis le navigateur
+<Files ~ "\.(env|log|ini|json)$">
+    Require all denied
+</Files>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    # Pour Astro (si le fichier ou dossier n'existe pas, renvoyer sur index.html ou 404)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+</IfModule>

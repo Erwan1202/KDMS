@@ -1,5 +1,4 @@
 ---
-export const prerender = false;
 
 import Layout from "../layouts/Layout.astro";
 import Navbar from "../components/common/Navbar.astro";
@@ -12,7 +11,7 @@ import { fetchGalleryImages } from "../lib/cloudinary";
 
 let allProjects: { id: number; title: string; category: string; cloudinaryUrl: string }[] = [];
 try {
-  const images = await fetchGalleryImages();
+  let images = []; try { images = await fetchGalleryImages() || []; } catch(e){}
   allProjects = images.map((img, i) => ({
     id: i + 1,
     title: img.title,

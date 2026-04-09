@@ -1,19 +1,4 @@
 ---
-export const prerender = false;
-
-import { verifySession } from '../lib/auth';
-import { fetchGalleryImages } from '../lib/cloudinary';
-
-const token = Astro.cookies.get('kdms_session')?.value ?? '';
-const isAuthenticated = !!verifySession(token);
-
-let galleryImages: { public_id: string; secure_url: string; title: string; category: string }[] = [];
-if (isAuthenticated) {
-  try {
-    galleryImages = await fetchGalleryImages();
-  } catch {}
-}
-
 const categories = [
   { id: 'evenementiel', label: 'Événementiel' },
   { id: 'meubles', label: 'Meubles' },
@@ -32,7 +17,7 @@ const categories = [
     <title>Admin — KDMS</title>
     <style>
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-      body { background: #0e0e0e; color: #fff; font-family: system-ui, sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+      body { background: #0e0e0e; color: #fff; font-family: system-ui, sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; transition: opacity 0.2s;}
       .card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 16px; padding: 36px 32px; width: 100%; max-width: 480px; }
       .card.wide { max-width: 960px; }
       .admin-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
@@ -79,17 +64,23 @@ const categories = [
       .chip { background: #111; color: #888; border: 1px solid #333; padding: 5px 14px; border-radius: 20px; font-size: 0.8em; cursor: pointer; transition: all 0.15s; user-select: none; }
       .chip.selected { background: #4A5D23; color: #fff; border-color: #4A5D23; font-weight: 600; }
       .success-msg { background: rgba(74,93,35,0.15); border: 1px solid rgba(74,93,35,0.4); border-radius: 6px; padding: 10px 14px; color: #7fb255; font-size: 0.85em; display: none; text-align: center; }
+
+      [data-view="login"] { display: none; }
+      [data-view="admin"] { display: none; }
+      body.view-login [data-view="login"] { display: block; }
+      body.view-admin [data-view="admin"] { display: block; }
     </style>
   </head>
-  <body>
-    <div class={isAuthenticated ? "card wide" : "card"}>
+  <body style="opacity: 0;" id="root">
+    <div class="card" id="main-card">
       <div class="logo">
         <div class="logo-icon">🔐</div>
         <span class="logo-title">KDMS Admin</span>
         <span class="logo-sub">Espace réservé</span>
       </div>
 
-      {!isAuthenticated ? (
+      <!-- VIEW: LOGIN -->
+      <div data-view="login">
         <form id="login-form" class="gap">
           <div>
             <label for="password">Mot de passe</label>
@@ -97,80 +88,88 @@ const categories = [
           </div>
           <button type="submit" class="btn">ACCÉDER</button>
           <div id="login-error" class="error-msg"></div>
-          <div class="warning-box">⚠ 5 tentatives max · Blocage 15 min en cas d'échec</div>
+          <div class="warning-box">Version hébergement PHP (IONOS)</div>
         </form>
-      ) : (
-        <div>
-          <div class="status-bar">
-            <span class="connected">● Connecté</span>
-            <button class="logout-btn" id="logout-btn">Déconnexion</button>
-          </div>
+      </div>
 
-          <div class="admin-layout">
-            <!-- Upload -->
-            <div>
-              <div class="section-title">Ajouter une photo</div>
-              <form id="upload-form" class="gap">
-                <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" style="display:none" />
-                <div class="drop-zone" id="drop-zone">
-                  <div class="drop-icon">📁</div>
-                  <div class="drop-label">Glisser-déposer une photo</div>
-                  <div class="drop-hint">ou cliquer pour parcourir · JPG, PNG, WebP · Max 10 Mo</div>
-                </div>
+      <!-- VIEW: ADMIN -->
+      <div data-view="admin">
+        <div class="status-bar">
+          <span class="connected">● Connecté</span>
+          <button class="logout-btn" id="logout-btn">Déconnexion</button>
+        </div>
 
-                <div class="preview-box" id="preview-box">
-                  <img class="preview-thumb" id="preview-thumb" src="" alt="Aperçu" />
-                  <span class="preview-name" id="preview-name"></span>
-                  <span class="preview-ok">✓ Prête</span>
-                </div>
+        <div class="admin-layout">
+          <!-- Upload -->
+          <div>
+            <div class="section-title">Ajouter une photo</div>
+            <form id="upload-form" class="gap">
+              <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" style="display:none" />
+              <div class="drop-zone" id="drop-zone">
+                <div class="drop-icon">📁</div>
+                <div class="drop-label">Glisser-déposer une photo</div>
+                <div class="drop-hint">ou cliquer pour parcourir · JPG, PNG, WebP</div>
+              </div>
 
-                <div>
-                  <label for="title-input">Titre de la réalisation</label>
-                  <input type="text" id="title-input" name="title" placeholder="ex: Rack console son Yamaha" maxlength="120" required />
-                </div>
+              <div class="preview-box" id="preview-box">
+                <img class="preview-thumb" id="preview-thumb" src="" alt="Aperçu" />
+                <span class="preview-name" id="preview-name"></span>
+                <span class="preview-ok">✓ Prête</span>
+              </div>
 
-                <div>
-                  <label>Catégorie</label>
-                  <div class="chips" id="chips">
-                    {categories.map(cat => (
-                      <span class="chip" data-value={cat.id}>{cat.label}</span>
-                    ))}
-                  </div>
-                  <input type="hidden" id="category-input" name="category" />
-                </div>
+              <div>
+                <label for="title-input">Titre de la réalisation</label>
+                <input type="text" id="title-input" name="title" placeholder="ex: Rack console son Yamaha" maxlength="120" required />
+              </div>
 
-                <div id="upload-error" class="error-msg"></div>
-                <div id="upload-success" class="success-msg">✓ Photo publiée dans la galerie !</div>
-
-                <button type="submit" class="btn" id="submit-btn" disabled>PUBLIER DANS LA GALERIE →</button>
-              </form>
-            </div>
-
-            <!-- Galerie -->
-            <div>
-              <div class="section-title">Galerie ({galleryImages.length} photos)</div>
-              {galleryImages.length === 0 ? (
-                <div class="gallery-empty">Aucune photo pour l'instant.</div>
-              ) : (
-                <div class="gallery-grid" id="gallery-grid">
-                  {galleryImages.map(img => (
-                    <div class="gallery-item" data-public-id={img.public_id}>
-                      <img src={img.secure_url} alt={img.title} loading="lazy" />
-                      <div class="gallery-item-overlay">
-                        <div class="gallery-item-info">{img.title}</div>
-                      </div>
-                      <button class="delete-btn" aria-label="Supprimer">✕</button>
-                    </div>
+              <div>
+                <label>Catégorie</label>
+                <div class="chips" id="chips">
+                  {categories.map(cat => (
+                    <span class="chip" data-value={cat.id}>{cat.label}</span>
                   ))}
                 </div>
-              )}
-            </div>
+                <input type="hidden" id="category-input" name="category" />
+              </div>
+
+              <div id="upload-error" class="error-msg"></div>
+              <div id="upload-success" class="success-msg">✓ Photo publiée dans la galerie !</div>
+
+              <button type="submit" class="btn" id="submit-btn" disabled>PUBLIER DANS LA GALERIE →</button>
+            </form>
+          </div>
+
+          <!-- Galerie -->
+          <div id="gallery-section">
+            <div class="section-title">Galerie</div>
+            <div id="gallery-container">Chargement...</div>
           </div>
         </div>
-      )}
+      </div>
     </div>
 
-    <script>
+    <script is:inline>
+      const root = document.getElementById('root');
+      const card = document.getElementById('main-card');
+      
+      async function checkAuth() {
+        try {
+          const res = await fetch('/api/auth.php');
+          if (res.ok) {
+            root.classList.add('view-admin');
+            card.classList.add('wide');
+            loadGallery();
+          } else {
+            root.classList.add('view-login');
+            card.classList.remove('wide');
+          }
+        } catch(e) {
+          root.classList.add('view-login');
+        }
+        root.style.opacity = '1';
+      }
+      checkAuth();
+
       // LOGIN
       const loginForm = document.getElementById('login-form');
       if (loginForm) {
@@ -180,13 +179,17 @@ const categories = [
           const errorEl = document.getElementById('login-error');
           btn.textContent = 'Connexion...';
           btn.disabled = true;
-          const fd = new FormData(loginForm);
-          const res = await fetch('/api/auth', { method: 'POST', body: fd });
-          const data = await res.json();
-          if (res.ok) {
-            window.location.reload();
-          } else {
-            errorEl.textContent = data.error ?? 'Erreur inconnue.';
+          try {
+            const formData = new FormData(loginForm);
+            const res = await fetch('/api/auth.php', { method: 'POST', body: formData });
+            if (res.ok) {
+              window.location.reload();
+            } else {
+              const data = await res.json();
+              throw new Error(data.error || 'Erreur');
+            }
+          } catch (err) {
+            errorEl.textContent = err.message;
             errorEl.style.display = 'block';
             btn.textContent = 'ACCÉDER';
             btn.disabled = false;
@@ -198,26 +201,58 @@ const categories = [
       const logoutBtn = document.getElementById('logout-btn');
       if (logoutBtn) {
         logoutBtn.addEventListener('click', async () => {
-          await fetch('/api/logout', { method: 'POST' });
+          await fetch('/api/logout.php', { method: 'POST' });
           window.location.reload();
         });
       }
 
+      // GALLERY
+      const galleryContainer = document.getElementById('gallery-container');
+      async function loadGallery() {
+        try {
+          galleryContainer.innerHTML = 'Chargement de la galerie...';
+          const res = await fetch('/api/gallery.php');
+          const data = await res.json();
+          if (!data.images || data.images.length === 0) {
+            galleryContainer.innerHTML = '<div class="gallery-empty">Aucune photo pour l\\'instant.</div>';
+            return;
+          }
+          const html = data.images.map(img => `
+            <div class="gallery-item" data-public-id="${img.public_id}">
+              <img src="${img.secure_url}" alt="${img.title}" loading="lazy" />
+              <div class="gallery-item-overlay">
+                <div class="gallery-item-info">${img.title} (${img.category})</div>
+              </div>
+              <button class="delete-btn" aria-label="Supprimer">✕</button>
+            </div>
+          `).join('');
+          galleryContainer.innerHTML = `<div class="gallery-grid">${html}</div>`;
+        } catch(e) {
+          galleryContainer.innerHTML = '<div class="error-msg" style="display:block">Erreur de chargement.</div>';
+        }
+      }
+
       // DELETE
-      document.getElementById('gallery-grid')?.addEventListener('click', async (e) => {
-        const btn = (e.target as HTMLElement).closest('.delete-btn');
+      document.addEventListener('click', async (e) => {
+        const target = e.target;
+        if (!target) return;
+        const btn = target.closest && target.closest('.delete-btn');
         if (!btn) return;
-        const item = btn.closest<HTMLElement>('.gallery-item');
+        const item = btn.closest('.gallery-item');
         if (!item) return;
         const publicId = item.dataset.publicId;
-        if (!publicId || !confirm('Supprimer cette photo de la galerie ?')) return;
+        if (!publicId || !confirm('Supprimer cette photo ?')) return;
         btn.textContent = '…';
-        const fd = new FormData();
-        fd.append('public_id', publicId);
-        const res = await fetch('/api/delete', { method: 'POST', body: fd });
-        if (res.ok) {
-          item.remove();
-        } else {
+        try {
+          const fd = new FormData();
+          fd.append('public_id', publicId);
+          const res = await fetch('/api/delete.php', { method: 'POST', body: fd });
+          if (res.ok) {
+            item.remove();
+          } else {
+            throw new Error();
+          }
+        } catch(err) {
           btn.textContent = '✕';
           alert('Erreur lors de la suppression.');
         }
@@ -259,18 +294,17 @@ const categories = [
         dropZone.addEventListener('drop', (e) => {
           e.preventDefault();
           dropZone.classList.remove('drag-over');
-          const file = e.dataTransfer?.files[0];
-          if (file) showPreview(file);
+          if (e.dataTransfer && e.dataTransfer.files[0]) showPreview(e.dataTransfer.files[0]);
         });
 
         titleInput.addEventListener('input', checkForm);
 
         document.getElementById('chips').addEventListener('click', (e) => {
-          const chip = e.target.closest('.chip');
-          if (!chip) return;
+          const target = e.target;
+          if (!target || !target.classList.contains('chip')) return;
           document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
-          chip.classList.add('selected');
-          categoryInput.value = chip.dataset.value;
+          target.classList.add('selected');
+          categoryInput.value = target.dataset.value;
           checkForm();
         });
 
@@ -281,23 +315,27 @@ const categories = [
           submitBtn.disabled = true;
           errorEl.style.display = 'none';
           successEl.style.display = 'none';
-          const fd = new FormData();
-          fd.append('photo', selectedFile);
-          fd.append('title', titleInput.value.trim());
-          fd.append('category', categoryInput.value);
-          const res = await fetch('/api/upload', { method: 'POST', body: fd });
-          const data = await res.json();
-          if (res.ok) {
-            successEl.style.display = 'block';
-            selectedFile = null;
-            previewBox.style.display = 'none';
-            previewThumb.src = '';
-            titleInput.value = '';
-            categoryInput.value = '';
-            document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
-            fileInput.value = '';
-          } else {
-            errorEl.textContent = data.error ?? 'Erreur lors de la publication.';
+          try {
+            const fd = new FormData();
+            fd.append('photo', selectedFile);
+            fd.append('title', titleInput.value.trim());
+            fd.append('category', categoryInput.value);
+            const res = await fetch('/api/upload.php', { method: 'POST', body: fd });
+            if (res.ok) {
+              successEl.style.display = 'block';
+              selectedFile = null;
+              previewBox.style.display = 'none';
+              titleInput.value = '';
+              categoryInput.value = '';
+              document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+              fileInput.value = '';
+              loadGallery();
+            } else {
+              const data = await res.json();
+              throw new Error(data.error || 'Erreur');
+            }
+          } catch(err) {
+            errorEl.textContent = err.message;
             errorEl.style.display = 'block';
           }
           submitBtn.textContent = 'PUBLIER DANS LA GALERIE →';
