@@ -9,7 +9,6 @@ Crawl-delay: 1
 # Disallow les pages admin et API (données sensibles)
 Disallow: /kdms-admin
 Disallow: /api/
-Disallow: /.vercel/
 Disallow: /.git/
 Disallow: /node_modules/
 
