@@ -13,14 +13,14 @@ const currentPath = Astro.url.pathname;
         class={`navbar-bg absolute inset-0 bg-[#0E0E0E] -z-10 transition-all duration-300 ${currentPath === "/" ? "opacity-0 invisible" : ""}`}
     >
     </div>
-    <a href="/" class="flex items-center relative">
+    <a href="/" id="nav-logo-container" class="flex items-center relative transition-opacity duration-300">
         <Image
             src={logoBlack}
             alt="KDMS"
             loading="eager"
             fetchpriority="high"
             height={80}
-            class="logo-black h-12 md:h-20 w-auto transition-opacity duration-300 opacity-0"
+            class={`logo-black h-12 md:h-20 w-auto transition-opacity duration-300 ${currentPath === '/' ? 'opacity-0' : 'opacity-0'}`}
         />
         <Image
             src={logoWhite}
@@ -28,7 +28,7 @@ const currentPath = Astro.url.pathname;
             loading="eager"
             fetchpriority="high"
             height={80}
-            class="logo-white h-12 md:h-20 w-auto transition-opacity duration-300 absolute left-0 top-0 opacity-100"
+            class={`logo-white h-12 md:h-20 w-auto transition-opacity duration-300 absolute left-0 top-0 ${currentPath === '/' ? 'opacity-0' : 'opacity-100'}`}
         />
     </a>
 
