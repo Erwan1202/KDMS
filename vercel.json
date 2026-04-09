@@ -7,7 +7,21 @@
   "functions": {
     "api/*.php": {
       "runtime": "vercel-php@0.7.2",
-      "excludeFiles": "{src/**,node_modules/**,public/**,.git/**,.worktrees/**,.vercel/**,.astro/**,dist/**,*.md,package*.json,tsconfig.json}"
+      "excludeFiles": [
+        "src/**",
+        "dist/**",
+        "node_modules/**",
+        "public/**",
+        ".git/**",
+        ".worktrees/**",
+        ".vercel/**",
+        ".astro/**",
+        "*.md",
+        "package*.json",
+        "tsconfig.json",
+        "astro.config.mjs",
+        "vitest.config.ts"
+      ]
     }
   }
 }
