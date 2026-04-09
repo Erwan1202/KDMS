@@ -227,7 +227,7 @@ try {
     const dropdownBtnEl = document.getElementById("filter-dropdown-btn");
     const dropdownArrowEl = document.getElementById("dropdown-arrow");
     const selectedLabelEl = document.getElementById("selected-filter-label");
-    const projectItems = Array.from(document.querySelectorAll<HTMLElement>(".project-item"));
+    let projectItems = Array.from(document.querySelectorAll<HTMLElement>(".project-item"));
     const masonryGrid = document.getElementById("masonry-grid");
     
     // Elements de la modale
@@ -467,6 +467,56 @@ try {
         buildMasonryColumns(initialCategory, false); // Initialize layout
         updateButtonStates(initialCategory);
         updateDropdownStates(initialCategory, initialLabel);
+        
+        // --- FETCH DYNAMIQUE POUR VERCEL ---
+        // Vercel build les pages "statiquement", donc les nouvelles photos ne s'afficheraient qu'au prochain déploiement.
+        // Ce fetch s'assure de récupérer la dernière liste de l'API en direct et de rafraîchir la modale sur le client !
+        fetch('/api/gallery.php')
+            .then(res => res.json())
+            .then(data => {
+                if(data.ok && data.images) {
+                    
+                    data.images.forEach(img => {
+                        let cat = img.category;
+                        if(cat) cat = cat.toLowerCase().replace(/ /g, '-');
+                        img.category = cat || 'autre';
+                    });
+                    
+                    // On reconstruit l'intégralité du DOM de la masonry de façon dynamique
+                    const newItems = data.images.map((img, index) => {
+                        const article = document.createElement('article');
+                        article.className = "project-item break-inside-avoid relative group cursor-pointer overflow-hidden rounded-xl bg-[#1A1A1A] transition-all duration-700 ease-in-out opacity-100 translate-y-0";
+                        article.dataset.category = img.category;
+                        
+                        const titleSafe = img.title || 'Sans titre';
+                        const catClean = (img.category || '').replace(/-/g, ' ');
+                        
+                        article.innerHTML = `
+                            <div class="relative w-full overflow-hidden">
+                                <img src="${img.secure_url}" alt="Réalisation ${titleSafe}" class="w-full h-auto object-cover transition-all duration-1000 group-hover:scale-105" loading="${index < 4 ? 'eager' : 'lazy'}"/>
+                            </div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500"></div>
+                            <div class="absolute bottom-0 left-0 w-full p-2 sm:p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500 ease-out will-change-transform z-10">
+                                <div class="bg-black/30 backdrop-blur-xl border border-white/10 rounded-lg sm:rounded-xl p-2 sm:p-4 transform transition-all duration-500 group-hover:bg-black/40 shadow-2xl">
+                                    <span class="text-[#E07A1F] text-[9px] sm:text-[10px] font-bold uppercase tracking-widest mb-0.5 sm:mb-1 block opacity-70">${catClean}</span>
+                                    <h2 class="text-sm sm:text-lg font-bold text-white mb-0.5 sm:mb-1 leading-tight">${titleSafe}</h2>
+                                </div>
+                            </div>
+                        `;
+                        
+                        article.addEventListener("click", () => {
+                            openModal(img.secure_url, titleSafe);
+                        });
+                        
+                        return article;
+                    });
+                    
+                    projectItems = newItems;
+                    buildMasonryColumns(currentCategory, false);
+                }
+            })
+            .catch(err => console.error("Erreur chargement dynamique de la galerie:", err));
+
     });
 </script>
 
