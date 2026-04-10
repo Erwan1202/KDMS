@@ -172,12 +172,13 @@ const categories = [
 
     <script>
       // LOGIN
-      const loginForm = document.getElementById('login-form');
+      const loginForm = document.getElementById('login-form') as HTMLFormElement | null;
       if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
           e.preventDefault();
-          const btn = loginForm.querySelector('button');
+          const btn = loginForm.querySelector('button') as HTMLButtonElement | null;
           const errorEl = document.getElementById('login-error');
+          if (!btn || !errorEl) return;
           btn.textContent = 'Connexion...';
           btn.disabled = true;
           const fd = new FormData(loginForm);
@@ -224,25 +225,26 @@ const categories = [
       });
 
       // UPLOAD
-      const uploadForm = document.getElementById('upload-form');
+      const uploadForm = document.getElementById('upload-form') as HTMLFormElement | null;
       if (uploadForm) {
-        const fileInput = document.getElementById('file-input');
-        const dropZone = document.getElementById('drop-zone');
-        const previewBox = document.getElementById('preview-box');
-        const previewThumb = document.getElementById('preview-thumb');
-        const previewName = document.getElementById('preview-name');
-        const titleInput = document.getElementById('title-input');
-        const categoryInput = document.getElementById('category-input');
-        const submitBtn = document.getElementById('submit-btn');
-        const errorEl = document.getElementById('upload-error');
-        const successEl = document.getElementById('upload-success');
-        let selectedFile = null;
+        const fileInput = document.getElementById('file-input') as HTMLInputElement;
+        const dropZone = document.getElementById('drop-zone') as HTMLElement;
+        const previewBox = document.getElementById('preview-box') as HTMLElement;
+        const previewThumb = document.getElementById('preview-thumb') as HTMLImageElement;
+        const previewName = document.getElementById('preview-name') as HTMLElement;
+        const titleInput = document.getElementById('title-input') as HTMLInputElement;
+        const categoryInput = document.getElementById('category-input') as HTMLInputElement;
+        const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+        const errorEl = document.getElementById('upload-error') as HTMLElement;
+        const successEl = document.getElementById('upload-success') as HTMLElement;
+        let selectedFile: File | null = null;
 
         function checkForm() {
+          if (!submitBtn) return;
           submitBtn.disabled = !(selectedFile && titleInput.value.trim() && categoryInput.value);
         }
 
-        function showPreview(file) {
+        function showPreview(file: File) {
           selectedFile = file;
           previewThumb.src = URL.createObjectURL(file);
           previewName.textContent = file.name;
@@ -252,31 +254,33 @@ const categories = [
 
         dropZone.addEventListener('click', () => fileInput.click());
         fileInput.addEventListener('change', () => {
-          if (fileInput.files[0]) showPreview(fileInput.files[0]);
+          if (fileInput.files && fileInput.files[0]) showPreview(fileInput.files[0]);
         });
         dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
         dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
         dropZone.addEventListener('drop', (e) => {
           e.preventDefault();
           dropZone.classList.remove('drag-over');
-          const file = e.dataTransfer?.files[0];
-          if (file) showPreview(file);
+          if (e.dataTransfer && e.dataTransfer.files[0]) showPreview(e.dataTransfer.files[0]);
         });
 
         titleInput.addEventListener('input', checkForm);
 
-        document.getElementById('chips').addEventListener('click', (e) => {
-          const chip = e.target.closest('.chip');
+        document.getElementById('chips')?.addEventListener('click', (e) => {
+          const target = e.target as HTMLElement;
+          const chip = target.closest('.chip') as HTMLElement | null;
           if (!chip) return;
           document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
           chip.classList.add('selected');
-          categoryInput.value = chip.dataset.value;
+          if (chip.dataset.value) {
+            categoryInput.value = chip.dataset.value;
+          }
           checkForm();
         });
 
         uploadForm.addEventListener('submit', async (e) => {
           e.preventDefault();
-          if (!selectedFile) return;
+          if (!selectedFile || !submitBtn) return;
           submitBtn.textContent = 'Publication...';
           submitBtn.disabled = true;
           errorEl.style.display = 'none';
