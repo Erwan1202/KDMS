@@ -9,9 +9,18 @@ import { Image } from "astro:assets";
 import { categories, brandLogos } from "../data/realisations";
 import { fetchGalleryImages } from "../lib/cloudinary";
 
+type GalleryImage = {
+        title: string;
+        category: string;
+        secure_url: string;
+};
+
 let allProjects: { id: number; title: string; category: string; cloudinaryUrl: string }[] = [];
 try {
-  let images = []; try { images = await fetchGalleryImages() || []; } catch(e){}
+    let images: GalleryImage[] = [];
+    try {
+        images = (await fetchGalleryImages()) || [];
+    } catch (e) {}
   allProjects = images.map((img, i) => ({
     id: i + 1,
     title: img.title,
@@ -108,12 +117,13 @@ try {
                             data-category={project.category}
                         >
                             <div class="relative w-full overflow-hidden">
-                                <img
+                                <Image
                                     src={project.cloudinaryUrl}
                                     alt={`Réalisation ${project.title}`}
+                                    width={1200}
+                                    height={900}
                                     class="w-full h-auto object-cover transition-all duration-1000 group-hover:scale-105"
                                     loading={index < 4 ? "eager" : "lazy"}
-                                    decoding="async"
                                 />
                                 
 
@@ -208,13 +218,12 @@ try {
                 </svg>
             </button>
             <div class="relative w-full h-full flex flex-col items-center justify-center p-4 sm:p-8 modal-backdrop cursor-pointer">
-                <img
+                <div
                     id="modal-image"
-                    src=""
-                    alt="Image en plein écran"
-                    class="max-w-full max-h-[85vh] object-contain rounded-md shadow-2xl scale-95 transition-transform duration-300 cursor-default"
-                    loading="lazy"
-                />
+                    role="img"
+                    aria-label="Image en plein écran"
+                    class="w-full max-w-[90vw] h-[85vh] bg-center bg-no-repeat bg-contain rounded-md shadow-2xl scale-95 transition-transform duration-300 cursor-default"
+                ></div>
                 <p id="modal-caption" class="text-white text-lg sm:text-xl font-medium mt-4 text-center cursor-default"></p>
             </div>
         </div>
@@ -232,7 +241,7 @@ try {
     
     // Elements de la modale
     const imageModal = document.getElementById("image-modal");
-    const modalImage = document.getElementById("modal-image") as HTMLImageElement;
+    const modalImage = document.getElementById("modal-image") as HTMLDivElement;
     const modalCaption = document.getElementById("modal-caption");
     const closeModalBtn = document.getElementById("close-modal-btn");
     
@@ -408,7 +417,7 @@ try {
     // Fonctions de la modale
     function openModal(imgSrc: string, title: string) {
         if (!imageModal || !modalImage) return;
-        modalImage.src = imgSrc;
+        modalImage.style.backgroundImage = `url("${imgSrc}")`;
         if (modalCaption) modalCaption.textContent = title;
         
         imageModal.classList.remove("hidden");
@@ -432,7 +441,7 @@ try {
         setTimeout(() => {
             imageModal.classList.add("hidden");
             imageModal.classList.remove("flex");
-            modalImage.src = "";
+            modalImage.style.backgroundImage = "none";
         }, 300);
     }
 
@@ -476,14 +485,14 @@ try {
             .then(data => {
                 if(data.ok && data.images) {
                     
-                    data.images.forEach(img => {
+                    data.images.forEach((img: { title: string; category: string; secure_url: string }) => {
                         let cat = img.category;
                         if(cat) cat = cat.toLowerCase().replace(/ /g, '-');
                         img.category = cat || 'autre';
                     });
                     
                     // On reconstruit l'intégralité du DOM de la masonry de façon dynamique
-                    const newItems = data.images.map((img, index) => {
+                    const newItems = data.images.map((img: { title: string; category: string; secure_url: string }, index: number) => {
                         const article = document.createElement('article');
                         article.className = "project-item break-inside-avoid relative group cursor-pointer overflow-hidden rounded-xl bg-[#1A1A1A] transition-all duration-700 ease-in-out opacity-100 translate-y-0";
                         article.dataset.category = img.category;

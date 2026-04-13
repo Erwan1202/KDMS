@@ -11,6 +11,7 @@ export default defineConfig({
     defaultStrategy: 'viewport',
   },
   image: {
+    domains: ['res.cloudinary.com'],
     service: {
       entrypoint: 'astro/assets/services/sharp',
       config: {

@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import logoWhite from "/src/assets/common/logo-white.png";
+import madeInFrance from "/src/assets/common/Made-In-France.jpeg";
 import ProtectedEmail from "./ProtectedEmail.astro";
 
 const navigationLinks = [
@@ -54,6 +55,12 @@ const legalLinks = [
                     sur mesure. Protection optimale pour votre matériel, adaptée
                     à vos besoins spécifiques.
                 </p>
+                <Image
+                    src={madeInFrance}
+                    alt="Made in France"
+                    loading="lazy"
+                    class="w-full max-w-55 h-auto"
+                />
             </div>
 
             <div class="col-span-1 md:col-span-3">
