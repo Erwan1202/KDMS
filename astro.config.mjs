@@ -20,6 +20,7 @@ export default defineConfig({
     },
   },
   vite: {
+    assetsInclude: ['**/*.glb'],
     server: {
       proxy: {
         '/api': {

@@ -8,7 +8,7 @@ import ContactSection from "../components/sections/ContactSection.astro";
 import Footer from "../components/common/Footer.astro";
 import { Image } from "astro:assets";
 import heroBg from "../assets/home/index-hero-bg.png";
-import logoWhite from "../assets/common/logo-white.png";
+import logo3d from "../assets/common/logo_3d.glb?url";
 import { fetchGalleryImages } from "../lib/cloudinary";
 import { categories } from "../data/realisations";
 
@@ -52,15 +52,24 @@ try {
                 <div
                     class="hero-text z-50 flex flex-col items-center justify-center text-center w-full max-w-[95%] md:max-w-[80%] lg:max-w-[70%] mx-auto px-2 mt-8 sm:mt-12 md:mt-16 mb-8 sm:mb-12 md:mb-16"
                 >
-                    <Image 
-                        src={logoWhite} 
-                        alt="K-DMS Logo" 
-                        class="w-full max-w-[140px] sm:max-w-[180px] md:max-w-[220px] lg:max-w-[280px] object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.2)] mb-4 lg:mb-6 mx-auto"
-                        loading="eager"
-                        fetchpriority="high"
-                    />
+                    <div class="hero-logo-main relative inline-flex items-center justify-center mb-4 lg:mb-6 w-52 h-52 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 mx-auto">
+                        <model-viewer
+                            src={logo3d}
+                            class="block w-full h-full"
+                            auto-rotate
+                            rotation-per-second="22deg"
+                            camera-controls={false}
+                            disable-zoom
+                            disable-pan
+                            disable-tap
+                            interaction-prompt="none"
+                            shadow-intensity="0"
+                            environment-image="neutral"
+                            exposure="1"
+                        ></model-viewer>
+                    </div>
                     <h1 class="sr-only">K-DMS - Le flight case 100% custom</h1>
-                    <div class="mt-4 sm:mt-6 bg-black/10 backdrop-blur-md rounded-[4px] pl-[30px] pr-[34px] md:pr-[38px] py-[12px] shadow-[0_4px_15px_rgba(0,0,0,0.1)] inline-block">
+                    <div class="hero-subtitle mt-4 sm:mt-6 bg-black/10 backdrop-blur-md rounded-sm pl-7.5 pr-8.5 md:pr-9.5 py-3 shadow-[0_4px_15px_rgba(0,0,0,0.1)] inline-block">
                         <p
                             class="uppercase text-balance tracking-[2px] md:tracking-[4px] font-bold text-[clamp(1.2rem,2.5vw,1.8rem)] drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]"
                         >
@@ -129,7 +138,7 @@ try {
 
     const heroSection = document.querySelector("#hero-section");
     const heroText = document.querySelector(".hero-text");
-    const heroLogo = document.querySelector(".hero-text img");
+    const heroLogo = document.querySelector(".hero-logo-main");
     const navLogoDiv = document.querySelector("#nav-logo-container");
     const navLogoWhite = document.querySelector(".logo-white");
 
@@ -137,7 +146,7 @@ try {
         const navbarBg = document.querySelector(".navbar-bg") as HTMLElement;
         const scrollIndicator = document.querySelector(".scroll-indicator");
         const heroBg = document.querySelector("#hero-bg");
-        const heroContent = heroText ? heroText.querySelector("div") : null;
+        const heroContent = document.querySelector(".hero-subtitle");
 
         const timeline = gsap.timeline({
             scrollTrigger: {
