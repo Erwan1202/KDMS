@@ -19,66 +19,7 @@ const categories = [
     <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js" is:inline></script>
     <style is:global>
-
-      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-      body { background: #0e0e0e; color: #fff; font-family: system-ui, sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; transition: opacity 0.2s;}
-      .card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 16px; padding: 36px 32px; width: 100%; max-width: 480px; }
-      .card.wide { max-width: 960px; }
-      .admin-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-      @media (max-width: 700px) { .admin-layout { grid-template-columns: 1fr; } }
-      .section-title { color: #888; font-size: 0.72em; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 14px; }
-      .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; max-height: 480px; overflow-y: auto; }
-      .gallery-item { position: relative; border-radius: 8px; overflow: hidden; background: #111; aspect-ratio: 1; }
-      .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
-      .gallery-item-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0); display: flex; align-items: flex-end; transition: background 0.2s; }
-      .gallery-item:hover .gallery-item-overlay { background: rgba(0,0,0,0.55); }
-      .gallery-item-info { padding: 6px 8px; font-size: 0.68em; color: #fff; opacity: 0; transition: opacity 0.2s; line-height: 1.3; }
-      .gallery-item:hover .gallery-item-info { opacity: 1; }
-      .delete-btn { position: absolute; top: 6px; right: 6px; background: rgba(220,50,50,0.85); border: none; color: #fff; border-radius: 50%; width: 26px; height: 26px; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; }
-      .gallery-item:hover .delete-btn { opacity: 1; }
-      .delete-btn:hover { background: #dc2626; }
-      .gallery-empty { color: #444; font-size: 0.85em; text-align: center; padding: 24px 0; }
-      .logo { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 28px; }
-      .logo-icon { width: 44px; height: 44px; background: #4A5D23; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-      .logo-title { font-weight: 700; font-size: 1.1em; letter-spacing: 0.12em; }
-      .logo-sub { color: #555; font-size: 0.72em; text-transform: uppercase; letter-spacing: 0.18em; }
-      label { display: block; color: #888; font-size: 0.72em; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 6px; }
-      input[type="password"], input[type="text"] { width: 100%; background: #111; border: 1px solid #333; border-radius: 8px; padding: 10px 14px; color: #fff; font-size: 0.95em; outline: none; transition: border-color 0.2s; }
-      input:focus { border-color: #4A5D23; }
-      .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; background: #E07A1F; color: #fff; font-weight: 700; font-size: 0.85em; letter-spacing: 0.12em; cursor: pointer; transition: background 0.2s; margin-top: 4px; }
-      .btn:hover { background: #c86618; }
-      .btn:disabled { background: #444; cursor: not-allowed; }
-      .error-msg { background: rgba(220,50,50,0.1); border: 1px solid rgba(220,50,50,0.3); border-radius: 6px; padding: 8px 12px; color: #f87171; font-size: 0.82em; margin-top: 12px; display: none; }
-      .warning-box { background: rgba(224,122,31,0.08); border: 1px solid rgba(224,122,31,0.2); border-radius: 6px; padding: 8px 12px; color: #e07a1f; font-size: 0.75em; margin-top: 14px; }
-      .gap { display: flex; flex-direction: column; gap: 16px; }
-      .status-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-      .connected { color: #7fb255; font-size: 0.82em; font-weight: 600; }
-      .logout-btn { background: none; border: 1px solid #333; color: #888; border-radius: 20px; padding: 4px 12px; font-size: 0.75em; cursor: pointer; transition: all 0.2s; }
-      .logout-btn:hover { border-color: #555; color: #ccc; }
-      .drop-zone { border: 2px dashed #333; border-radius: 10px; padding: 32px; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
-      .drop-zone:hover, .drop-zone.drag-over { border-color: #4A5D23; background: rgba(74,93,35,0.05); }
-      .drop-icon { font-size: 28px; margin-bottom: 8px; }
-      .drop-label { color: #ccc; font-size: 0.9em; font-weight: 500; }
-      .drop-hint { color: #555; font-size: 0.75em; margin-top: 4px; }
-      .preview-box { background: #111; border: 1px solid #2a2a2a; border-radius: 8px; padding: 10px; display: none; align-items: center; gap: 12px; }
-      .preview-thumb { width: 56px; height: 56px; object-fit: cover; border-radius: 6px; flex-shrink: 0; }
-      .preview-name { color: #ccc; font-size: 0.82em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-      .preview-ok { color: #7fb255; font-size: 0.75em; margin-left: auto; flex-shrink: 0; }
-      .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-      .chip { background: #111; color: #888; border: 1px solid #333; padding: 5px 14px; border-radius: 20px; font-size: 0.8em; cursor: pointer; transition: all 0.15s; user-select: none; }
-      .chip.selected { background: #4A5D23; color: #fff; border-color: #4A5D23; font-weight: 600; }
-      .success-msg { background: rgba(74,93,35,0.15); border: 1px solid rgba(74,93,35,0.4); border-radius: 6px; padding: 10px 14px; color: #7fb255; font-size: 0.85em; display: none; text-align: center; }
-      .ia-badge { position: absolute; top: 6px; left: 6px; background: rgba(74,93,35,0.9); color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.6em; font-weight: bold; letter-spacing: 0.05em; text-transform: uppercase; z-index: 5; pointer-events: none; }
-      .cropper-container-wrapper { background: #111; border: 1px solid #2a2a2a; border-radius: 8px; padding: 10px; display: none; flex-direction: column; gap: 12px; }
-      .cropper-image-wrapper { width: 100%; max-height: 400px; display: flex; justify-content: center; background: #000; overflow: hidden; border-radius: 4px; }
-      .cropper-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
-      .cropper-btn { background: #333; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8em; transition: 0.2s; }
-      .cropper-btn:hover { background: #444; }
-
-      [data-view="login"] { display: none; }
-      [data-view="admin"] { display: none; }
-      body.view-login [data-view="login"] { display: block; }
-      body.view-admin [data-view="admin"] { display: block; }
+      @import "../styles/pages/kdms-admin.css";
     </style>
   </head>
   <body style="opacity: 0;" id="root">

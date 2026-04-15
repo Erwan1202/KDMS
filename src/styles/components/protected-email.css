@@ -1,0 +1,18 @@
+.obfuscated-email {
+    display: inline;
+}
+
+.email-placeholder {
+    display: inline-flex;
+    align-items: center;
+    opacity: 0.5;
+    cursor: default;
+}
+
+.email-dots {
+    letter-spacing: 0.05em;
+}
+
+.obfuscated-email a {
+    text-decoration: none;
+}

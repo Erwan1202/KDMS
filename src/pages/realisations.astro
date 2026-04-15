@@ -108,7 +108,7 @@ try {
         >
             <div
                 id="masonry-grid"
-                class="columns-2 md:columns-3 xl:columns-4 gap-4 sm:gap-6 lg:gap-8 space-y-4 sm:space-y-6 lg:space-y-8"
+                class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 sm:gap-6 lg:gap-8 space-y-4 sm:space-y-6 lg:space-y-8"
             >
                 {
                     allProjects.map((project, index) => (
@@ -222,7 +222,7 @@ try {
                     id="modal-image"
                     role="img"
                     aria-label="Image en plein écran"
-                    class="w-full max-w-[90vw] h-[85vh] bg-center bg-no-repeat bg-contain rounded-md shadow-2xl scale-95 transition-transform duration-300 cursor-default"
+                    class="w-full max-w-[92vw] h-[78svh] sm:h-[82svh] bg-center bg-no-repeat bg-contain rounded-md shadow-2xl scale-95 transition-transform duration-300 cursor-default"
                 ></div>
                 <p id="modal-caption" class="text-white text-lg sm:text-xl font-medium mt-4 text-center cursor-default"></p>
             </div>
@@ -266,12 +266,23 @@ try {
         if (!masonryGrid) return;
         currentCategory = category;
         
-        const numCols = window.innerWidth >= 1280 ? 4 : window.innerWidth >= 768 ? 3 : 2;
+        const aspectRatio = window.innerWidth / Math.max(window.innerHeight, 1);
+        const isSquareLike = aspectRatio <= 1.15;
+
+        const numCols =
+            window.innerWidth >= 1400
+                ? 4
+                : window.innerWidth >= 980
+                  ? (isSquareLike ? 2 : 3)
+                  : window.innerWidth >= 640
+                    ? 2
+                    : 1;
+
         const visibleItems = projectItems.filter(item => category === 'all' || item.dataset.category === category);
         
         // Reset container to grid layout
         masonryGrid.className = `grid gap-4 sm:gap-6 lg:gap-8 items-stretch pt-2 pb-4 ${
-            numCols === 4 ? 'grid-cols-4' : numCols === 3 ? 'grid-cols-3' : 'grid-cols-1 sm:grid-cols-2'
+            numCols === 4 ? 'grid-cols-4' : numCols === 3 ? 'grid-cols-3' : numCols === 2 ? 'grid-cols-2' : 'grid-cols-1'
         }`;
         
         masonryGrid.innerHTML = '';
@@ -582,3 +593,4 @@ try {
         }
     }
 </style>
+

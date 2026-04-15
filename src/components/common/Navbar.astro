@@ -7,7 +7,7 @@ const currentPath = Astro.url.pathname;
 ---
 
 <nav
-    class="fixed top-0 left-0 right-0 z-50 w-full h-16 md:h-24 px-4 flex items-center transition-all duration-75 ease-out bg-transparent"
+    class="fixed top-0 left-0 right-0 z-50 w-full h-16 sm:h-20 lg:h-24 px-4 flex items-center transition-all duration-75 ease-out bg-transparent"
 >
     <div
         class={`navbar-bg absolute inset-0 bg-[#0E0E0E] -z-10 transition-all duration-300 ${currentPath === "/" ? "opacity-0 invisible" : ""}`}
@@ -20,7 +20,7 @@ const currentPath = Astro.url.pathname;
             loading="eager"
             fetchpriority="high"
             height={80}
-            class={`logo-black h-12 md:h-20 w-auto transition-opacity duration-300 ${currentPath === '/' ? 'opacity-0' : 'opacity-0'}`}
+            class={`logo-black h-11 sm:h-14 lg:h-20 w-auto transition-opacity duration-300 ${currentPath === '/' ? 'opacity-0' : 'opacity-0'}`}
         />
         <Image
             src={logoWhite}
@@ -28,7 +28,7 @@ const currentPath = Astro.url.pathname;
             loading="eager"
             fetchpriority="high"
             height={80}
-            class={`logo-white h-12 md:h-20 w-auto transition-opacity duration-300 absolute left-0 top-0 ${currentPath === '/' ? 'opacity-0' : 'opacity-100'}`}
+            class={`logo-white h-11 sm:h-14 lg:h-20 w-auto transition-opacity duration-300 absolute left-0 top-0 ${currentPath === '/' ? 'opacity-0' : 'opacity-100'}`}
         />
     </a>
 
@@ -85,7 +85,7 @@ const currentPath = Astro.url.pathname;
 
     <button
         id="mobile-menu-btn"
-        class="lg:hidden absolute right-8 top-1/2 -translate-y-1/2 z-50 p-2 bg-transparent border-none outline-none focus:outline-none"
+        class="lg:hidden absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-50 p-2 bg-transparent border-none outline-none focus:outline-none"
         aria-label="Menu"
     >
         <div class="w-6 h-5 flex flex-col justify-between relative">
@@ -103,11 +103,11 @@ const currentPath = Astro.url.pathname;
 
     <div
         id="mobile-menu"
-        class="fixed inset-0 bg-[#0E0E0E] z-40 translate-x-full transition-transform duration-500 ease-in-out flex flex-col items-center justify-center gap-8 lg:hidden group/mobile"
+        class="fixed inset-0 bg-[#0E0E0E] z-40 translate-x-full transition-transform duration-500 ease-in-out flex flex-col items-center justify-center gap-6 sm:gap-8 px-6 pt-20 text-center lg:hidden group/mobile"
     >
         <a
             href="/"
-            class={`hover:text-[#4A5D23] text-3xl sm:text-4xl font-bold nav-link-mobile relative group ${currentPath === "/" ? "text-[#4A5D23]" : "text-white"}`}
+            class={`hover:text-[#4A5D23] text-2xl sm:text-3xl font-bold nav-link-mobile relative group ${currentPath === "/" ? "text-[#4A5D23]" : "text-white"}`}
         >
             Accueil
             <span
@@ -116,7 +116,7 @@ const currentPath = Astro.url.pathname;
         </a>
         <a
             href="/expertise"
-            class={`hover:text-[#4A5D23] text-3xl sm:text-4xl font-bold nav-link-mobile relative group ${currentPath === "/expertise" || currentPath === "/expertise/" ? "text-[#4A5D23]" : "text-white"}`}
+            class={`hover:text-[#4A5D23] text-2xl sm:text-3xl font-bold nav-link-mobile relative group ${currentPath === "/expertise" || currentPath === "/expertise/" ? "text-[#4A5D23]" : "text-white"}`}
         >
             Notre expertise
             <span
@@ -125,7 +125,7 @@ const currentPath = Astro.url.pathname;
         </a>
         <a
             href="/realisations"
-            class={`hover:text-[#4A5D23] text-3xl sm:text-4xl font-bold nav-link-mobile relative group ${currentPath === "/realisations" || currentPath === "/realisations/" ? "text-[#4A5D23]" : "text-white"}`}
+            class={`hover:text-[#4A5D23] text-2xl sm:text-3xl font-bold nav-link-mobile relative group ${currentPath === "/realisations" || currentPath === "/realisations/" ? "text-[#4A5D23]" : "text-white"}`}
         >
             Nos Réalisations
             <span
@@ -134,7 +134,7 @@ const currentPath = Astro.url.pathname;
         </a>
         <a
             href="/contact"
-            class={`hover:text-[#4A5D23] text-3xl sm:text-4xl font-bold nav-link-mobile relative group ${currentPath === "/contact" || currentPath === "/contact/" ? "text-[#4A5D23]" : "text-white"}`}
+            class={`hover:text-[#4A5D23] text-2xl sm:text-3xl font-bold nav-link-mobile relative group ${currentPath === "/contact" || currentPath === "/contact/" ? "text-[#4A5D23]" : "text-white"}`}
         >
             Contact
             <span

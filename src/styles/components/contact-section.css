@@ -1,0 +1,31 @@
+.contact-cta-uniform {
+    width: 100%;
+    max-width: 16rem;
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
+    font-size: 1.05rem;
+}
+
+@media (min-width: 640px) {
+    .contact-cta-uniform {
+        width: 12rem;
+        min-width: 12rem;
+        max-width: 12rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .contact-cta-uniform {
+        width: 100%;
+        min-width: 0;
+        max-width: none;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    .contact-cta-uniform span {
+        letter-spacing: 0.1em;
+    }
+}

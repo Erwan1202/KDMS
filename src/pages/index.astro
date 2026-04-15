@@ -32,7 +32,7 @@ try {
     <div class="main-wrapper bg-black w-full overflow-x-hidden">
         <section
             id="hero-section"
-            class="h-screen w-full relative flex flex-col items-center bg-[#0E0E0E]"
+            class="min-h-svh h-svh w-full relative flex flex-col items-center bg-[#0E0E0E]"
         >
             <Image
                 id="hero-bg"
@@ -40,24 +40,24 @@ try {
                 alt="Atelier de fabrication de flight cases sur mesure KDMS"
                 loading="eager"
                 fetchpriority="high"
-                class="absolute inset-0 w-full h-full object-cover object-center z-0 brightness-[0.8] blur-[3px]"
+                class="absolute inset-0 w-full h-full object-cover object-center z-0 brightness-[0.5] blur-[3px]"
                 decoding="async"
             />
             <div class="absolute inset-0 bg-black/10 z-1 pointer-events-none">
             </div>
 
             <div
-                class="relative z-20 w-full h-full flex flex-col items-center justify-center pt-8 sm:pt-20 lg:pt-24 pb-4 sm:pb-12"
+                class="relative z-20 w-full h-full flex flex-col items-center justify-center pt-16 sm:pt-20 lg:pt-24 pb-5 sm:pb-10"
             >
                 <div
-                    class="hero-text z-50 flex flex-col items-center justify-center text-center w-full max-w-[95%] md:max-w-[80%] lg:max-w-[70%] mx-auto px-2 mt-8 sm:mt-12 md:mt-16 mb-8 sm:mb-12 md:mb-16"
+                    class="hero-text z-50 flex flex-col items-center justify-center text-center w-full max-w-[96%] sm:max-w-[90%] md:max-w-[80%] lg:max-w-[70%] mx-auto px-2 sm:px-4 mt-6 sm:mt-10 md:mt-14 mb-6 sm:mb-10 md:mb-14"
                 >
-                    <div class="hero-logo-main relative inline-flex items-center justify-center mb-4 lg:mb-6 w-52 h-52 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 mx-auto">
+                    <div class="hero-logo-main relative inline-flex items-center justify-center mb-4 lg:mb-6 w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 xl:w-96 xl:h-96 mx-auto">
                         <model-viewer
                             src={logo3d}
                             class="block w-full h-full"
                             preload
-                            camera-orbit="180deg 75deg 105%"
+                            camera-orbit="0deg 75deg 92%"
                             camera-controls={false}
                             disable-zoom
                             disable-pan
@@ -69,9 +69,9 @@ try {
                         ></model-viewer>
                     </div>
                     <h1 class="sr-only">K-DMS - Le flight case 100% custom</h1>
-                    <div class="hero-subtitle mt-4 sm:mt-6 bg-black/10 backdrop-blur-md rounded-sm pl-7.5 pr-8.5 md:pr-9.5 py-3 shadow-[0_4px_15px_rgba(0,0,0,0.1)] inline-block">
+                    <div class="hero-subtitle mt-4 sm:mt-6 bg-black/10 backdrop-blur-md rounded-sm px-6 sm:px-7 md:px-8 py-2.5 sm:py-3 shadow-[0_4px_15px_rgba(0,0,0,0.1)] inline-block">
                         <p
-                            class="uppercase text-balance tracking-[2px] md:tracking-[4px] font-bold text-[clamp(1.2rem,2.5vw,1.8rem)] drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]"
+                            class="uppercase text-balance tracking-[1.5px] sm:tracking-[2px] md:tracking-[4px] font-bold text-[clamp(1.05rem,2.2vw,1.8rem)] drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]"
                         >
                             <span class="text-white">Le flight case</span>
                             <span class="text-[#4A5D23]">100% custom</span>
@@ -80,7 +80,7 @@ try {
                 </div>
 
                 <div
-                    class="scroll-indicator flex flex-col items-center gap-1 cursor-pointer animate-bounce"
+                    class="scroll-indicator flex flex-col items-center gap-1 mt-2 sm:mt-0 cursor-pointer animate-bounce"
                 >
                     <span
                         class="text-[#B8B8B8] text-xs uppercase tracking-[0.2em] font-bold"
@@ -133,6 +133,9 @@ try {
     import { gsap } from "gsap";
     import { ScrollTrigger } from "gsap/ScrollTrigger";
     import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+    import { MotionPathPlugin } from "gsap/MotionPathPlugin";
+
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, MotionPathPlugin);
 
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
@@ -149,30 +152,23 @@ try {
 
     if (heroModel) {
         const startDeterministicSpin = () => {
-            const orbit = heroModel.getCameraOrbit?.().toString() || heroModel.getAttribute("camera-orbit") || "0deg 75deg 105%";
+            const orbit = heroModel.getCameraOrbit?.().toString() || heroModel.getAttribute("camera-orbit") || "0deg 75deg 92%";
             const parts = orbit.trim().split(/\s+/);
             const thetaRaw = parts[0] || "0deg";
             const phiRaw = parts[1] || "75deg";
-            const radiusRaw = parts[2] || "105%";
+            const radiusRaw = parts[2] || "92%";
 
             const thetaMatch = thetaRaw.match(/^(-?\d*\.?\d+)([a-z%]*)$/i);
             const thetaStart = thetaMatch ? Number(thetaMatch[1]) : 0;
             const thetaUnit = thetaMatch?.[2] || "deg";
 
-            const spinState = { theta: thetaStart };
-            const turns = 4;
-            const targetTheta = 5; // Angle final souhaité pour le logo 
-            let thetaEnd = targetTheta + turns * 360;
-
-            // Ensure a forward spin with enough travel before landing on the target angle.
-            while (thetaEnd <= thetaStart + 540) {
-                thetaEnd += 360;
-            }
+            const spinState = { theta: thetaStart - 60 };
+            const targetTheta = thetaStart;
 
             gsap.to(spinState, {
-                theta: thetaEnd,
+                theta: targetTheta,
                 duration: 3.5,
-                ease: "power3.out",
+                ease: "power1.out", // Décélération très douce (linéaire puis ralentit doucement)
                 onUpdate: () => {
                     heroModel.setAttribute("camera-orbit", `${spinState.theta.toFixed(3)}${thetaUnit} ${phiRaw} ${radiusRaw}`);
                     heroModel.jumpCameraToGoal?.();
@@ -193,23 +189,14 @@ try {
         const heroBg = document.querySelector("#hero-bg");
         const heroContent = document.querySelector(".hero-subtitle");
 
-        const timeline = gsap.timeline({
-            scrollTrigger: {
-                trigger: heroSection,
-                start: "top top",
-                end: "+=80%",
-                pin: true,
-                scrub: 1, // Scroll plus fluide, suit parfaitement la souris
-            },
-        });
+        const expertiseSection = document.getElementById("expertise-wrapper");
 
-        // Compute where the hero logo should go
+        // Compute where the hero logo should fly to (navbar logo position)
         const moveLogo = () => {
             if (!heroLogo || !navLogoWhite) return;
             const hRect = heroLogo.getBoundingClientRect();
             const nRect = navLogoWhite.getBoundingClientRect();
             
-            // GSAP defaults transform origin to center
             const x = (nRect.left + nRect.width / 2) - (hRect.left + hRect.width / 2);
             const y = (nRect.top + nRect.height / 2) - (hRect.top + hRect.height / 2);
             const scale = nRect.width / hRect.width;
@@ -217,36 +204,114 @@ try {
             return { x, y, scale };
         };
 
-        if (heroLogo && navLogoWhite) {
-            // First we need to make GSAP calculate the values dynamically or statically
-            // Since it's pinned, the heroLogo doesn't scroll natively.
-            // We just animate its position to the nav.
-            
-            // Animation simple et robuste sur un seul To() pour éviter les conflits d'écrasement (overwrite) sur le CSS transform
-            timeline.to(heroLogo, {
-                x: () => moveLogo()?.x || 0,
-                y: () => moveLogo()?.y || 0,
-                scale: () => moveLogo()?.scale || 1,
-                ease: "power2.inOut",
-                duration: 1
-            }, 0);
+        // Build the timeline as a function so we can rebuild on resize
+        const buildTimeline = () => {
+            const dest = moveLogo();
+            const isMobile = window.innerWidth < 768;
 
-            timeline.to(heroLogo, {
-                y: () => moveLogo()?.y || 0,
-                ease: "power3.inOut",
-                duration: 1
-            }, 0);
-            
-            // Fade out the rest of the hero content immediately
-            if (heroContent) {
-                timeline.to(heroContent, { opacity: 0, scale: 0.8, duration: 0.3, ease: "power2.in" }, 0);
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: heroSection,
+                    start: "top top",
+                    end: isMobile ? "+=50%" : "+=80%",
+                    pin: true,
+                    scrub: isMobile ? 0.5 : 1,
+                    invalidateOnRefresh: true,
+                    snap: {
+                        snapTo: (value: number, self: any) => {
+                            const direction = self?.direction ?? (value >= 0.5 ? 1 : -1);
+                            const threshold = isMobile ? 0.15 : 0.08;
+                            if (direction > 0 && value > threshold && expertiseSection) {
+                                gsap.to(window, {
+                                    duration: isMobile ? 0.5 : 0.7,
+                                    scrollTo: { y: expertiseSection, offsetY: 0 },
+                                    ease: "power1.inOut",
+                                });
+                                return 1;
+                            }
+                            if (direction < 0 && value < 0.92) return 0;
+                            return value < 0.5 ? 0 : 1;
+                        },
+                        duration: { min: 0.2, max: isMobile ? 0.5 : 0.7 },
+                        delay: isMobile ? 0.05 : 0.08,
+                        ease: "power1.inOut",
+                    },
+                },
+            });
+
+            if (heroLogo) {
+                tl.set(heroLogo, { autoAlpha: 1 }, 0);
+
+                if (dest) {
+                    // L'amplitude de l'arc s'adapte au viewport
+                    const midX = dest.x * (isMobile ? 0.3 : 0.4);
+                    const midY = Math.abs(dest.y) * (isMobile ? 0.15 : 0.25);
+
+                    tl.to(heroLogo, {
+                        motionPath: {
+                            path: [
+                                { x: 0, y: 0 },
+                                { x: midX, y: midY },
+                                { x: dest.x, y: dest.y }
+                            ],
+                            curviness: isMobile ? 1 : 1.5,
+                            autoRotate: false
+                        },
+                        scale: dest.scale,
+                        ease: "power2.inOut",
+                        duration: 1.1
+                    }, 0);
+                } else {
+                    // Fallback
+                    tl.to(heroLogo, {
+                        x: -120, y: -60,
+                        scale: 0.3,
+                        ease: "power2.inOut",
+                        duration: 1.1
+                    }, 0);
+                }
+
+                // Fade out le texte hero
+                if (heroContent) {
+                    tl.to(heroContent, { opacity: 0, scale: 0.8, duration: 0.4, ease: "power2.in" }, 0.05);
+                }
+
+                // Disparition logo 3D → apparition logo navbar PNG
+                tl.to(heroLogo, { autoAlpha: 0, duration: 0.12, ease: "power1.in" }, 0.88);
+                if (navLogoWhite) {
+                    tl.to(navLogoWhite, { autoAlpha: 1, duration: 0.08 }, 0.90);
+                }
             }
 
-            // At the very end of the animation, hide the hero logo and show the navbar logo
-            timeline.to(heroLogo, { autoAlpha: 0, duration: 0.01 }, 0.99);
-            timeline.to(navLogoWhite, { autoAlpha: 1, duration: 0.01 }, 0.99);
-        }
+            if (scrollIndicator) {
+                tl.to(scrollIndicator, { opacity: 0, duration: 0.1, ease: "power1.out" }, 0);
+            }
 
+            tl.to(navbarBg, { autoAlpha: 1, duration: 0.2, ease: "power2.out" }, 0.8);
+
+            return tl;
+        };
+
+        let currentTimeline = buildTimeline();
+
+        // Recalculer la timeline au resize pour s'adapter au responsive
+        let resizeTimeout: ReturnType<typeof setTimeout>;
+        window.addEventListener("resize", () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                // Kill l'ancienne timeline et son ScrollTrigger
+                currentTimeline.scrollTrigger?.kill();
+                currentTimeline.kill();
+                // Reset les transforms du logo hero
+                if (heroLogo) gsap.set(heroLogo, { clearProps: "all" });
+                if (navLogoWhite) gsap.set(navLogoWhite, { clearProps: "all" });
+                if (heroContent) gsap.set(heroContent, { clearProps: "all" });
+                // Rebuild
+                currentTimeline = buildTimeline();
+            }, 250);
+        });
+
+        // Scroll indicator click
         if (scrollIndicator) {
             scrollIndicator.addEventListener("click", () => {
                 const contentSection = document.querySelector("#content-section");
@@ -258,11 +323,7 @@ try {
                     });
                 }
             });
-
-            timeline.to(scrollIndicator, { opacity: 0, duration: 0.1, ease: "power1.out" }, 0);
         }
-
-        timeline.to(navbarBg, { autoAlpha: 1, duration: 0.2, ease: "power2.out" }, 0.8);
     }
 
     document.addEventListener('astro:before-preparation', () => {

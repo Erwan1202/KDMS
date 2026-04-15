@@ -1,15 +1,23 @@
 @import "tailwindcss";
 
 html {
-    font-family: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    font-size: 18px;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+	font-family: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	font-size: 18px;
+	line-height: 1.6;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 body {
-    font-family: inherit;
+	font-family: inherit;
+	overflow-x: hidden;
+}
+
+img,
+video,
+canvas,
+svg {
+	max-width: 100%;
 }
 
 h1,
@@ -18,43 +26,103 @@ h3,
 h4,
 h5,
 h6 {
-    font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: -0.02em;
 }
 
 p {
-    line-height: 1.7;
+	line-height: 1.7;
+	overflow-wrap: anywhere;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+li {
+	overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+	html {
+		font-size: 16px;
+	}
 }
 
 @media (min-aspect-ratio: 21/9) {
-    .hero-text h1 {
-        font-size: clamp(3rem, 6vw, 6rem);
-    }
+	.hero-text h1 {
+		font-size: clamp(3rem, 6vw, 6rem);
+	}
     
-    .flight-case {
-        max-height: 50vh;
-    }
+	.flight-case {
+		max-height: 50vh;
+	}
 }
 
 @media (max-aspect-ratio: 9/16) and (max-width: 768px) {
-    .hero-text {
-        padding-top: 2rem;
-    }
+	.hero-text {
+		padding-top: 2rem;
+	}
     
-    .scroll-indicator {
-        margin-bottom: 1rem;
-    }
+	.scroll-indicator {
+		margin-bottom: 1rem;
+	}
+}
+
+@media (max-aspect-ratio: 1/1) and (min-width: 700px) {
+	html {
+		font-size: 16px;
+	}
+
+	#hero-section {
+		min-height: 100svh;
+		height: 100svh;
+	}
+
+	#hero-section .hero-text {
+		max-width: min(92vw, 56rem);
+		margin-top: 1.5rem;
+		margin-bottom: 1.5rem;
+	}
+
+	#hero-section .hero-logo-main {
+		width: clamp(12rem, 28vw, 19rem);
+		height: clamp(12rem, 28vw, 19rem);
+	}
+
+	#hero-section .scroll-indicator {
+		margin-top: 0.5rem;
+	}
+}
+
+@media (max-height: 820px) {
+	#hero-section .hero-text {
+		margin-top: 1rem;
+		margin-bottom: 1rem;
+	}
+
+	#hero-section .hero-subtitle {
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
+	}
+
+	#hero-section .scroll-indicator {
+		margin-bottom: 0.5rem;
+	}
 }
 
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
-    html {
-        font-size: 17px;
-    }
+	html {
+		font-size: 17px;
+	}
 }
 
 @media (min-width: 768px) and (max-width: 1280px) and (orientation: landscape) {
-    html {
-        font-size: 16px;
-    }
+	html {
+		font-size: 16px;
+	}
 }

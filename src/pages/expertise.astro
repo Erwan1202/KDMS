@@ -72,7 +72,7 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
 
     <main class="bg-black text-white">
         <section
-            class="relative min-h-[70vh] md:min-h-screen flex items-center justify-center pt-20 md:pt-24 overflow-hidden"
+            class="relative min-h-[70vh] lg:min-h-screen flex items-center justify-center pt-20 md:pt-24 overflow-hidden"
         >
             <div class="text-center w-full max-w-5xl mx-auto px-4 sm:px-6 z-10">
                 <h1
@@ -149,23 +149,23 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
 
             <div id="timeline-container" class="max-w-6xl mx-auto relative">
                 <div
-                    class="hidden md:block absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 bg-white/10"
+                    class="hidden lg:block absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 bg-white/10"
                 >
                 </div>
                 <div
                     id="timeline-progress"
-                    class="hidden md:block absolute left-1/2 -translate-x-1/2 top-0 w-1 bg-gradient-to-b from-[#4A5D23] to-[#7FB255] rounded-full shadow-[0_0_15px_rgba(74,93,35,0.6)]"
+                    class="hidden lg:block absolute left-1/2 -translate-x-1/2 top-0 w-1 bg-gradient-to-b from-[#4A5D23] to-[#7FB255] rounded-full shadow-[0_0_15px_rgba(74,93,35,0.6)]"
                     style="height: 0%;"
                 >
                 </div>
 
                 <div
-                    class="md:hidden absolute left-4 sm:left-8 top-0 bottom-0 w-0.5 bg-white/10"
+                    class="lg:hidden absolute left-4 sm:left-8 top-0 bottom-0 w-0.5 bg-white/10"
                 >
                 </div>
                 <div
                     id="timeline-progress-mobile"
-                    class="md:hidden absolute left-4 sm:left-8 top-0 w-1 bg-gradient-to-b from-[#4A5D23] to-[#7FB255] rounded-full shadow-[0_0_10px_rgba(74,93,35,0.6)]"
+                    class="lg:hidden absolute left-4 sm:left-8 top-0 w-1 bg-gradient-to-b from-[#4A5D23] to-[#7FB255] rounded-full shadow-[0_0_10px_rgba(74,93,35,0.6)]"
                     style="height: 0%;"
                 >
                 </div>
@@ -173,10 +173,10 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                 {
                     steps.map((step, index) => (
                         <div
-                            class={`timeline-step relative flex items-start gap-4 sm:gap-6 md:gap-0 mb-16 md:mb-24 last:mb-0 ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}
+                            class={`timeline-step relative flex items-start gap-4 sm:gap-6 lg:gap-0 mb-16 md:mb-24 last:mb-0 ${index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"}`}
                             data-step={index}
                         >
-                            <div class="md:hidden flex-shrink-0 relative z-10">
+                            <div class="lg:hidden flex-shrink-0 relative z-10">
                                 <div class="w-8 sm:w-12 h-8 sm:h-12 rounded-full bg-[#4A5D23] flex items-center justify-center border-4 border-black shadow-[0_0_20px_rgba(74,93,35,0.5)]">
                                     <span class="text-white font-bold text-xs sm:text-sm">
                                         {step.number}
@@ -185,7 +185,7 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                             </div>
 
                             <div
-                                class={`hidden md:block md:w-1/2 ${index % 2 === 0 ? "md:pr-16 md:text-right" : "md:pl-16 md:text-left"}`}
+                                class={`hidden lg:block lg:w-1/2 ${index % 2 === 0 ? "lg:pr-16 lg:text-right" : "lg:pl-16 lg:text-left"}`}
                             >
                                 {index % 2 === 0 ? (
                                     <div class="step-content">
@@ -212,7 +212,7 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                                 )}
                             </div>
 
-                            <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 z-10">
+                            <div class="hidden lg:flex absolute left-1/2 -translate-x-1/2 z-10">
                                 <div class="timeline-dot w-14 h-14 rounded-full bg-[#4A5D23] flex items-center justify-center border-4 border-black shadow-[0_0_30px_rgba(74,93,35,0.4)] transition-all duration-500">
                                     <span class="text-white font-bold text-lg">
                                         {step.number}
@@ -221,7 +221,7 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                             </div>
 
                             <div
-                                class={`hidden md:block md:w-1/2 ${index % 2 === 0 ? "md:pl-16 md:text-left" : "md:pr-16 md:text-right"}`}
+                                class={`hidden lg:block lg:w-1/2 ${index % 2 === 0 ? "lg:pl-16 lg:text-left" : "lg:pr-16 lg:text-right"}`}
                             >
                                 {index % 2 === 0 ? (
                                     <div class="step-image aspect-video bg-[#1a1a1a] rounded-xl border border-white/10 overflow-hidden shadow-2xl">
@@ -248,7 +248,7 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
                                 )}
                             </div>
 
-                            <div class="md:hidden flex-1">
+                            <div class="lg:hidden flex-1">
                                 <span class="inline-block text-[#4A5D23] text-xs font-bold tracking-widest mb-1">
                                     ÉTAPE {step.number}
                                 </span>
@@ -276,7 +276,7 @@ Chaque flight case est inspecté minutieusement avant d'être expédié vers vot
 
         <div
             id="progress-indicator"
-            class="fixed bottom-6 right-6 z-50 hidden md:flex items-center gap-3 bg-black/80 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 opacity-0 transition-opacity duration-300"
+            class="fixed bottom-6 right-6 z-50 hidden lg:flex items-center gap-3 bg-black/80 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 opacity-0 transition-opacity duration-300"
         >
             <div class="w-24 h-1.5 bg-white/20 rounded-full overflow-hidden">
                 <div

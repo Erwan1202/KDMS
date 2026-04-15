@@ -1,0 +1,51 @@
+.timeline-step {
+    opacity: 0;
+    transform: translateY(40px);
+    transition:
+        opacity 0.6s ease-out,
+        transform 0.6s ease-out;
+}
+
+.timeline-step.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.timeline-dot {
+    transform: scale(0.8);
+    transition:
+        transform 0.4s ease-out,
+        box-shadow 0.4s ease-out;
+}
+
+.timeline-step.visible .timeline-dot {
+    transform: scale(1);
+}
+
+.timeline-step.active .timeline-dot {
+    box-shadow: 0 0 40px rgba(74, 93, 35, 0.6);
+}
+
+.step-content,
+.step-image {
+    opacity: 0;
+    transform: translateX(20px);
+    transition:
+        opacity 0.6s ease-out 0.2s,
+        transform 0.6s ease-out 0.2s;
+}
+
+.timeline-step:nth-child(odd) .step-content {
+    transform: translateX(-20px);
+}
+
+.timeline-step.visible .step-content,
+.timeline-step.visible .step-image {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+#timeline-progress,
+#timeline-progress-mobile {
+    transition: height 0.1s ease-out;
+}

@@ -31,12 +31,12 @@ const featuredCategories = categories
     </div>
 
     <!-- Ancienne présentation 5 colonnes mais avec un texte plus petit proportionnellement -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 w-full px-4 md:px-8 auto-rows-min">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 w-full px-4 md:px-8 auto-rows-min">
         {
             featuredCategories.map((item) => (
                 <a
                     href={`/realisations?category=${item.category}`}
-                    class={`realisation-card group relative w-full h-[300px] overflow-hidden rounded-2xl bg-[#1A1A1A] cursor-pointer block no-underline transition-all duration-700 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)] ${item.gridClass}`}
+                    class={`realisation-card group relative w-full min-h-65 overflow-hidden rounded-2xl bg-[#1A1A1A] cursor-pointer block no-underline transition-all duration-700 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)] ${item.gridClass}`}
                     data-category={item.category}
                 >
                     {item.imageUrl ? (
@@ -76,7 +76,7 @@ const featuredCategories = categories
     <div class="w-full flex justify-center mt-10 md:mt-16">
         <a
             href="/realisations"
-            class="cta-button group relative inline-flex items-center justify-center px-8 sm:px-10 py-3 md:py-4 overflow-hidden rounded-full bg-[#E07A1F] transition-all duration-300 hover:bg-[#C86618] hover:shadow-[0_0_30px_rgba(224,122,31,0.4)] whitespace-nowrap no-underline"
+            class="cta-button group relative inline-flex items-center justify-center px-8 sm:px-10 py-3 md:py-4 overflow-hidden rounded-full bg-[#E07A1F] transition-all duration-300 hover:bg-[#C86618] hover:shadow-[0_0_30px_rgba(224,122,31,0.4)] whitespace-normal sm:whitespace-nowrap text-center no-underline"
         >
             <span class="relative flex items-center gap-3 text-white font-medium text-sm tracking-[0.15em] uppercase transition-colors">
                 Toutes nos réalisations

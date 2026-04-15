@@ -14,7 +14,7 @@ import ProtectedEmail from "../components/common/ProtectedEmail.astro";
     <Navbar theme="dark" />
 
     <main class="bg-black text-white min-h-screen pt-24">
-        <section class="max-w-7xl mx-auto px-6 md:px-8 mb-16 lg:mb-20">
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mb-16 lg:mb-20">
             <div class="mb-10 animate-text opacity-0">
                 <p class="text-[#E07A1F] uppercase tracking-[0.2em] text-xs sm:text-sm font-semibold mb-3">
                     Contact
@@ -24,8 +24,8 @@ import ProtectedEmail from "../components/common/ProtectedEmail.astro";
                 </h1>
             </div>
 
-            <div class="grid lg:grid-cols-2 gap-8 lg:gap-10 items-start lg:items-stretch">
-                <div class="flex flex-col gap-8 lg:min-h-225 lg:h-full">
+            <div class="grid xl:grid-cols-2 gap-8 lg:gap-10 items-start xl:items-stretch">
+                <div class="flex flex-col gap-8 xl:min-h-225 xl:h-full">
                     <article class="animate-info rounded-2xl border border-white/15 bg-white/10 backdrop-blur-md p-6 md:p-8 shadow-[0_12px_40px_rgba(0,0,0,0.35)]">
                         <h2 class="text-2xl md:text-3xl font-bold mb-6">Contactez-nous</h2>
 
@@ -86,32 +86,27 @@ import ProtectedEmail from "../components/common/ProtectedEmail.astro";
                         </div>
                     </article>
 
-                    <article class="animate-map opacity-0 rounded-2xl border border-white/15 bg-[#111111] p-3 md:p-4 shadow-[0_12px_40px_rgba(0,0,0,0.35)] lg:mt-auto">
+                    <article class="animate-map opacity-0 rounded-2xl border border-white/15 bg-[#111111] p-3 md:p-4 shadow-[0_12px_40px_rgba(0,0,0,0.35)] xl:mt-auto">
                         <div
-                            id="map-container"
-                            class="w-full h-80 md:h-95 rounded-xl overflow-hidden border border-white/10 shadow-lg bg-[#1a1a1a] flex items-center justify-center relative group cursor-pointer transition-all duration-500"
+                            class="w-full h-72 sm:h-80 md:h-95 rounded-xl overflow-hidden border border-white/10 shadow-lg bg-[#1a1a1a]"
                         >
-                            <div
-                                class="absolute inset-0 bg-[url('https://maps.googleapis.com/maps/api/staticmap?center=48.638,2.506&zoom=13&size=600x300&maptype=roadmap&style=feature:all|element:all|saturation:-100|lightness:-100|visibility:simplified&sensor=false')] bg-cover bg-center opacity-30 transition-opacity duration-500 group-hover:opacity-50"
-                            >
-                            </div>
-                            <button
-                                id="load-map-btn"
-                                class="relative z-10 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-full font-medium transition-all duration-300 hover:scale-105 flex items-center gap-3 shadow-2xl group-hover:shadow-[0_0_30px_rgba(255,255,255,0.1)]"
-                                aria-label="Charger la carte interactive Google Maps"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#4A5D23]"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                                Charger la carte interactive
-                            </button>
-                            <div class="absolute bottom-4 text-white/30 text-xs font-light tracking-wider">
-                                Cliquez pour activer la carte (Google Maps)
-                            </div>
+                            <iframe
+                                title="Localisation KDMS - 8 Rue Camille Décauville, 91250 Tigery"
+                                width="100%"
+                                height="100%"
+                                style="border:0;"
+                                allowfullscreen
+                                loading="eager"
+                                referrerpolicy="no-referrer-when-downgrade"
+                                src="https://www.google.com/maps/embed?origin=mfe&pb=!1m3!2m1!1s8+Rue+Camille+D%C3%A9cauville,+91250+Tigery!6i14"
+                                class="w-full h-full"
+                            ></iframe>
                         </div>
                     </article>
                 </div>
 
-                <div class="flex flex-col gap-8 lg:min-h-225 lg:h-full">
-                    <article class="animate-text opacity-0 rounded-2xl border border-white/15 overflow-hidden bg-[#0f0f0f] shadow-[0_12px_40px_rgba(0,0,0,0.35)]">
+                <div class="flex flex-col gap-8 xl:min-h-225 xl:h-full">
+                    <article class="hidden xl:block animate-text opacity-0 rounded-2xl border border-white/15 overflow-hidden bg-[#0f0f0f] shadow-[0_12px_40px_rgba(0,0,0,0.35)]">
                         <div class="relative h-80 md:h-105">
                             <Image
                                 src={heroBanner}
@@ -126,7 +121,7 @@ import ProtectedEmail from "../components/common/ProtectedEmail.astro";
 
                     <article
                         id="callback-form"
-                        class="animate-form opacity-0 rounded-2xl border border-white/20 bg-white/10 p-6 md:p-8 lg:p-10 shadow-[0_12px_40px_rgba(0,0,0,0.35)] scroll-mt-24 lg:mt-auto"
+                        class="animate-form opacity-0 rounded-2xl border border-white/20 bg-white/10 p-6 md:p-8 lg:p-10 shadow-[0_12px_40px_rgba(0,0,0,0.35)] scroll-mt-24 xl:mt-auto"
                     >
                         <h2 class="text-2xl md:text-3xl font-bold mb-6">Formulaire</h2>
                         <form id="contact-page-form" class="flex flex-col gap-6">
@@ -220,36 +215,6 @@ import ProtectedEmail from "../components/common/ProtectedEmail.astro";
                     { y: 0, opacity: 1, duration: 0.8 },
                     0.8,
                 );
-
-            const mapContainer = document.getElementById("map-container");
-            const loadMapBtn = document.getElementById("load-map-btn");
-            const mapHtml = `
-                <iframe 
-                    title="Localisation KDMS - 8 Rue Camille Décauville, 91250 Tigery"
-                    width="100%" 
-                    height="100%" 
-                    style="border:0;" 
-                    allowfullscreen 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade" 
-                    src="https://www.google.com/maps/embed?origin=mfe&pb=!1m3!2m1!1s8+Rue+Camille+D%C3%A9cauville,+91250+Tigery!6i14"
-                    class="w-full h-full animate-fade-in"
-                ></iframe>
-            `;
-
-            if (mapContainer && loadMapBtn) {
-                const loadMap = () => {
-                    mapContainer.innerHTML = mapHtml;
-                    gsap.fromTo(
-                        mapContainer.querySelector("iframe"),
-                        { opacity: 0 },
-                        { opacity: 1, duration: 0.5 },
-                    );
-                };
-
-                loadMapBtn.addEventListener("click", loadMap);
-                mapContainer.addEventListener("click", loadMap);
-            }
         </script>
 
         <style> 
@@ -264,7 +229,7 @@ import ProtectedEmail from "../components/common/ProtectedEmail.astro";
                 transition: background-color 5000s ease-in-out 0s;
             }
         </style>
-        
+
         <!-- SEO Content: Hidden for search engines -->
         <section class="hidden" role="region" aria-label="Contact keywords">
             <p>Contactez KDMS pour vos projets de flight case sur mesure. Fabrication personnalisée à Tigery (91), livraison France et international.</p>

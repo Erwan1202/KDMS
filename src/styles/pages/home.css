@@ -1,0 +1,61 @@
+@media (min-aspect-ratio: 21/9) {
+    .hero-text h1 {
+        font-size: clamp(3rem, 6vw, 6rem);
+    }
+
+    .flight-case {
+        max-height: 50vh;
+    }
+}
+
+@media (max-aspect-ratio: 9/16) and (max-width: 768px) {
+    .hero-text {
+        padding-top: 2rem;
+    }
+
+    .scroll-indicator {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-aspect-ratio: 1/1) and (min-width: 700px) {
+    html {
+        font-size: 16px;
+    }
+
+    #hero-section {
+        min-height: 100svh;
+        height: 100svh;
+    }
+
+    #hero-section .hero-text {
+        max-width: min(92vw, 56rem);
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    #hero-section .hero-logo-main {
+        width: clamp(10rem, 23vw, 16rem);
+        height: clamp(10rem, 23vw, 16rem);
+    }
+
+    #hero-section .scroll-indicator {
+        margin-top: 0.5rem;
+    }
+}
+
+@media (max-height: 820px) {
+    #hero-section .hero-text {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    #hero-section .hero-subtitle {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+
+    #hero-section .scroll-indicator {
+        margin-bottom: 0.5rem;
+    }
+}
