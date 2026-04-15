@@ -55,10 +55,9 @@ try {
                     <div class="hero-logo-main relative inline-flex items-center justify-center mb-4 lg:mb-6 w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 xl:w-96 xl:h-96 mx-auto">
                         <model-viewer
                             src={logo3d}
-                            class="block w-full h-full"
+                            class="block w-full h-full pointer-events-none touch-none"
                             preload
-                            camera-orbit="0deg 75deg 92%"
-                            camera-controls={false}
+                            camera-orbit="-10deg 90deg 92%"
                             disable-zoom
                             disable-pan
                             disable-tap
