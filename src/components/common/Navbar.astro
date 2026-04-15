@@ -38,7 +38,7 @@ const currentPath = Astro.url.pathname;
         <div class="justify-self-center">
             <a
                 href="/"
-                class={`nav-link text-base lg:text-lg xl:text-xl font-medium transition-colors duration-300 no-underline relative group hover:text-[#4A5D23] ${currentPath === "/" ? "text-[#4A5D23]" : "text-[#B8B8B8]"}`}
+                class={`nav-link text-base lg:text-lg xl:text-xl font-medium transition-colors duration-300 no-underline relative group hover:text-[#4A5D23] ${currentPath === "/" ? "text-[#4A5D23]" : "text-white"}`}
             >
                 Accueil
                 <span
@@ -49,7 +49,7 @@ const currentPath = Astro.url.pathname;
         <div class="justify-self-center">
             <a
                 href="/expertise"
-                class={`nav-link text-base lg:text-lg xl:text-xl font-medium transition-colors duration-300 no-underline relative group hover:text-[#4A5D23] ${currentPath === "/expertise" || currentPath === "/expertise/" ? "text-[#4A5D23]" : "text-[#B8B8B8]"}`}
+                class={`nav-link text-base lg:text-lg xl:text-xl font-medium transition-colors duration-300 no-underline relative group hover:text-[#4A5D23] ${currentPath === "/expertise" || currentPath === "/expertise/" ? "text-[#4A5D23]" : "text-white"}`}
             >
                 Notre expertise
                 <span
@@ -61,7 +61,7 @@ const currentPath = Astro.url.pathname;
         <div class="justify-self-center">
             <a
                 href="/realisations"
-                class={`nav-link text-base lg:text-lg xl:text-xl font-medium transition-colors duration-300 no-underline relative group hover:text-[#4A5D23] ${currentPath === "/realisations" || currentPath === "/realisations/" ? "text-[#4A5D23]" : "text-[#B8B8B8]"}`}
+                class={`nav-link text-base lg:text-lg xl:text-xl font-medium transition-colors duration-300 no-underline relative group hover:text-[#4A5D23] ${currentPath === "/realisations" || currentPath === "/realisations/" ? "text-[#4A5D23]" : "text-white"}`}
             >
                 Nos Réalisations
                 <span
@@ -73,7 +73,7 @@ const currentPath = Astro.url.pathname;
         <div class="justify-self-center">
             <a
                 href="/contact"
-                class={`nav-link text-base lg:text-lg xl:text-xl font-medium transition-colors duration-300 no-underline relative group hover:text-[#4A5D23] ${currentPath === "/contact" || currentPath === "/contact/" ? "text-[#4A5D23]" : "text-[#B8B8B8]"}`}
+                class={`nav-link text-base lg:text-lg xl:text-xl font-medium transition-colors duration-300 no-underline relative group hover:text-[#4A5D23] ${currentPath === "/contact" || currentPath === "/contact/" ? "text-[#4A5D23]" : "text-white"}`}
             >
                 Contact
                 <span
@@ -107,7 +107,7 @@ const currentPath = Astro.url.pathname;
     >
         <a
             href="/"
-            class={`hover:text-[#4A5D23] text-3xl sm:text-4xl font-bold nav-link-mobile relative group ${currentPath === "/" ? "text-[#4A5D23]" : "text-[#B8B8B8]"}`}
+            class={`hover:text-[#4A5D23] text-3xl sm:text-4xl font-bold nav-link-mobile relative group ${currentPath === "/" ? "text-[#4A5D23]" : "text-white"}`}
         >
             Accueil
             <span
@@ -116,7 +116,7 @@ const currentPath = Astro.url.pathname;
         </a>
         <a
             href="/expertise"
-            class={`hover:text-[#4A5D23] text-3xl sm:text-4xl font-bold nav-link-mobile relative group ${currentPath === "/expertise" || currentPath === "/expertise/" ? "text-[#4A5D23]" : "text-[#B8B8B8]"}`}
+            class={`hover:text-[#4A5D23] text-3xl sm:text-4xl font-bold nav-link-mobile relative group ${currentPath === "/expertise" || currentPath === "/expertise/" ? "text-[#4A5D23]" : "text-white"}`}
         >
             Notre expertise
             <span
@@ -125,7 +125,7 @@ const currentPath = Astro.url.pathname;
         </a>
         <a
             href="/realisations"
-            class={`hover:text-[#4A5D23] text-3xl sm:text-4xl font-bold nav-link-mobile relative group ${currentPath === "/realisations" || currentPath === "/realisations/" ? "text-[#4A5D23]" : "text-[#B8B8B8]"}`}
+            class={`hover:text-[#4A5D23] text-3xl sm:text-4xl font-bold nav-link-mobile relative group ${currentPath === "/realisations" || currentPath === "/realisations/" ? "text-[#4A5D23]" : "text-white"}`}
         >
             Nos Réalisations
             <span
@@ -134,7 +134,7 @@ const currentPath = Astro.url.pathname;
         </a>
         <a
             href="/contact"
-            class={`hover:text-[#4A5D23] text-3xl sm:text-4xl font-bold nav-link-mobile relative group ${currentPath === "/contact" || currentPath === "/contact/" ? "text-[#4A5D23]" : "text-[#B8B8B8]"}`}
+            class={`hover:text-[#4A5D23] text-3xl sm:text-4xl font-bold nav-link-mobile relative group ${currentPath === "/contact" || currentPath === "/contact/" ? "text-[#4A5D23]" : "text-white"}`}
         >
             Contact
             <span

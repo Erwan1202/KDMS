@@ -7,7 +7,7 @@ import RealisationsSection from "../components/sections/RealisationsSection.astr
 import ContactSection from "../components/sections/ContactSection.astro";
 import Footer from "../components/common/Footer.astro";
 import { Image } from "astro:assets";
-import heroBg from "../assets/home/index-hero-bg.png";
+import heroBg from "../assets/home/index-hero-bg2.jpeg";
 import logo3d from "../assets/common/logo_3d.glb?url";
 import { fetchGalleryImages } from "../lib/cloudinary";
 import { categories } from "../data/realisations";
@@ -56,8 +56,8 @@ try {
                         <model-viewer
                             src={logo3d}
                             class="block w-full h-full"
-                            auto-rotate
-                            rotation-per-second="22deg"
+                            preload
+                            camera-orbit="180deg 75deg 105%"
                             camera-controls={false}
                             disable-zoom
                             disable-pan
@@ -139,8 +139,53 @@ try {
     const heroSection = document.querySelector("#hero-section");
     const heroText = document.querySelector(".hero-text");
     const heroLogo = document.querySelector(".hero-logo-main");
+    const heroModel = heroLogo?.querySelector("model-viewer") as (HTMLElement & {
+        getCameraOrbit?: () => { toString: () => string };
+        jumpCameraToGoal?: () => void;
+        loaded?: boolean;
+    }) | null;
     const navLogoDiv = document.querySelector("#nav-logo-container");
     const navLogoWhite = document.querySelector(".logo-white");
+
+    if (heroModel) {
+        const startDeterministicSpin = () => {
+            const orbit = heroModel.getCameraOrbit?.().toString() || heroModel.getAttribute("camera-orbit") || "0deg 75deg 105%";
+            const parts = orbit.trim().split(/\s+/);
+            const thetaRaw = parts[0] || "0deg";
+            const phiRaw = parts[1] || "75deg";
+            const radiusRaw = parts[2] || "105%";
+
+            const thetaMatch = thetaRaw.match(/^(-?\d*\.?\d+)([a-z%]*)$/i);
+            const thetaStart = thetaMatch ? Number(thetaMatch[1]) : 0;
+            const thetaUnit = thetaMatch?.[2] || "deg";
+
+            const spinState = { theta: thetaStart };
+            const turns = 4;
+            const targetTheta = 5; // Angle final souhaité pour le logo 
+            let thetaEnd = targetTheta + turns * 360;
+
+            // Ensure a forward spin with enough travel before landing on the target angle.
+            while (thetaEnd <= thetaStart + 540) {
+                thetaEnd += 360;
+            }
+
+            gsap.to(spinState, {
+                theta: thetaEnd,
+                duration: 3.5,
+                ease: "power3.out",
+                onUpdate: () => {
+                    heroModel.setAttribute("camera-orbit", `${spinState.theta.toFixed(3)}${thetaUnit} ${phiRaw} ${radiusRaw}`);
+                    heroModel.jumpCameraToGoal?.();
+                },
+            });
+        };
+
+        if (heroModel.loaded) {
+            startDeterministicSpin();
+        } else {
+            heroModel.addEventListener("load", startDeterministicSpin, { once: true });
+        }
+    }
 
     if (heroSection) {
         const navbarBg = document.querySelector(".navbar-bg") as HTMLElement;
