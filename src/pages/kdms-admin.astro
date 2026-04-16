@@ -64,7 +64,10 @@ const categories = [
               <div class="edit-preview" id="edit-preview" style="display: none; background: #111; border: 1px solid #2a2a2a; border-radius: 8px; padding: 10px;">
                 <div class="edit-preview-header" style="display:flex; justify-content:space-between; margin-bottom:8px; align-items: center;">
                   <span style="font-size: 0.8em; color: #888; text-transform: uppercase; letter-spacing: 0.1em;">Image actuelle</span>
-                  <button type="button" class="btn-change-image" id="btn-change-image" style="background:none; border:1px solid #4a5d23; color:#7fb255; border-radius:4px; padding:4px 8px; font-size:0.7em; cursor:pointer; transition: all 0.2s;">Remplacer image</button>
+                  <div style="display: flex; gap: 8px;">
+                    <button type="button" class="btn-change-image" id="btn-crop-current" style="background:none; border:1px solid #e07a1f; color:#e07a1f; border-radius:4px; padding:4px 8px; font-size:0.7em; cursor:pointer; transition: all 0.2s;">Recadrer / Pivoter</button>
+                    <button type="button" class="btn-change-image" id="btn-change-image" style="background:none; border:1px solid #4a5d23; color:#7fb255; border-radius:4px; padding:4px 8px; font-size:0.7em; cursor:pointer; transition: all 0.2s;">Remplacer image</button>
+                  </div>
                 </div>
                 <img id="current-image-preview" src="" alt="Aperçu image actuelle" style="max-width: 100%; max-height: 400px; object-fit: contain; border-radius: 4px; display: block; margin: 0 auto;" />
               </div>
@@ -72,7 +75,7 @@ const categories = [
               <!-- Éditeur d'image (CropperJS) -->
               <div class="cropper-container-wrapper" id="editor-box">
                 <div class="cropper-image-wrapper">
-                  <img id="image-to-crop" style="max-width: 100%; display: block;" />
+                  <img id="image-to-crop" crossorigin="anonymous" style="max-width: 100%; display: block;" />
                 </div>
                 <div class="cropper-actions">
                   <button type="button" class="cropper-btn" id="btn-rotate-left">↺ 90°</button>
@@ -293,6 +296,7 @@ const categories = [
         const editPreview = document.getElementById('edit-preview');
         const currentImagePreview = document.getElementById('current-image-preview');
         const btnChangeImage = document.getElementById('btn-change-image');
+        const btnCropCurrent = document.getElementById('btn-crop-current');
         const cancelEditBtn = document.getElementById('cancel-edit-btn');
         
         const fileInput = document.getElementById('file-input');
@@ -374,13 +378,42 @@ const categories = [
           checkForm();
         });
 
+        if (btnCropCurrent) {
+          btnCropCurrent.addEventListener('click', () => {
+            editPreview.style.display = 'none';
+            dropZone.style.display = 'none';
+            
+            selectedFileName = 'photo_retouchee.webp';
+            imageToCrop.src = currentImagePreview.src;
+            editorBox.style.display = 'flex';
+            
+            if (cropper) { cropper.destroy(); }
+            cropper = new Cropper(imageToCrop, {
+              viewMode: 1,
+              autoCropArea: 1,
+              responsive: true,
+              rotatable: true
+            });
+            
+            checkForm();
+          });
+        }
+
         function destroyCropper() {
           if (cropper) {
             cropper.destroy();
             cropper = null;
           }
           editorBox.style.display = 'none';
-          dropZone.style.display = 'block';
+          
+          if (editingIdInput && editingIdInput.value) {
+            dropZone.style.display = 'none';
+            editPreview.style.display = 'block';
+          } else {
+            dropZone.style.display = 'block';
+            if (editPreview) editPreview.style.display = 'none';
+          }
+          
           fileInput.value = '';
           checkForm();
         }
