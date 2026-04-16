@@ -52,7 +52,7 @@ try {
                 <div
                     class="hero-text z-50 flex flex-col items-center justify-center text-center w-full max-w-[96%] sm:max-w-[90%] md:max-w-[80%] lg:max-w-[70%] mx-auto px-2 sm:px-4 mt-6 sm:mt-10 md:mt-14 mb-6 sm:mb-10 md:mb-14"
                 >
-                    <div class="hero-logo-main relative inline-flex items-center justify-center mb-4 lg:mb-6 w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 xl:w-96 xl:h-96 mx-auto">
+                    <div class="hero-logo-main relative inline-flex items-center justify-center mb-4 lg:mb-6 w-48 h-48 sm:w-60 sm:h-60 md:w-64 md:h-64 lg:w-72 lg:h-72 xl:w-80 xl:h-80 mx-auto">
                         <model-viewer
                             src={logo3d}
                             class="block w-full h-full pointer-events-none touch-none"
@@ -166,7 +166,7 @@ try {
 
             gsap.to(spinState, {
                 theta: targetTheta,
-                duration: 3.5,
+                duration: 6,
                 ease: "power1.out", // Décélération très douce (linéaire puis ralentit doucement)
                 onUpdate: () => {
                     heroModel.setAttribute("camera-orbit", `${spinState.theta.toFixed(3)}${thetaUnit} ${phiRaw} ${radiusRaw}`);

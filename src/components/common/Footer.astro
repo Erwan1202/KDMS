@@ -40,28 +40,31 @@ const legalLinks = [
             class="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-12 lg:gap-16"
         >
             <div class="col-span-1 lg:col-span-4 flex flex-col gap-6">
-                <a href="/" class="inline-block w-fit">
+                <div class="flex items-center justify-between gap-4">
+                    <a href="/" class="inline-block w-fit">
+                        <Image
+                            src={logoWhite}
+                            alt="KDMS"
+                            height={72}
+                            loading="lazy"
+                            class="h-[60px] sm:h-[72px] w-auto transition-transform hover:scale-105"
+                        />
+                    </a>
                     <Image
-                        src={logoWhite}
-                        alt="KDMS"
+                        src={madeInFrance}
+                        alt="Made in France"
                         height={72}
                         loading="lazy"
-                        class="h-[72px] w-auto transition-transform hover:scale-105"
+                        class="h-[60px] sm:h-[72px] w-auto object-contain rounded-md"
                     />
-                </a>
+                </div>
                 <p
-                    class="text-[#B3B3B3] font-light leading-relaxed max-w-sm text-base"
+                    class="text-[#B3B3B3] font-light leading-relaxed max-w-sm text-base lg:mt-2"
                 >
                     Experts dans la conception et fabrication de flight cases
                     sur mesure. Protection optimale pour votre matériel, adaptée
                     à vos besoins spécifiques.
                 </p>
-                <Image
-                    src={madeInFrance}
-                    alt="Made in France"
-                    loading="lazy"
-                    class="w-full max-w-44 sm:max-w-55 h-auto"
-                />
             </div>
 
             <div class="col-span-1 lg:col-span-3">
