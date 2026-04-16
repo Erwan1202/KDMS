@@ -109,6 +109,14 @@ body {
     overflow: hidden;
     background: #111;
     aspect-ratio: 1;
+    cursor: pointer;
+    transition: outline 0.2s, transform 0.2s;
+}
+
+.gallery-item.editing {
+    outline: 3px solid #7fb255;
+    outline-offset: -3px;
+    transform: scale(0.96);
 }
 
 .gallery-item img {
@@ -253,6 +261,14 @@ input:focus {
 
 .btn:hover {
     background: #c86618;
+}
+
+.cancel-edit-btn:hover {
+    background: #b91c1c !important;
+}
+
+.btn-change-image:hover {
+    background: rgba(127, 178, 85, 0.1) !important;
 }
 
 .btn:disabled {

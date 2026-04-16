@@ -51,13 +51,22 @@ const categories = [
         <div class="admin-layout">
           <!-- Upload -->
           <div>
-            <div class="section-title">Ajouter une photo</div>
+            <div class="section-title" id="form-title">Ajouter une photo</div>
             <form id="upload-form" class="gap">
+              <input type="hidden" id="editing-public-id" name="public_id" value="" />
               <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" style="display:none" />
               <div class="drop-zone" id="drop-zone">
                 <div class="drop-icon">📁</div>
                 <div class="drop-label">Sélectionner ou glisser une photo</div>
                 <div class="drop-hint">JPG, PNG, WebP</div>
+              </div>
+              <!-- Aperçu en mode édition -->
+              <div class="edit-preview" id="edit-preview" style="display: none; background: #111; border: 1px solid #2a2a2a; border-radius: 8px; padding: 10px;">
+                <div class="edit-preview-header" style="display:flex; justify-content:space-between; margin-bottom:8px; align-items: center;">
+                  <span style="font-size: 0.8em; color: #888; text-transform: uppercase; letter-spacing: 0.1em;">Image actuelle</span>
+                  <button type="button" class="btn-change-image" id="btn-change-image" style="background:none; border:1px solid #4a5d23; color:#7fb255; border-radius:4px; padding:4px 8px; font-size:0.7em; cursor:pointer; transition: all 0.2s;">Remplacer image</button>
+                </div>
+                <img id="current-image-preview" src="" alt="Aperçu image actuelle" style="max-width: 100%; max-height: 400px; object-fit: contain; border-radius: 4px; display: block; margin: 0 auto;" />
               </div>
 
               <!-- Éditeur d'image (CropperJS) -->
@@ -100,6 +109,7 @@ const categories = [
               <div id="upload-success" class="success-msg">✓ Photo publiée dans la galerie !</div>
 
               <button type="submit" class="btn" id="submit-btn" disabled>PUBLIER DANS LA GALERIE →</button>
+              <button type="button" class="btn cancel-edit-btn" id="cancel-edit-btn" style="display: none; background: #dc2626; margin-top: 0;">ANNULER LA MODIFICATION</button>
             </form>
           </div>
 
@@ -142,7 +152,7 @@ const categories = [
             const thumbUrl = img.secure_url.replace('/upload/', '/upload/c_fill,w_300,h_300/');
             const iaBadge = img.ia === 'true' ? '<div class="ia-badge">IA</div>' : '';
             return `
-            <div class="gallery-item" data-public-id="${img.public_id}">
+            <div class="gallery-item" data-public-id="${img.public_id}" data-title="${img.title.replace(/"/g, '&quot;')}" data-category="${img.category}" data-ia="${img.ia}" data-url="${img.secure_url}">
               ${iaBadge}
               <img src="${thumbUrl}" alt="${img.title}" loading="lazy" />
               <div class="gallery-item-overlay">
@@ -227,41 +237,64 @@ const categories = [
         });
       }
 
-      // DELETE
+      // EDIT & DELETE
       document.addEventListener('click', async (e) => {
         const target = e.target;
         if (!target) return;
-        const btn = target.closest && target.closest('.delete-btn');
-        if (!btn) return;
-        const item = btn.closest('.gallery-item');
-        if (!item) return;
-        const publicId = item.dataset.publicId;
-        if (!publicId || !confirm('Supprimer cette photo ?')) return;
-        btn.textContent = '…';
-        try {
-          const fd = new FormData();
-          fd.append('public_id', publicId);
-          const res = await fetch('/api/delete.php', { method: 'POST', body: fd });
-          const contentType = res.headers.get('content-type');
-          if (res.ok && contentType && contentType.includes('application/json')) {
-            const data = await res.json();
-            if (data.ok) {
-              item.remove();
+
+        // DELETE
+        const btn = target.closest('.delete-btn');
+        if (btn) {
+          const item = btn.closest('.gallery-item');
+          if (!item) return;
+          const publicId = item.dataset.publicId;
+          if (!publicId || !confirm('Supprimer cette photo ?')) return;
+          btn.textContent = '…';
+          try {
+            const fd = new FormData();
+            fd.append('public_id', publicId);
+            const res = await fetch('/api/delete.php', { method: 'POST', body: fd });
+            const contentType = res.headers.get('content-type');
+            if (res.ok && contentType && contentType.includes('application/json')) {
+              const data = await res.json();
+              if (data.ok) {
+                item.remove();
+              } else {
+                throw new Error(data.error);
+              }
             } else {
-              throw new Error(data.error);
+              throw new Error('Erreur API (PHP brut ?)');
             }
-          } else {
-            throw new Error('Erreur API (PHP brut ?)');
+          } catch(err) {
+            btn.textContent = '✕';
+            alert('Erreur lors de la suppression.');
           }
-        } catch(err) {
-          btn.textContent = '✕';
-          alert('Erreur lors de la suppression.');
+          return;
+        }
+
+        // EDIT
+        const itemObj = target.closest('.gallery-item');
+        if (itemObj && typeof window.enterEditMode === 'function') {
+           window.enterEditMode({
+               publicId: itemObj.dataset.publicId,
+               title: itemObj.dataset.title,
+               category: itemObj.dataset.category,
+               ia: itemObj.dataset.ia,
+               url: itemObj.dataset.url
+           });
         }
       });
 
-      // UPLOAD
+      // UPLOAD & EDIT
       const uploadForm = document.getElementById('upload-form');
       if (uploadForm) {
+        const formTitle = document.getElementById('form-title');
+        const editingIdInput = document.getElementById('editing-public-id');
+        const editPreview = document.getElementById('edit-preview');
+        const currentImagePreview = document.getElementById('current-image-preview');
+        const btnChangeImage = document.getElementById('btn-change-image');
+        const cancelEditBtn = document.getElementById('cancel-edit-btn');
+        
         const fileInput = document.getElementById('file-input');
         const dropZone = document.getElementById('drop-zone');
         const editorBox = document.getElementById('editor-box');
@@ -277,8 +310,69 @@ const categories = [
         let selectedFileName = '';
 
         function checkForm() {
-          submitBtn.disabled = !(cropper && titleInput.value.trim() && categoryInput.value);
+          const isEditMode = !!editingIdInput.value;
+          const hasData = titleInput.value.trim() && categoryInput.value;
+          const hasImage = cropper !== null || (isEditMode && editPreview.style.display === 'block');
+          submitBtn.disabled = !(hasData && hasImage);
         }
+
+        window.enterEditMode = function(imgData) {
+          destroyCropper();
+          
+          editingIdInput.value = imgData.publicId;
+          titleInput.value = imgData.title;
+          
+          document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+          const targetChip = document.querySelector(`.chip[data-value="${imgData.category}"]`);
+          if (targetChip) targetChip.classList.add('selected');
+          categoryInput.value = imgData.category;
+          
+          iaInput.checked = imgData.ia === 'true';
+          
+          formTitle.textContent = "Modifier la photo";
+          submitBtn.textContent = 'METTRE À JOUR →';
+          cancelEditBtn.style.display = 'block';
+          
+          dropZone.style.display = 'none';
+          editPreview.style.display = 'block';
+          currentImagePreview.src = imgData.url;
+          
+          formTitle.scrollIntoView({ behavior: 'smooth' });
+          checkForm();
+          
+          document.querySelectorAll('.gallery-item').forEach(el => el.classList.remove('editing'));
+          const editingItem = document.querySelector(`.gallery-item[data-public-id="${imgData.publicId}"]`);
+          if (editingItem) editingItem.classList.add('editing');
+        };
+
+        function exitEditMode() {
+          editingIdInput.value = '';
+          titleInput.value = '';
+          categoryInput.value = '';
+          iaInput.checked = false;
+          
+          document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+          
+          formTitle.textContent = "Ajouter une photo";
+          submitBtn.textContent = 'PUBLIER DANS LA GALERIE →';
+          cancelEditBtn.style.display = 'none';
+          
+          editPreview.style.display = 'none';
+          
+          document.querySelectorAll('.gallery-item').forEach(el => el.classList.remove('editing'));
+          destroyCropper(); // Réinitialise l'image
+          
+          successEl.style.display = 'none';
+          errorEl.style.display = 'none';
+        }
+
+        cancelEditBtn.addEventListener('click', exitEditMode);
+
+        btnChangeImage.addEventListener('click', () => {
+          editPreview.style.display = 'none';
+          dropZone.style.display = 'block';
+          checkForm();
+        });
 
         function destroyCropper() {
           if (cropper) {
@@ -339,32 +433,39 @@ const categories = [
 
         uploadForm.addEventListener('submit', async (e) => {
           e.preventDefault();
-          if (!cropper) return;
-          submitBtn.textContent = 'Publication...';
+          const isEditMode = !!editingIdInput.value;
+          
+          if (!isEditMode && !cropper) return;
+          if (isEditMode && editPreview.style.display === 'none' && !cropper) return;
+          
+          submitBtn.textContent = isEditMode ? 'Enregistrement...' : 'Publication...';
           submitBtn.disabled = true;
           errorEl.style.display = 'none';
           successEl.style.display = 'none';
           
-          cropper.getCroppedCanvas({ maxWidth: 2000, maxHeight: 2000 }).toBlob(async (blob) => {
+          const proceedUpload = async (blob = null) => {
             try {
               const fd = new FormData();
-              fd.append('photo', blob, selectedFileName);
+              if (blob) {
+                fd.append('photo', blob, selectedFileName || 'photo.webp');
+              }
+              if (isEditMode) {
+                fd.append('public_id', editingIdInput.value);
+              }
               fd.append('title', titleInput.value.trim());
               fd.append('category', categoryInput.value);
               fd.append('is_ia', iaInput.checked ? 'true' : 'false');
               
-              const res = await fetch('/api/upload.php', { method: 'POST', body: fd });
+              const endpoint = isEditMode ? '/api/update.php' : '/api/upload.php';
+              const res = await fetch(endpoint, { method: 'POST', body: fd });
               const contentType = res.headers.get('content-type');
               
               if (res.ok && contentType && contentType.includes('application/json')) {
                 const data = await res.json();
                 if (data.ok) {
+                  successEl.textContent = isEditMode ? '✓ Modifications enregistrées !' : '✓ Photo publiée dans la galerie !';
                   successEl.style.display = 'block';
-                  destroyCropper();
-                  titleInput.value = '';
-                  categoryInput.value = '';
-                  iaInput.checked = false;
-                  document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+                  exitEditMode();
                   loadGallery();
                 } else {
                   throw new Error(data.error || 'Erreur inconnue');
@@ -376,9 +477,17 @@ const categories = [
               errorEl.textContent = err.message;
               errorEl.style.display = 'block';
             }
-            submitBtn.textContent = 'PUBLIER DANS LA GALERIE →';
+            submitBtn.textContent = isEditMode ? 'METTRE À JOUR →' : 'PUBLIER DANS LA GALERIE →';
             checkForm();
-          }, 'image/webp', 0.9);
+          };
+
+          if (cropper) {
+            cropper.getCroppedCanvas({ maxWidth: 2000, maxHeight: 2000 }).toBlob((blob) => {
+               proceedUpload(blob);
+            }, 'image/webp', 0.9);
+          } else {
+            proceedUpload(null);
+          }
         });
       }
     </script>
