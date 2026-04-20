@@ -11,21 +11,7 @@ const navigationLinks = [
     { label: "Contact", href: "/contact" },
 ];
 
-const contactInfo = [
-    {
-        lines: ["8 Rue Camille Décauville", "91250 Tigery", "France"],
-        href: "https://www.google.com/maps/search/?api=1&query=8+Rue+Camille+Décauville+91250+Tigery+France",
-        type: "address",
-    },
-    {
-        label: "01 69 12 72 10",
-        href: "tel:+33169127210",
-        type: "link",
-    },
-    {
-        type: "email",
-    },
-];
+
 
 const legalLinks = [
     { label: "Mentions Légales", href: "/mentions-legales" },
@@ -34,20 +20,18 @@ const legalLinks = [
 ];
 ---
 
-<footer class="bg-[#161616] text-white py-10 md:py-14 relative overflow-hidden">
+<footer class="bg-[#161616] text-white py-8 md:py-10 relative overflow-hidden">
     <div class="relative max-w-7xl mx-auto px-6 md:px-8 z-10">
-        <div
-            class="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-12 lg:gap-16"
-        >
-            <div class="col-span-1 lg:col-span-4 flex flex-col gap-6">
-                <div class="flex items-center justify-between gap-4">
-                    <a href="/" class="inline-block w-fit">
+        <div class="flex flex-col lg:flex-row gap-8 lg:gap-0">
+            <div class="w-full lg:w-[35%] flex flex-col gap-5 lg:border-r border-[rgba(255,255,255,0.08)] lg:pr-8 xl:pr-12 shrink-0">
+                <div class="flex items-center justify-between w-full max-w-sm">
+                    <a href="/" class="inline-block shrink-0">
                         <Image
                             src={logoWhite}
                             alt="KDMS"
                             height={72}
                             loading="lazy"
-                            class="h-[60px] sm:h-[72px] w-auto transition-transform hover:scale-105"
+                            class="h-[54px] sm:h-[64px] w-auto transition-transform hover:scale-105"
                         />
                     </a>
                     <Image
@@ -55,11 +39,11 @@ const legalLinks = [
                         alt="Made in France"
                         height={72}
                         loading="lazy"
-                        class="h-[60px] sm:h-[72px] w-auto object-contain rounded-md"
+                        class="w-auto h-[38px] sm:h-[46px] object-contain rounded-sm"
                     />
                 </div>
                 <p
-                    class="text-[#B3B3B3] font-light leading-relaxed max-w-sm text-base lg:mt-2"
+                    class="text-[#B3B3B3] font-light leading-relaxed max-w-sm text-base mt-2 text-justify"
                 >
                     Experts dans la conception et fabrication de flight cases
                     sur mesure. Protection optimale pour votre matériel, adaptée
@@ -67,92 +51,64 @@ const legalLinks = [
                 </p>
             </div>
 
-            <div class="col-span-1 lg:col-span-3">
-                <h3 class="footer-title">Navigation</h3>
-                <div class="flex flex-col gap-4">
-                    {
-                        navigationLinks.map((link) => (
-                            <a href={link.href} class="footer-link">
-                                {link.label}
-                            </a>
-                        ))
-                    }
-                </div>
-            </div>
-
-            <div class="col-span-1 lg:col-span-3">
-                <h3 class="footer-title">Contact</h3>
-                <div class="flex flex-col gap-5">
-                    {
-                        contactInfo.map((item) => (
-                            <div>
-                                {item.type === "text" ? (
-                                    <span class="text-[#B3B3B3] font-light leading-relaxed">
-                                        {item.lines?.map((line, index) => (
-                                            <>
-                                                {line}
-                                                {index <
-                                                    (item.lines?.length ||
-                                                        0) -
-                                                        1 && <br />}
-                                            </>
-                                        ))}
-                                    </span>
-                                ) : item.type === "address" ? (
-                                    <a
-                                        href={item.href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        class="footer-link block"
-                                    >
-                                        {item.lines?.map((line, index) => (
-                                            <>
-                                                {line}
-                                                {index <
-                                                    (item.lines?.length ||
-                                                        0) -
-                                                        1 && <br />}
-                                            </>
-                                        ))}
-                                    </a>
-                                ) : item.type === "email" ? (
-                                    <ProtectedEmail linkClass="footer-link" />
-                                ) : (
-                                    <a href={item.href} class="footer-link">
-                                        {item.label}
-                                    </a>
-                                )}
-                            </div>
-                        ))
-                    }
-                    
-
-                    <div>
-                        <a href="https://www.linkedin.com/in/regis-kozak-a714337/" target="_blank" rel="noopener noreferrer" class="footer-link flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-[#4A5D23]">
-                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle>
-                            </svg>
-                            LinkedIn
-                        </a>
+            {/* Colonnes de droite : Liens regroupés */}
+            <div class="w-full lg:w-[65%] flex flex-col sm:flex-row gap-10 sm:gap-6 lg:gap-14 xl:gap-24 lg:pl-10 xl:pl-16 mt-4 lg:mt-0 justify-start">
+                <div class="flex-1 lg:flex-none whitespace-nowrap">
+                    <h3 class="footer-title">Navigation</h3>
+                    <div class="flex flex-col gap-2">
+                        {
+                            navigationLinks.map((link) => (
+                                <a href={link.href} class="footer-link">
+                                    {link.label}
+                                </a>
+                            ))
+                        }
                     </div>
-</div>
-            </div>
+                </div>
 
-            <div class="col-span-1 lg:col-span-2">
-                <h3 class="footer-title">Infos</h3>
-                <div class="flex flex-col gap-4">
-                    {
-                        legalLinks.map((link) => (
-                            <a href={link.href} class="footer-link">
-                                {link.label}
+                <div class="flex-[1.2] lg:flex-none">
+                    <h3 class="footer-title">Contact</h3>
+                    <div class="flex flex-col gap-4">
+                        <a
+                            href="https://www.google.com/maps/search/?api=1&query=8+Rue+Camille+Décauville+91250+Tigery+France"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="footer-link block leading-relaxed"
+                        >
+                            8 Rue Camille Décauville<br />
+                            91250 Tigery<br />
+                            France
+                        </a>
+                        
+                        <div class="flex flex-col leading-relaxed justify-between">
+                            <a href="tel:+33169127210" class="footer-link">01 69 12 72 10</a>
+                            <ProtectedEmail linkClass="text-[#b8b8b8] hover:text-[#4A5D23] font-light font-[300] transition-colors duration-200" />
+                            <a href="https://www.linkedin.com/in/regis-kozak-a714337/" target="_blank" rel="noopener noreferrer" class="footer-link flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-[#4A5D23]">
+                                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle>
+                                </svg>
+                                LinkedIn
                             </a>
-                        ))
-                    }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-1 lg:flex-none whitespace-nowrap">
+                    <h3 class="footer-title">Infos</h3>
+                    <div class="flex flex-col gap-2">
+                        {
+                            legalLinks.map((link) => (
+                                <a href={link.href} class="footer-link">
+                                    {link.label}
+                                </a>
+                            ))
+                        }
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="footer-bottom mt-10 pt-6 text-center">
+        <div class="footer-bottom mt-8 pt-5 text-center">
             <p>
                 &copy; {new Date().getFullYear()} KDMS. Tous droits réservés.
             </p>
@@ -166,7 +122,7 @@ const legalLinks = [
         font-size: 1.125rem;
         font-weight: 600;
         letter-spacing: 0.5px;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
     }
 
     .footer-link {

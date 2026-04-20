@@ -7,6 +7,7 @@ export interface Category {
     gridClass?: string;
 }
 
+
 export interface BrandLogo {
     id: number;
     name: string;
@@ -15,10 +16,10 @@ export interface BrandLogo {
 
 export const categories: Category[] = [
     { id: "evenementiel", label: "Événementiel", featured: true, gridClass: "xl:col-span-1 h-[260px] sm:h-[300px] lg:h-[340px] xl:h-[400px]" },
-    { id: "meubles", label: "Meubles", featured: true, gridClass: "xl:col-span-1 h-[260px] sm:h-[300px] lg:h-[340px] xl:h-[400px]" },
     { id: "audiovisuel", label: "Audiovisuel", featured: true, gridClass: "xl:col-span-1 h-[260px] sm:h-[300px] lg:h-[340px] xl:h-[400px]" },
-    { id: "valise-resine", label: "Valise résine", featured: true, gridClass: "xl:col-span-1 h-[260px] sm:h-[300px] lg:h-[340px] xl:h-[400px]" },
     { id: "industrie", label: "Industrie", featured: true, gridClass: "xl:col-span-1 h-[260px] sm:h-[300px] lg:h-[340px] xl:h-[400px]" },
+    { id: "meubles", label: "Meubles", featured: true, gridClass: "xl:col-span-1 h-[260px] sm:h-[300px] lg:h-[340px] xl:h-[400px]" },
+    { id: "valise-resine", label: "Valise résine", featured: true, gridClass: "xl:col-span-1 h-[260px] sm:h-[300px] lg:h-[340px] xl:h-[400px]" },
     { id: "all", label: "Tout Voir" },
 ];
 

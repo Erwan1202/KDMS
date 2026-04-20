@@ -10,7 +10,8 @@ const currentPath = Astro.url.pathname;
     class="fixed top-0 left-0 right-0 z-50 w-full h-16 sm:h-20 lg:h-24 px-4 flex items-center transition-all duration-75 ease-out bg-transparent"
 >
     <div
-        class={`navbar-bg absolute inset-0 bg-[#0E0E0E] -z-10 transition-all duration-300 ${currentPath === "/" ? "opacity-0 invisible" : ""}`}
+        class={`navbar-bg absolute inset-0 -z-10 transition-all duration-300 ${currentPath === "/" ? "bg-transparent" : "bg-black"} ${currentPath === "/" ? "opacity-100 visible" : "opacity-100 visible"}`}
+        style={currentPath === "/" ? "background-color: transparent;" : ""}
     >
     </div>
     <a href="/" id="nav-logo-container" class="flex items-center relative transition-opacity duration-300">

@@ -7,7 +7,7 @@ import RealisationsSection from "../components/sections/RealisationsSection.astr
 import ContactSection from "../components/sections/ContactSection.astro";
 import Footer from "../components/common/Footer.astro";
 import { Image } from "astro:assets";
-import heroBg from "../assets/home/index-hero-bg2.jpeg";
+import heroBg from "../assets/home/index-hero-bg2.png";
 import logo3d from "../assets/common/logo_3d.glb?url";
 import { fetchGalleryImages } from "../lib/cloudinary";
 import { categories } from "../data/realisations";
@@ -43,8 +43,9 @@ try {
                 class="absolute inset-0 w-full h-full object-cover object-center z-0 brightness-[0.5] blur-[3px]"
                 decoding="async"
             />
-            <div class="absolute inset-0 bg-black/10 z-1 pointer-events-none">
-            </div>
+
+            <div class="absolute inset-0 bg-black/10 z-1 pointer-events-none"></div>
+            <div class="hero-gradient-overlay"></div>
 
             <div
                 class="relative z-20 w-full h-full flex flex-col items-center justify-center pt-16 sm:pt-20 lg:pt-24 pb-5 sm:pb-10"
@@ -68,7 +69,7 @@ try {
                         ></model-viewer>
                     </div>
                     <h1 class="sr-only">K-DMS - Le flight case 100% custom</h1>
-                    <div class="hero-subtitle mt-4 sm:mt-6 bg-black/10 backdrop-blur-md rounded-sm px-6 sm:px-7 md:px-8 py-2.5 sm:py-3 shadow-[0_4px_15px_rgba(0,0,0,0.1)] inline-block">
+                    <div class="hero-subtitle mt-4 sm:mt-6 bg-black/10 backdrop-blur-md rounded-xl px-6 sm:px-7 md:px-8 py-2.5 sm:py-3 shadow-[0_4px_15px_rgba(0,0,0,0.1)] inline-block">
                         <p
                             class="uppercase text-balance tracking-[1.5px] sm:tracking-[2px] md:tracking-[4px] font-bold text-[clamp(1.05rem,2.2vw,1.8rem)] drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]"
                         >
@@ -161,12 +162,12 @@ try {
             const thetaStart = thetaMatch ? Number(thetaMatch[1]) : 0;
             const thetaUnit = thetaMatch?.[2] || "deg";
 
-            const spinState = { theta: thetaStart - 60 };
+            const spinState = { theta: thetaStart - 20 };
             const targetTheta = thetaStart;
 
             gsap.to(spinState, {
                 theta: targetTheta,
-                duration: 6,
+                duration: 3,
                 ease: "power1.out", // Décélération très douce (linéaire puis ralentit doucement)
                 onUpdate: () => {
                     heroModel.setAttribute("camera-orbit", `${spinState.theta.toFixed(3)}${thetaUnit} ${phiRaw} ${radiusRaw}`);
@@ -286,7 +287,13 @@ try {
                 tl.to(scrollIndicator, { opacity: 0, duration: 0.1, ease: "power1.out" }, 0);
             }
 
-            tl.to(navbarBg, { autoAlpha: 1, duration: 0.2, ease: "power2.out" }, 0.8);
+            // Fond noir plein sur le header à la fin de l'animation
+            tl.to(navbarBg, {
+                backgroundColor: "#000",
+                autoAlpha: 1,
+                duration: 0.2,
+                ease: "power2.out"
+            }, 0.92);
 
             return tl;
         };

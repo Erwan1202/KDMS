@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import historyImg from "../../assets/home/expertise-section/history.png";
 import poleProd from "../../assets/home/expertise-section/facade_kdms.png";
+import madeInFrance from "../../assets/home/expertise-section/made_in_france.png";
 
 const expertiseItems = [
     {
@@ -11,10 +12,11 @@ const expertiseItems = [
         image: historyImg,
     },
     {
-        title: "2 Pôles de production",
+        title: "Fabrication locale",
         text: "Situés à Tigery (91) en plein sud de l’île-de-France, nos ateliers offrent une solide présence logistique et commerciale pour opérer sur toute l’Europe.",
         alt: "Fabrication européenne de flight cases à Tigery (France) et au Portugal",
         image: poleProd,
+        madeInFrance: madeInFrance,
     },
     {
         title: "Gestion des processus de bout en bout",
@@ -81,7 +83,8 @@ const expertiseItems = [
                     id="expertise-title"
                     class="text-xl xl:text-2xl 2xl:text-3xl font-bold text-white text-center leading-snug transition-opacity duration-300 flex items-center justify-center tracking-tight"
                 >
-                    La mobilité de votre expertise est notre métier
+                    <span id="expertise-title-text">La mobilité de votre expertise est notre métier</span>
+                    <span id="expertise-title-logo"></span>
                 </h3>
                 <p
                     id="expertise-text"
@@ -118,8 +121,11 @@ const expertiseItems = [
                             )}
                         </div>
                         <div class="text-left sm:text-justify w-full">
-                            <h3 class="text-xl sm:text-2xl md:text-3xl font-bold mb-2 sm:mb-3 tracking-tight">
+                            <h3 class="text-xl sm:text-2xl md:text-3xl font-bold mb-2 sm:mb-3 tracking-tight flex items-center gap-2 flex-wrap">
                                 {item.title}
+                                                                {item.title === 'Fabrication locale' && (
+                                                                    <img src="/assets/home/expertise-section/made_in_france.png" alt="Made in France" style="width:1.7em;height:1.7em;display:inline-block;vertical-align:middle;margin-left:0.4em;filter:drop-shadow(0 0 2px #fff);background:white;border-radius:50%;padding:0.1em;" />
+                                                                )}
                             </h3>
                             <p class="text-base sm:text-lg text-[#B8B8B8] font-light leading-relaxed">
                                 {item.text}
@@ -224,12 +230,19 @@ const expertiseItems = [
         setAllImagesInactive();
     }
 
-    function updateText(title: string, text: string = "") {
-        if (expertiseTitle && expertiseText) {
+    function updateText(title, text = "") {
+        const expertiseTitleText = document.getElementById("expertise-title-text");
+        const expertiseTitleLogo = document.getElementById("expertise-title-logo");
+        if (expertiseTitle && expertiseTitleText && expertiseTitleLogo && expertiseText) {
             expertiseTitle.style.opacity = "0";
             expertiseText.style.opacity = "0";
             setTimeout(() => {
-                expertiseTitle.innerText = title;
+                expertiseTitleText.textContent = title;
+                if (title === "Fabrication locale") {
+                    expertiseTitleLogo.innerHTML = '<img src="/assets/home/expertise-section/made_in_france.png" alt="Made in France" style="height:2.1em;aspect-ratio:1/1;display:inline-block;vertical-align:middle;margin-left:0.5em;object-fit:contain;" />';
+                } else {
+                    expertiseTitleLogo.innerHTML = "";
+                }
                 expertiseTitle.style.opacity = "1";
                 if (text) {
                     expertiseText.innerText = text;

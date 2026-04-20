@@ -61,7 +61,7 @@ try {
                     type="button"
                     class="w-full flex items-center justify-between bg-white/10 text-white border border-white/20 rounded-lg px-4 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white/30"
                 >
-                    <span id="selected-filter-label">Tout voir</span>
+                    <span id="selected-filter-label">Événementiel</span>
                     <svg class="w-4 h-4 ml-2 transition-transform duration-300" id="dropdown-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
@@ -75,7 +75,7 @@ try {
                         categories.map((cat) => (
                             <button
                                 type="button"
-                                class={`dropdown-item w-full text-left px-4 py-3 text-sm font-medium transition-colors duration-150 active:bg-[#4A5D23]/50 border-b border-white/5 last:border-0 ${cat.id === "all" ? "bg-[#4A5D23] text-white" : "text-white/70"}`}
+                                class={`dropdown-item w-full text-left px-4 py-3 text-sm font-medium transition-colors duration-150 active:bg-[#4A5D23]/50 border-b border-white/5 last:border-0 ${cat.id === "evenementiel" ? "bg-[#4A5D23] text-white" : "text-white/70"}`}
                                 data-category={cat.id}
                             >
                                 {cat.label}
@@ -91,9 +91,9 @@ try {
                         <button
                             type="button"
                             class={`filter-btn px-6 lg:px-8 py-2 lg:py-2.5 rounded-full text-sm lg:text-base font-medium transition-all duration-200 
-                                hover:scale-105 whitespace-nowrap will-change-transform ${cat.id === "all" ? "bg-[#4A5D23] text-white" : "bg-transparent text-white/70 hover:bg-white/10 hover:text-white"}`}
+                                hover:scale-105 whitespace-nowrap will-change-transform ${cat.id === "evenementiel" ? "bg-[#4A5D23] text-white" : "bg-transparent text-white/70 hover:bg-white/10 hover:text-white"}`}
                             data-category={cat.id}
-                            aria-pressed={cat.id === "all" ? "true" : "false"}
+                            aria-pressed={cat.id === "evenementiel" ? "true" : "false"}
                         >
                             {cat.label}
                         </button>
@@ -122,8 +122,9 @@ try {
                                     alt={`Réalisation ${project.title}`}
                                     width={1200}
                                     height={900}
-                                    class="w-full h-auto object-cover transition-all duration-1000 group-hover:scale-105"
-                                    loading={index < 4 ? "eager" : "lazy"}
+                                    class="w-full h-auto object-cover transition-all duration-1000 group-hover:scale-105 gallery-img"
+                                    loading="eager"
+                                    decoding="async"
                                 />
                                 
 
@@ -238,6 +239,18 @@ try {
     const selectedLabelEl = document.getElementById("selected-filter-label");
     let projectItems = Array.from(document.querySelectorAll<HTMLElement>(".project-item"));
     const masonryGrid = document.getElementById("masonry-grid");
+
+    // Fade-in images once they are decoded/loaded
+    function revealGalleryImages(): void {
+        document.querySelectorAll<HTMLImageElement>('.gallery-img:not(.loaded)').forEach(img => {
+            if (img.complete && img.naturalHeight > 0) {
+                img.classList.add('loaded');
+            } else {
+                img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
+                img.addEventListener('error', () => img.classList.add('loaded'), { once: true });
+            }
+        });
+    }
     
     // Elements de la modale
     const imageModal = document.getElementById("image-modal");
@@ -252,15 +265,15 @@ try {
 
     function getCategoryFromURL(): string {
         const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get('category') || 'all';
+        return urlParams.get('category') || 'evenementiel';
     }
 
     function getLabelForCategory(category: string): string {
         const btn = filterBtnsContainer?.querySelector<HTMLButtonElement>(`[data-category="${category}"]`);
-        return btn?.textContent?.trim() || 'Tout voir';
+        return btn?.textContent?.trim() || 'Événementiel';
     }
 
-    let currentCategory = 'all';
+    let currentCategory = 'evenementiel';
 
     function buildMasonryColumns(category: string, animate = true): void {
         if (!masonryGrid) return;
@@ -333,6 +346,8 @@ try {
                 }, index * 30 + 10);
             });
         }
+
+        revealGalleryImages();
     }
 
     let resizeTimer: ReturnType<typeof setTimeout>;
@@ -403,8 +418,8 @@ try {
         const target = (e.target as HTMLElement).closest<HTMLButtonElement>(".dropdown-item");
         if (!target) return;
         
-        const category = target.dataset.category || "all";
-        const label = target.textContent?.trim() || "Tout voir";
+        const category = target.dataset.category || "evenementiel";
+        const label = target.textContent?.trim() || "Événementiel";
         handleFilterSelect(category, label);
         closeDropdown();
     });
@@ -413,8 +428,8 @@ try {
         const target = (e.target as HTMLElement).closest<HTMLButtonElement>(".filter-btn");
         if (!target) return;
         
-        const category = target.dataset.category || "all";
-        const label = target.textContent?.trim() || "Tout voir";
+        const category = target.dataset.category || "evenementiel";
+        const label = target.textContent?.trim() || "Événementiel";
         handleFilterSelect(category, label);
     });
 
@@ -487,6 +502,7 @@ try {
         buildMasonryColumns(initialCategory, false); // Initialize layout
         updateButtonStates(initialCategory);
         updateDropdownStates(initialCategory, initialLabel);
+        revealGalleryImages();
         
         // --- FETCH DYNAMIQUE POUR VERCEL ---
         // Vercel build les pages "statiquement", donc les nouvelles photos ne s'afficheraient qu'au prochain déploiement.
@@ -513,7 +529,7 @@ try {
                         
                         article.innerHTML = `
                             <div class="relative w-full overflow-hidden">
-                                <img src="${img.secure_url}" alt="Réalisation ${titleSafe}" class="w-full h-auto object-cover transition-all duration-1000 group-hover:scale-105" loading="${index < 4 ? 'eager' : 'lazy'}"/>
+                                <img src="${img.secure_url}" alt="Réalisation ${titleSafe}" class="w-full h-auto object-cover transition-all duration-1000 group-hover:scale-105 gallery-img" loading="eager" decoding="async"/>
                             </div>
                             <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500"></div>
                             <div class="absolute bottom-0 left-0 w-full p-2 sm:p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500 ease-out will-change-transform z-10">
@@ -533,6 +549,7 @@ try {
                     
                     projectItems = newItems;
                     buildMasonryColumns(currentCategory, false);
+                    revealGalleryImages();
                 }
             })
             .catch(err => console.error("Erreur chargement dynamique de la galerie:", err));
@@ -543,6 +560,15 @@ try {
 <style>
     .hidden-item {
         display: none;
+    }
+
+    /* Fade-in images once decoded */
+    .gallery-img {
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+    .gallery-img.loaded {
+        opacity: 1;
     }
 
     @keyframes marquee {
