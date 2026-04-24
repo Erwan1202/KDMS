@@ -34,6 +34,8 @@ try {
             id="hero-section"
             class="min-h-svh h-svh w-full relative flex flex-col items-center bg-[#0E0E0E]"
         >
+
+
             <Image
                 id="hero-bg"
                 src={heroBg}
@@ -56,9 +58,9 @@ try {
                     <div class="hero-logo-main relative inline-flex items-center justify-center mb-4 lg:mb-6 w-48 h-48 sm:w-60 sm:h-60 md:w-64 md:h-64 lg:w-72 lg:h-72 xl:w-80 xl:h-80 mx-auto">
                         <model-viewer
                             src={logo3d}
-                            class="block w-full h-full pointer-events-none touch-none"
+                            class="block w-full h-full pointer-events-none touch-none transform -translate-x-[4%] rotate-3"
                             preload
-                            camera-orbit="-10deg 90deg 92%"
+                            camera-orbit="-6deg 90deg 110%"
                             disable-zoom
                             disable-pan
                             disable-tap

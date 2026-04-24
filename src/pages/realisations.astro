@@ -409,6 +409,10 @@ try {
         filterProjects(category);
         updateButtonStates(category);
         updateDropdownStates(category, label);
+        
+        setTimeout(() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 50);
     }
     dropdownBtnEl?.addEventListener("click", (e) => {
         e.stopPropagation();

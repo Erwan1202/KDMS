@@ -2,7 +2,9 @@
 import { Image } from "astro:assets";
 import historyImg from "../../assets/home/expertise-section/history.png";
 import poleProd from "../../assets/home/expertise-section/facade_kdms.png";
+import gestionProcess from "../../assets/home/expertise-section/gestion_processus.png";
 import madeInFrance from "../../assets/home/expertise-section/made_in_france.png";
+import tailleHumaine from "../../assets/home/expertise-section/humain.png";
 
 const expertiseItems = [
     {
@@ -21,10 +23,13 @@ const expertiseItems = [
     {
         title: "Gestion des processus de bout en bout",
         text: "Au carrefour de l'artisanat et de l'industrie nous avons adapté nos gestes et outils de production pour défendre notre compétitivité, en supervisant notre chaîne de production de bout en bout.",
+        image: gestionProcess,
         alt: "Processus industriel et artisanal de fabrication de flight cases sur mesure",
+        imgClass: "!object-cover",
     },
     {
         title: "Une société à taille humaine",
+        image: tailleHumaine,
         text: "C’est la rencontre entre 2 hommes (Christophe LETUR et Régis KOZAK), qui fait le succès de cette aventure, avec le soutien d’une équipe sensible aux valeurs que nous défendons : le conseil, la proximité, la flexibilité, et enfin, l’engagement de service.",
         alt: "Équipe KDMS, experts en solutions de conditionnement et flight cases de protection",
     },
@@ -68,7 +73,7 @@ const expertiseItems = [
                             <Image
                                 src={item.image}
                                 alt={item.alt || item.title}
-                                class="w-full h-full object-cover"
+                                class={`w-full h-full object-cover transition-transform duration-500 ${item.imgClass || ""}`}
                                 loading="lazy"
                             />
                         )}
@@ -115,7 +120,7 @@ const expertiseItems = [
                                 <Image
                                     src={item.image}
                                     alt={item.alt || item.title}
-                                    class="w-full h-full object-cover"
+                                    class={`w-full h-full object-cover transition-transform duration-500 ${item.imgClass || ""}`}
                                     loading="lazy"
                                 />
                             )}
