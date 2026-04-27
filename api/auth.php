@@ -15,7 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode([
             'error' => 'Erreur configuration serveur (secrets introuvables)',
             'config_exists' => file_exists(__DIR__ . '/config.php'),
-            'env_keys' => array_keys($_ENV)
+            'env_keys' => array_keys($_ENV),
+            'adminHash_length' => strlen((string)$adminHash)
         ]);
         exit;
     }
