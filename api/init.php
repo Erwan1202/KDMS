@@ -50,3 +50,4 @@ function logout_admin() {
     setcookie('kdms_auth_token', '', time() - 3600, '/', '', false, true);
 }
 ?>
+
