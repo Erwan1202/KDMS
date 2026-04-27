@@ -22,7 +22,7 @@ const expertiseItems = [
     },
     {
         title: "Gestion des processus de bout en bout",
-        text: "Au carrefour de l'artisanat et de l'industrie nous avons adapté nos gestes et outils de production pour défendre notre compétitivité, en supervisant notre chaîne de production de bout en bout.",
+        text: "Au carrefour de l'artisanat et de l'industrie, nous avons adapté nos gestes et outils de production pour défendre notre compétitivité, en supervisant notre chaîne de production de bout en bout.",
         image: gestionProcess,
         alt: "Processus industriel et artisanal de fabrication de flight cases sur mesure",
         imgClass: "!object-cover",
@@ -30,8 +30,9 @@ const expertiseItems = [
     {
         title: "Une société à taille humaine",
         image: tailleHumaine,
-        text: "C’est la rencontre entre 2 hommes (Christophe LETUR et Régis KOZAK), qui fait le succès de cette aventure, avec le soutien d’une équipe sensible aux valeurs que nous défendons : le conseil, la proximité, la flexibilité, et enfin, l’engagement de service.",
+        text: "C’est la rencontre entre 2 hommes, Christophe LETUR et Régis KOZAK, qui fait le succès de cette aventure, avec le soutien d’une équipe sensible aux valeurs que nous défendons : le conseil, la proximité, la flexibilité et enfin, l’engagement de service.",
         alt: "Équipe KDMS, experts en solutions de conditionnement et flight cases de protection",
+
     },
 ]; 
 ---
@@ -59,12 +60,12 @@ const expertiseItems = [
 
     <div class="expertise-content w-full overflow-hidden">
         <div
-            class="hidden xl:flex gap-3 xl:gap-4 2xl:gap-5 overflow-hidden pb-4 px-4 xl:px-8 2xl:px-12 items-center justify-center"
+            class="hidden xl:flex gap-3 xl:gap-4 2xl:gap-5 overflow-hidden px-4 xl:px-8 2xl:px-12 items-center justify-center h-72 2xl:h-88"
         >
             {
                 expertiseItems.map((item) => (
                     <div
-                        class="relative expertise-image bg-[#262626] w-24 2xl:w-32 h-80 2xl:h-105 rounded-lg border border-[#4A5D23]/30 shrink-0 transition-[width,box-shadow,border,transform,filter] duration-500 hover:border-[#7FB255] cursor-pointer overflow-hidden"
+                        class="relative expertise-image bg-[#262626] w-16 2xl:w-20 h-72 2xl:h-88 rounded-lg border border-[#4A5D23]/30 shrink-0 transition-[width,box-shadow,border,transform,filter] duration-500 hover:border-[#7FB255] cursor-pointer overflow-hidden"
                         style="filter: grayscale(100%);"
                         data-title={item.title}
                         data-text={item.text}
@@ -82,7 +83,7 @@ const expertiseItems = [
             }
 
             <div
-                class="pl-4 xl:pl-6 2xl:pl-8 flex-1 flex flex-col items-center justify-center gap-4 min-w-55 xl:min-w-70 2xl:min-w-80 max-w-90 xl:max-w-105 2xl:max-w-115"
+                class="pl-4 xl:pl-6 2xl:pl-8 flex-1 flex flex-col items-center justify-center gap-3 min-w-55 xl:min-w-70 2xl:min-w-80 max-w-110 xl:max-w-130 2xl:max-w-150 h-full"
             >
                 <h3
                     id="expertise-title"
@@ -93,7 +94,7 @@ const expertiseItems = [
                 </h3>
                 <p
                     id="expertise-text"
-                    class="text-base xl:text-lg 2xl:text-xl text-[#B8B8B8] text-justify transition-all duration-300 font-medium leading-relaxed hidden"
+                    class="text-sm xl:text-base 2xl:text-lg text-[#B8B8B8] text-justify transition-opacity duration-300 font-medium leading-relaxed opacity-0"
                 >
                 </p>
 
@@ -177,14 +178,14 @@ const expertiseItems = [
         const screenWidth = window.innerWidth;
 
         if (screenWidth >= 1800) {
-            return { expanded: "500px", collapsed: "140px" };
+            return { expanded: "600px", collapsed: "60px" };
         }
 
         if (screenWidth >= 1536) {
-            return { expanded: "440px", collapsed: "120px" };
+            return { expanded: "530px", collapsed: "52px" };
         }
 
-        return { expanded: "360px", collapsed: "92px" };
+        return { expanded: "440px", collapsed: "48px" };
     }
 
     function setImageActive(index: number) {
@@ -251,10 +252,10 @@ const expertiseItems = [
                 expertiseTitle.style.opacity = "1";
                 if (text) {
                     expertiseText.innerText = text;
-                    expertiseText.classList.remove("hidden");
                     expertiseText.style.opacity = "1";
                 } else {
-                    expertiseText.classList.add("hidden");
+                    expertiseText.innerText = "";
+                    expertiseText.style.opacity = "0";
                 }
             }, 150);
         }

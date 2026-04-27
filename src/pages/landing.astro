@@ -183,20 +183,21 @@ import ProtectedEmail from "../components/common/ProtectedEmail.astro";
                             id="contact-form"
                             class="space-y-3"
                         >
+                            <p class="text-white/40 text-xs -mt-2 mb-1">Les champs marqués d'un <span class="text-red-400">*</span> sont obligatoires</p>
                             <!-- Honeypot anti-spam -->
                             <input type="text" name="bot-field" class="hidden" tabindex="-1" autocomplete="off" />
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <input
                                     type="text"
                                     name="firstname"
-                                    placeholder="Prénom"
+                                    placeholder="Prénom *"
                                     required
                                     class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/60 focus:border-[#6b8239] focus:outline-none transition-colors"
                                 />
                                 <input
                                     type="text"
                                     name="lastname"
-                                    placeholder="Nom"
+                                    placeholder="Nom *"
                                     required
                                     class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/60 focus:border-[#6b8239] focus:outline-none transition-colors"
                                 />
@@ -205,7 +206,7 @@ import ProtectedEmail from "../components/common/ProtectedEmail.astro";
                             <input
                                 type="email"
                                 name="email"
-                                placeholder="Email"
+                                placeholder="Email *"
                                 required
                                 class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/60 focus:border-[#6b8239] focus:outline-none transition-colors"
                             />
@@ -213,7 +214,8 @@ import ProtectedEmail from "../components/common/ProtectedEmail.astro";
                             <input
                                 type="tel"
                                 name="phone"
-                                placeholder="Téléphone"
+                                inputmode="tel"
+                                placeholder="Téléphone * (06 12 34 56 78)"
                                 required
                                 class="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/60 focus:border-[#6b8239] focus:outline-none transition-colors"
                             />
@@ -252,6 +254,13 @@ import ProtectedEmail from "../components/common/ProtectedEmail.astro";
 <script>
     const form = document.getElementById('contact-form') as HTMLFormElement;
     const submitBtn = form?.querySelector('button[type="submit"]') as HTMLButtonElement;
+
+    // Auto-formatage téléphone : 06 12 34 56 78
+    const phoneInput = form?.querySelector('input[name="phone"]') as HTMLInputElement;
+    phoneInput?.addEventListener('input', () => {
+        const raw = phoneInput.value.replace(/\D/g, '').slice(0, 10);
+        phoneInput.value = raw.replace(/(\d{2})(?=\d)/g, '$1 ').trim();
+    });
     
     form?.addEventListener('submit', async (e) => {
         e.preventDefault();

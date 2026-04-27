@@ -123,30 +123,31 @@ import ProtectedEmail from "../components/common/ProtectedEmail.astro";
                         id="callback-form"
                         class="animate-form opacity-0 rounded-2xl border border-white/20 bg-white/10 p-6 md:p-8 lg:p-10 shadow-[0_12px_40px_rgba(0,0,0,0.35)] scroll-mt-24 xl:mt-auto"
                     >
-                        <h2 class="text-2xl md:text-3xl font-bold mb-6">Formulaire</h2>
+                        <h2 class="text-2xl md:text-3xl font-bold mb-2">Formulaire</h2>
+                        <p class="text-white/40 text-xs mb-4">Les champs marqués d'un <span class="text-red-400">*</span> sont obligatoires</p>
                         <form id="contact-page-form" class="flex flex-col gap-6">
                             <input type="text" name="bot-field" class="hidden" tabindex="-1" autocomplete="off" />
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="relative group">
                                     <input type="text" id="firstname" name="firstname" class="peer w-full bg-transparent border-b border-white/20 py-2 text-white placeholder-transparent focus:border-[#4A5D23] focus:outline-none transition-colors" placeholder="Prénom" required />
-                                    <label for="firstname" class="absolute left-0 -top-2.5 text-xs text-white/50 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-white/50 peer-placeholder-shown:top-2 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-[#4A5D23]">Prénom</label>
+                                    <label for="firstname" class="absolute left-0 -top-2.5 text-xs text-white/50 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-white/50 peer-placeholder-shown:top-2 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-[#4A5D23]">Prénom <span class="text-red-400">*</span></label>
                                 </div>
                                 <div class="relative group">
                                     <input type="text" id="lastname" name="lastname" class="peer w-full bg-transparent border-b border-white/20 py-2 text-white placeholder-transparent focus:border-[#4A5D23] focus:outline-none transition-colors" placeholder="Nom" required />
-                                    <label for="lastname" class="absolute left-0 -top-2.5 text-xs text-white/50 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-white/50 peer-placeholder-shown:top-2 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-[#4A5D23]">Nom</label>
+                                    <label for="lastname" class="absolute left-0 -top-2.5 text-xs text-white/50 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-white/50 peer-placeholder-shown:top-2 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-[#4A5D23]">Nom <span class="text-red-400">*</span></label>
                                 </div>
                                 <div class="relative group">
                                     <input type="email" id="email" name="email" class="peer w-full bg-transparent border-b border-white/20 py-2 text-white placeholder-transparent focus:border-[#4A5D23] focus:outline-none transition-colors" placeholder="Email" required />
-                                    <label for="email" class="absolute left-0 -top-2.5 text-xs text-white/50 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-white/50 peer-placeholder-shown:top-2 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-[#4A5D23]">Email</label>
+                                    <label for="email" class="absolute left-0 -top-2.5 text-xs text-white/50 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-white/50 peer-placeholder-shown:top-2 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-[#4A5D23]">Email <span class="text-red-400">*</span></label>
                                 </div>
                                 <div class="relative group">
-                                    <input type="tel" id="phone" name="phone" class="peer w-full bg-transparent border-b border-white/20 py-2 text-white placeholder-transparent focus:border-[#4A5D23] focus:outline-none transition-colors" placeholder="Téléphone" />
-                                    <label for="phone" class="absolute left-0 -top-2.5 text-xs text-white/50 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-white/50 peer-placeholder-shown:top-2 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-[#4A5D23]">Téléphone</label>
+                                    <input type="tel" id="phone" name="phone" inputmode="tel" class="peer w-full bg-transparent border-b border-white/20 py-2 text-white placeholder-transparent focus:border-[#4A5D23] focus:outline-none transition-colors" placeholder="Téléphone" required />
+                                    <label for="phone" class="absolute left-0 -top-2.5 text-xs text-white/50 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-white/50 peer-placeholder-shown:top-2 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-[#4A5D23]">Téléphone <span class="text-red-400">*</span></label>
                                 </div>
                             </div>
 
                             <div class="relative group">
-                                <textarea id="message" name="message" rows="4" class="peer w-full bg-transparent border-b border-white/20 py-2 text-white placeholder-transparent focus:border-[#4A5D23] focus:outline-none transition-colors resize-none" placeholder="Message" required></textarea>
+                                <textarea id="message" name="message" rows="4" class="peer w-full bg-transparent border-b border-white/20 py-2 text-white placeholder-transparent focus:border-[#4A5D23] focus:outline-none transition-colors resize-none" placeholder="Message"></textarea>
                                 <label for="message" class="absolute left-0 -top-2.5 text-xs text-white/50 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-white/50 peer-placeholder-shown:top-2 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-[#4A5D23]">Message</label>
                             </div>
 
@@ -239,6 +240,13 @@ import ProtectedEmail from "../components/common/ProtectedEmail.astro";
         <script>
             const form = document.getElementById('contact-page-form') as HTMLFormElement;
             const submitBtn = form?.querySelector('button[type="submit"]') as HTMLButtonElement;
+
+            // Auto-formatage téléphone : 06 12 34 56 78
+            const phoneInput = document.getElementById('phone') as HTMLInputElement;
+            phoneInput?.addEventListener('input', () => {
+                const raw = phoneInput.value.replace(/\D/g, '').slice(0, 10);
+                phoneInput.value = raw.replace(/(\d{2})(?=\d)/g, '$1 ').trim();
+            });
             
             form?.addEventListener('submit', async (e) => {
                 e.preventDefault();
