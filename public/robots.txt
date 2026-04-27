@@ -4,7 +4,6 @@
 # Règles pour TOUS les robots
 User-agent: *
 Allow: /
-Crawl-delay: 1
 
 # Disallow les pages admin et API (données sensibles)
 Disallow: /kdms-admin
@@ -17,16 +16,8 @@ Disallow: /*.json$
 Disallow: /*.env$
 Disallow: /src/
 
-# Decline les images dynamiques pour Google Images
-User-agent: Googlebot-Image
-Disallow: /
-
-# Priorités de crawl pour les gros moteurs
-User-agent: Googlebot
-Crawl-delay: 0.5
-
-User-agent: Bingbot
-Crawl-delay: 1
+# Google Images est autorisé à crawler le site par défaut (aucun Disallow).
+# La fréquence d'exploration est gérée automatiquement par les algorithmes de Google.
 
 # Sitemaps - Google les crawlera automatiquement
 Sitemap: https://www.k-dms.co/sitemap-index.xml
