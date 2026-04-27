@@ -34,11 +34,11 @@ jobs:
     - name: Prepare files for deployment
       run: |
         mkdir -p ftp_deploy
-        # Copier tout le build Astro
-        cp -r dist/* ftp_deploy/
+        # Copier tout le build Astro (inclus les fichiers cachés comme .htaccess)
+        cp -a dist/. ftp_deploy/
         # Copier les APIs PHP
         mkdir -p ftp_deploy/api
-        cp api/*.php ftp_deploy/api/
+        cp -a api/*.php ftp_deploy/api/
         # Copier le fichier .env généré
         cp .env ftp_deploy/.env
 
@@ -52,7 +52,7 @@ jobs:
         script: |
           # Préserver le .env sur le serveur
           cp ./public/.env /tmp/.env_backup 2>/dev/null || true
-          rm -rf ./public/*
+          rm -rf ./public/* ./public/.* 2>/dev/null || true
           cp /tmp/.env_backup ./public/.env 2>/dev/null || true
 
     - name: Sync files to IONOS
@@ -62,6 +62,7 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         port: 22
-        source: "./ftp_deploy/*"
+        # Ne pas utiliser l'astérisque sinon les fichiers cachés (.env, .htaccess) sont ignorés
+        source: "ftp_deploy"
         target: "./public/"
         strip_components: 1
