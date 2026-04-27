@@ -6,10 +6,15 @@ function get_env_var($key) {
     if (getenv($key)) return getenv($key);
     if (isset($_ENV[$key])) return $_ENV[$key];
     
-    // Chercher un .env à la racine du site (ou au-dessus)
-    $envPath = __DIR__ . '/../.env';
+    // Chercher un fichier d'environnement explicite pour éviter les problèmes de fichiers cachés sur FTP
+    $envPath = __DIR__ . '/../kdms.env';
     if (!file_exists($envPath)) {
-        $envPath = __DIR__ . '/../../.env';
+        $envPath = __DIR__ . '/../../kdms.env';
+    }
+    
+    // Fallback au .env local pour l'environnement dev si besoin
+    if (!file_exists($envPath)) {
+        $envPath = __DIR__ . '/../.env';
     }
     
     if (file_exists($envPath)) {

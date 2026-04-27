@@ -18,12 +18,14 @@ jobs:
       with:
         node-version: '22'
 
-    - name: Create .env for build and production
+    - name: Create environment file for production
       run: |
-        echo "CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }}" > .env
-        echo "CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}" >> .env
-        echo "CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}" >> .env
-        echo "ADMIN_PASSWORD_HASH=${{ secrets.ADMIN_PASSWORD_HASH }}" >> .env
+        cat << 'EOF' > kdms.env
+        CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }}
+        CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}
+        CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}
+        ADMIN_PASSWORD_HASH=${{ secrets.ADMIN_PASSWORD_HASH }}
+        EOF
 
     - name: Install dependencies
       run: npm ci || npm install
@@ -39,8 +41,8 @@ jobs:
         # Copier les APIs PHP
         mkdir -p ftp_deploy/api
         cp -a api/*.php ftp_deploy/api/
-        # Copier le fichier .env généré
-        cp .env ftp_deploy/.env
+        # Copier le fichier d'environnement généré
+        cp kdms.env ftp_deploy/kdms.env
 
     - name: Clean server directory
       uses: appleboy/ssh-action@v1.0.3
@@ -50,10 +52,8 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         port: 22
         script: |
-          # Préserver le .env sur le serveur
-          cp ./public/.env /tmp/.env_backup 2>/dev/null || true
-          rm -rf ./public/* ./public/.* 2>/dev/null || true
-          cp /tmp/.env_backup ./public/.env 2>/dev/null || true
+          # Vider le dossier pour un déploiement propre (pas de soucis de fichiers cachés car on utilise kdms.env)
+          rm -rf ./public/*
 
     - name: Sync files to IONOS
       uses: appleboy/scp-action@v0.1.7
