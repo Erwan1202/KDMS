@@ -1,6 +1,6 @@
 <?php
-// Pas de session_start() car Serverless Vercel n'a pas accès au système de fichiers persistant de sessions (/tmp isolé)
-// Utilisez ce système basé sur un Cookie sécurisé (qui marchera sur Vercel ET sur Ionos parfaitement).
+// Authentification basée sur cookie sécurisé (compatible hébergement mutualisé et serverless)
+// Pas de session_start() — utilise un token HMAC dans un cookie HttpOnly.
 
 function get_env_var($key) {
     if (getenv($key)) return getenv($key);

@@ -508,9 +508,9 @@ try {
         updateDropdownStates(initialCategory, initialLabel);
         revealGalleryImages();
         
-        // --- FETCH DYNAMIQUE POUR VERCEL ---
-        // Vercel build les pages "statiquement", donc les nouvelles photos ne s'afficheraient qu'au prochain déploiement.
-        // Ce fetch s'assure de récupérer la dernière liste de l'API en direct et de rafraîchir la modale sur le client !
+        // --- FETCH DYNAMIQUE (Refresh côté client) ---
+        // Les pages sont générées statiquement au build, donc les nouvelles photos ne s'afficheraient qu'au prochain déploiement.
+        // Ce fetch récupère la dernière liste de l'API en direct et rafraîchit la galerie côté client.
         fetch('/api/gallery.php')
             .then(res => res.json())
             .then(data => {

@@ -1,11 +1,58 @@
-# Interdire l'accès direct aux fichiers sensibles depuis le navigateur
-<Files ~ "\.(env|log|ini|json)$">
+# Forcer HTTPS
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Forcer www
+    RewriteCond %{HTTP_HOST} ^k-dms\.co$ [NC]
+    RewriteRule ^(.*)$ https://www.k-dms.co/$1 [L,R=301]
+</IfModule>
+
+# Interdire l'accès aux fichiers sensibles
+<Files ~ "\.(env|log|ini)$">
     Require all denied
 </Files>
 
 <IfModule mod_rewrite.c>
-    RewriteEngine On
-    # Pour Astro (si le fichier ou dossier n'existe pas, renvoyer sur index.html ou 404)
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
+    # Laisser passer les fichiers PHP existants
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule \.php$ - [L]
+
+    # Laisser passer les fichiers et dossiers existants
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Routing Astro : /contact → /contact/index.html
+    RewriteRule ^(.+)/$ $1/index.html [L]
+    RewriteCond %{REQUEST_FILENAME}.html -f
+    RewriteRule ^(.+)$ $1.html [L]
+    RewriteCond %{DOCUMENT_ROOT}/$1/index.html -f
+    RewriteRule ^(.+)$ $1/index.html [L]
+</IfModule>
+
+# Caching des assets statiques (les fichiers _astro/ sont hashés par Astro)
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+</IfModule>
+
+# Compression GZIP
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+# Headers de sécurité
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>

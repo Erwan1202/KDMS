@@ -110,7 +110,7 @@ const featuredCategories = categories
         });
     }
 
-    // -- DYNAMIQUE FETCH POUR VERCEL (Staleness Bypass) --
+    // -- FETCH DYNAMIQUE (Refresh côté client pour les images statiques) --
     // Pour mettre à jour les images statiques générées lors de la build
     document.addEventListener("DOMContentLoaded", () => {
         fetch('/api/gallery.php')

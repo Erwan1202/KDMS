@@ -3,7 +3,7 @@ name: Deploy to IONOS via SFTP
 on:
   push:
     branches:
-      - deploy-temp/landing
+      - main
 
 jobs:
   web-deploy:
@@ -11,26 +11,36 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Get latest code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: '22'
-        
+
+    - name: Create .env for build and production
+      run: |
+        echo "CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }}" > .env
+        echo "CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}" >> .env
+        echo "CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}" >> .env
+        echo "ADMIN_PASSWORD_HASH=${{ secrets.ADMIN_PASSWORD_HASH }}" >> .env
+
     - name: Install dependencies
       run: npm ci || npm install
 
     - name: Build Astro project
       run: npm run build
 
-    - name: Prepare files for FTP
+    - name: Prepare files for deployment
       run: |
         mkdir -p ftp_deploy
-        cp dist/landing/index.html ftp_deploy/index.html
-        cp -r dist/_astro ftp_deploy/
-        cp dist/favicon.* ftp_deploy/ 2>/dev/null || true
-        cp dist/send-email.php ftp_deploy/ 2>/dev/null || true
+        # Copier tout le build Astro
+        cp -r dist/* ftp_deploy/
+        # Copier les APIs PHP
+        mkdir -p ftp_deploy/api
+        cp api/*.php ftp_deploy/api/
+        # Copier le fichier .env généré
+        cp .env ftp_deploy/.env
 
     - name: Clean server directory
       uses: appleboy/ssh-action@v1.0.3
@@ -40,7 +50,10 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         port: 22
         script: |
+          # Préserver le .env sur le serveur
+          cp ./public/.env /tmp/.env_backup 2>/dev/null || true
           rm -rf ./public/*
+          cp /tmp/.env_backup ./public/.env 2>/dev/null || true
 
     - name: Sync files to IONOS
       uses: appleboy/scp-action@v0.1.7
