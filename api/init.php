@@ -7,26 +7,26 @@ function get_env_var($key) {
     if (isset($_ENV[$key])) return $_ENV[$key];
     
     // Chercher un fichier d'environnement explicite pour éviter les problèmes de fichiers cachés sur FTP
-    $envPath = __DIR__ . '/../kdms.env';
-    if (!file_exists($envPath)) {
-        $envPath = __DIR__ . '/../../kdms.env';
+    // Check open_basedir safe config file
+    if (file_exists(__DIR__ . '/config.php')) {
+        require_once __DIR__ . '/config.php';
     }
     
-    // Fallback au .env local pour l'environnement dev si besoin
-    if (!file_exists($envPath)) {
-        $envPath = __DIR__ . '/../.env';
-    }
-    
-    if (file_exists($envPath)) {
-        $lines = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    // Check locally for dev
+    $localEnv = __DIR__ . '/../.env';
+    if (file_exists($localEnv)) {
+        $lines = file($localEnv, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         foreach ($lines as $line) {
             if (strpos(trim($line), '#') === 0) continue;
             $parts = explode('=', $line, 2);
-            if (count($parts) === 2 && trim($parts[0]) === $key) {
-                return trim(trim($parts[1]), '"\'');
+            if (count($parts) === 2) {
+                $_ENV[trim($parts[0])] = trim(trim($parts[1]), '"\'');
             }
         }
     }
+    
+    if (isset($_ENV[$key])) return trim($_ENV[$key]);
+    
     return null;
 }
 

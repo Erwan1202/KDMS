@@ -18,14 +18,9 @@ jobs:
       with:
         node-version: '22'
 
-    - name: Create environment file for production
+    - name: Prepare environment configuration
       run: |
-        cat << 'EOF' > kdms.env
-        CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }}
-        CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}
-        CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}
-        ADMIN_PASSWORD_HASH=${{ secrets.ADMIN_PASSWORD_HASH }}
-        EOF
+        echo "Configuration will be injected into API folder"
 
     - name: Install dependencies
       run: npm ci || npm install
@@ -41,8 +36,15 @@ jobs:
         # Copier les APIs PHP
         mkdir -p ftp_deploy/api
         cp -a api/*.php ftp_deploy/api/
-        # Copier le fichier d'environnement généré
-        cp kdms.env ftp_deploy/kdms.env
+        # Génération du config.php sécurisé (contourne open_basedir et les soucis de fichiers cachés FTP)
+        cat << 'EOF' > ftp_deploy/api/config.php
+        <?php
+        $_ENV['CLOUDINARY_CLOUD_NAME'] = '${{ secrets.CLOUDINARY_CLOUD_NAME }}';
+        $_ENV['CLOUDINARY_API_KEY'] = '${{ secrets.CLOUDINARY_API_KEY }}';
+        $_ENV['CLOUDINARY_API_SECRET'] = '${{ secrets.CLOUDINARY_API_SECRET }}';
+        $_ENV['ADMIN_PASSWORD_HASH'] = '${{ secrets.ADMIN_PASSWORD_HASH }}';
+        ?>
+        EOF
 
     - name: Clean server directory
       uses: appleboy/ssh-action@v1.0.3
