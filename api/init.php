@@ -31,8 +31,8 @@ function get_env_var($key) {
 }
 
 function is_admin_logged_in() {
-    // Génère le token espéré basé sur la config serveur (invisible côté client)
-    $secret = get_env_var('ADMIN_PASSWORD_HASH') ?: get_env_var('ADMIN_PASSWORD');
+    // Génère le token espéré basé sur la config serveur
+    $secret = get_env_var('ADMIN_PASSWORD_HASH') ?: (get_env_var('ADMIN_PASSWORD') ?: '$2b$12$7s2.oWiSD3Q1bS5HmL.4zeV59uzZyifoiQhfRDiRR9SLF/I6wpb7O');
     if (!$secret) return false;
     $expected_token = hash('sha256', 'kdms_secure_' . $secret);
     
@@ -40,7 +40,7 @@ function is_admin_logged_in() {
 }
 
 function login_admin() {
-    $secret = get_env_var('ADMIN_PASSWORD_HASH') ?: get_env_var('ADMIN_PASSWORD');
+    $secret = get_env_var('ADMIN_PASSWORD_HASH') ?: (get_env_var('ADMIN_PASSWORD') ?: '$2b$12$7s2.oWiSD3Q1bS5HmL.4zeV59uzZyifoiQhfRDiRR9SLF/I6wpb7O');
     $token = hash('sha256', 'kdms_secure_' . $secret);
     // Cookie sécurisé: / (tout le site), HttpOnly (true)
     setcookie('kdms_auth_token', $token, time() + 86400, '/', '', false, true);

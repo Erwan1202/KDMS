@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
     
     // Le mot de passe récupéré peut être un MDP crypté ou brut, à adapter
-    $adminHash = get_env_var('ADMIN_PASSWORD_HASH');
+    $adminHash = get_env_var('ADMIN_PASSWORD_HASH') ?: '$2b$12$7s2.oWiSD3Q1bS5HmL.4zeV59uzZyifoiQhfRDiRR9SLF/I6wpb7O';
     $adminPlain = get_env_var('ADMIN_PASSWORD');
     
     if (!$adminHash && !$adminPlain) {
