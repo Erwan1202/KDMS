@@ -12,7 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if (!$adminHash && !$adminPlain) {
         http_response_code(500);
-        echo json_encode(['error' => 'Erreur configuration serveur']);
+        echo json_encode([
+            'error' => 'Erreur configuration serveur (secrets introuvables)',
+            'config_exists' => file_exists(__DIR__ . '/config.php'),
+            'env_keys' => array_keys($_ENV)
+        ]);
         exit;
     }
 
