@@ -92,7 +92,7 @@ Date : " . date('d/m/Y à H:i') . "
 ";
 
 $headers = [
-    'From' => "KDMS Landing <contact@k-dms.co>",
+    'From' => "KDMS <contact@k-dms.co>",
     'Reply-To' => $email,
     'X-Mailer' => 'PHP/' . phpversion(),
     'Content-Type' => 'text/plain; charset=UTF-8'
@@ -103,7 +103,13 @@ foreach ($headers as $key => $value) {
     $headers_string .= "$key: $value\r\n";
 }
 
-$mail_sent = mail($to_email, $subject, $message, $headers_string);
+// Le paramètre -f définit l'envelope sender — obligatoire chez IONOS
+$mail_sent = mail($to_email, $subject, $message, $headers_string, '-f contact@k-dms.co');
+
+// Log pour debug
+$log_file = __DIR__ . '/mail_debug.log';
+$log_entry = date('Y-m-d H:i:s') . " | To: $to_email | Subject: $subject | Result: " . ($mail_sent ? 'true' : 'false') . " | Error: " . error_get_last()['message'] ?? 'none' . "\n";
+file_put_contents($log_file, $log_entry, FILE_APPEND);
 
 if ($mail_sent) {
     echo json_encode([
