@@ -1,6 +1,7 @@
 <?php
 $to_email = "erwan.a.marechal@gmail.com";
-$subject_prefix = "[KDMS Landing] ";
+$source = isset($_POST['source']) ? trim(strip_tags($_POST['source'])) : 'Site Web';
+$subject_prefix = "[KDMS $source] ";
 
 header('Content-Type: application/json; charset=utf-8');
 $allowed_origins = [

@@ -127,6 +127,7 @@ import ProtectedEmail from "../components/common/ProtectedEmail.astro";
                         <p class="text-white/40 text-xs mb-4">Les champs marqués d'un <span class="text-red-400">*</span> sont obligatoires</p>
                         <form id="contact-page-form" class="flex flex-col gap-6">
                             <input type="text" name="bot-field" class="hidden" tabindex="-1" autocomplete="off" />
+                            <input type="hidden" name="source" value="Page Contact" />
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="relative group">
                                     <input type="text" id="firstname" name="firstname" class="peer w-full bg-transparent border-b border-white/20 py-2 text-white placeholder-transparent focus:border-[#4A5D23] focus:outline-none transition-colors" placeholder="Prénom" required />

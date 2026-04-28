@@ -186,6 +186,7 @@ import ProtectedEmail from "../components/common/ProtectedEmail.astro";
                             <p class="text-white/40 text-xs -mt-2 mb-1">Les champs marqués d'un <span class="text-red-400">*</span> sont obligatoires</p>
                             <!-- Honeypot anti-spam -->
                             <input type="text" name="bot-field" class="hidden" tabindex="-1" autocomplete="off" />
+                            <input type="hidden" name="source" value="Landing Page" />
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <input
                                     type="text"
