@@ -1,5 +1,5 @@
 <?php
-$to_email = "contact@k-dms.co";
+$to_email = "erwan.a.marechal@gmail.com";
 $subject_prefix = "[KDMS Landing] ";
 
 header('Content-Type: application/json; charset=utf-8');
