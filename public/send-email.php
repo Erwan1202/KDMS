@@ -104,22 +104,40 @@ foreach ($headers as $key => $value) {
 }
 
 // Le paramètre -f définit l'envelope sender — obligatoire chez IONOS
-$mail_sent = mail($to_email, $subject, $message, $headers_string, '-f contact@k-dms.co');
+$last_error_before = error_get_last();
+$mail_sent = @mail($to_email, $subject, $message, $headers_string, '-f contact@k-dms.co');
+$last_error_after = error_get_last();
 
-// Log pour debug
-$log_file = __DIR__ . '/mail_debug.log';
-$log_entry = date('Y-m-d H:i:s') . " | To: $to_email | Subject: $subject | Result: " . ($mail_sent ? 'true' : 'false') . " | Error: " . error_get_last()['message'] ?? 'none' . "\n";
-file_put_contents($log_file, $log_entry, FILE_APPEND);
+// Détecte si une nouvelle erreur est apparue
+$mail_error = ($last_error_after !== $last_error_before) ? $last_error_after['message'] : null;
 
 if ($mail_sent) {
     echo json_encode([
         'success' => true, 
-        'message' => 'Votre demande a bien été envoyée. Nous vous recontacterons rapidement.'
+        'message' => 'Votre demande a bien été envoyée. Nous vous recontacterons rapidement.',
+        'debug' => [
+            'to' => $to_email,
+            'subject' => $subject,
+            'from' => 'contact@k-dms.co',
+            'mail_returned' => true,
+            'php_error' => $mail_error,
+            'server' => php_uname('n'),
+            'php_version' => phpversion()
+        ]
     ]);
 } else {
     http_response_code(500);
     echo json_encode([
         'success' => false, 
-        'message' => 'Erreur lors de l\'envoi. Veuillez nous contacter directement par téléphone.'
+        'message' => 'Erreur lors de l\'envoi. Veuillez nous contacter directement par téléphone.',
+        'debug' => [
+            'to' => $to_email,
+            'subject' => $subject,
+            'from' => 'contact@k-dms.co',
+            'mail_returned' => false,
+            'php_error' => $mail_error,
+            'server' => php_uname('n'),
+            'php_version' => phpversion()
+        ]
     ]);
 }
