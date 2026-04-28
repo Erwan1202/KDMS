@@ -91,7 +91,7 @@ Date : " . date('d/m/Y à H:i') . "
 ";
 
 $headers = [
-    'From' => "KDMS Landing <noreply@k-dms.co>",
+    'From' => "KDMS Landing <contact@k-dms.co>",
     'Reply-To' => $email,
     'X-Mailer' => 'PHP/' . phpversion(),
     'Content-Type' => 'text/plain; charset=UTF-8'
