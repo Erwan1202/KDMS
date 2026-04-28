@@ -1,5 +1,5 @@
 <?php
-$to_email = "erwan.a.marechal@gmail.com";
+$to_email = "contact@k-dms.co";
 $source = isset($_POST['source']) ? trim(strip_tags($_POST['source'])) : 'Site Web';
 $subject_prefix = "[KDMS $source] ";
 
@@ -32,19 +32,19 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
-// TEMPORAIREMENT DÉSACTIVÉ POUR DEBUG
-// if (!empty($_POST['bot-field'])) {
-//     echo json_encode(['success' => true, 'message' => 'Message envoyé']);
-//     exit();
-// }
+if (!empty($_POST['bot-field'])) {
+    echo json_encode(['success' => true, 'message' => 'Message envoyé']);
+    exit();
+}
 
-// $form_time = isset($_POST['form-time']) ? (int)$_POST['form-time'] : 0;
-// if ($form_time > 0) {
-//     if (time() - $form_time < 1) {
-//         echo json_encode(['success' => true, 'message' => 'Message envoyé']);
-//         exit();
-//     }
-// } 
+$form_time = isset($_POST['form-time']) ? (float)$_POST['form-time'] : 0;
+if ($form_time > 0) {
+    $elapsed = microtime(true) - $form_time;
+    if ($elapsed < 0.5) {
+        echo json_encode(['success' => true, 'message' => 'Message envoyé']);
+        exit();
+    }
+} 
 
 $firstname = isset($_POST['firstname']) ? trim(strip_tags($_POST['firstname'])) : '';
 $lastname = isset($_POST['lastname']) ? trim(strip_tags($_POST['lastname'])) : '';
@@ -105,40 +105,17 @@ foreach ($headers as $key => $value) {
 }
 
 // Le paramètre -f définit l'envelope sender — obligatoire chez IONOS
-$last_error_before = error_get_last();
 $mail_sent = @mail($to_email, $subject, $message, $headers_string, '-f contact@k-dms.co');
-$last_error_after = error_get_last();
-
-// Détecte si une nouvelle erreur est apparue
-$mail_error = ($last_error_after !== $last_error_before) ? $last_error_after['message'] : null;
 
 if ($mail_sent) {
     echo json_encode([
         'success' => true, 
-        'message' => 'Votre demande a bien été envoyée. Nous vous recontacterons rapidement.',
-        'debug' => [
-            'to' => $to_email,
-            'subject' => $subject,
-            'from' => 'contact@k-dms.co',
-            'mail_returned' => true,
-            'php_error' => $mail_error,
-            'server' => php_uname('n'),
-            'php_version' => phpversion()
-        ]
+        'message' => 'Votre demande a bien été envoyée. Nous vous recontacterons rapidement.'
     ]);
 } else {
     http_response_code(500);
     echo json_encode([
         'success' => false, 
-        'message' => 'Erreur lors de l\'envoi. Veuillez nous contacter directement par téléphone.',
-        'debug' => [
-            'to' => $to_email,
-            'subject' => $subject,
-            'from' => 'contact@k-dms.co',
-            'mail_returned' => false,
-            'php_error' => $mail_error,
-            'server' => php_uname('n'),
-            'php_version' => phpversion()
-        ]
+        'message' => 'Erreur lors de l\'envoi. Veuillez nous contacter directement par téléphone.'
     ]);
 }

@@ -273,7 +273,7 @@ import ProtectedEmail from "../components/common/ProtectedEmail.astro";
         
         try {
             const formData = new FormData(form);
-            formData.append('form-time', Math.floor(Date.now() / 1000).toString());
+            formData.append('form-time', (Date.now() / 1000).toString());
             
             const response = await fetch('/send-email.php', {
                 method: 'POST',
@@ -281,7 +281,6 @@ import ProtectedEmail from "../components/common/ProtectedEmail.astro";
             });
             
             const result = await response.json();
-            console.log('📧 Réponse serveur:', result);
             
             if (result.success) {
                 // Afficher le message de succès
