@@ -281,6 +281,7 @@ import ProtectedEmail from "../components/common/ProtectedEmail.astro";
             });
             
             const result = await response.json();
+            console.log('📧 Réponse serveur:', result);
             
             if (result.success) {
                 // Afficher le message de succès

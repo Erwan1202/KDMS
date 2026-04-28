@@ -32,19 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
-if (!empty($_POST['bot-field'])) {
-    echo json_encode(['success' => true, 'message' => 'Message envoyé']);
-    exit();
-}
-
-$form_time = isset($_POST['form-time']) ? (float)$_POST['form-time'] : 0;
-if ($form_time > 0) {
-    $elapsed = microtime(true) - $form_time;
-    if ($elapsed < 0.5) {
-        echo json_encode(['success' => true, 'message' => 'Message envoyé']);
-        exit();
-    }
-} 
 
 $firstname = isset($_POST['firstname']) ? trim(strip_tags($_POST['firstname'])) : '';
 $lastname = isset($_POST['lastname']) ? trim(strip_tags($_POST['lastname'])) : '';
